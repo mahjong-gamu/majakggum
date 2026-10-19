@@ -172,6 +172,10 @@ main { padding-bottom: 104px; }
 .site-footer .tiles .tile { width: 20px; filter: none; }
 .footer-brand { display: flex; align-items: center; gap: 12px; }
 .footer-brand .display { font-size: 17px; color: var(--ink); }
+.footer-bottom { flex-basis: 100%; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; padding-top: 16px; border-top: 1px solid var(--line-2); font-size: 13px; }
+.footer-bottom small { font-size: inherit; }
+.footer-bottom a { color: var(--ink-2); font-weight: 500; }
+.footer-bottom a:hover { color: var(--felt); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }

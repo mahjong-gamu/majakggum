@@ -9,6 +9,7 @@ interface Props {
   current?: string;
 }
 const SITE_NAME = '마작치는 마작껌';
+const CONTACT_EMAIL = 'mahjong.iris@gmail.com';
 const { title, description = '작혼 패보를 Mortal과 함께 다시 보는 마작 블로그. 패보 복기, 이론 공부, 마장 탐방, 마작 뉴스.', current } = Astro.props;
 const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
 ---
@@ -53,6 +54,10 @@ const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
           <span class="display">{SITE_NAME}</span>
         </div>
         <span>작혼 패보 · Mortal 복기 · 이론 · 마장 탐방 · 뉴스</span>
+        <div class="footer-bottom">
+          <small>© {new Date().getFullYear()} {SITE_NAME}. All rights reserved.</small>
+          <span>문의 <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></span>
+        </div>
       </div>
     </footer>
   </body>
