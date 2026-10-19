@@ -34,7 +34,7 @@ claude: true
 | 우승 특전 | 일본 오픈 본전 시드권 | 일본 오픈 본전 시드권 |
 | 신청 | [신청 폼](https://docs.google.com/forms/d/e/1FAIpQLScYlXaq_tDTjhmjDz6aKTwh4SFEIAmPx3odMKovdk1uIFfKQw/viewform?usp=header) | [신청 폼](https://docs.google.com/forms/d/e/1FAIpQLSeCxzIaQhEjWUIw8PAvxbyREeo8hpWZnj8QaVjz1UZ5E8kA0A/viewform) |
 
-룰은 두 대회 모두 협회 공식 룰이다. **一発(일발)**과 **裏ドラ(리도라)**가 있고, **順位ウマ(순위 우마)**는 10-30, **オカ(오카)**가 있다. 신청자가 정원을 넘으면 선착순으로 마감한다.
+룰은 두 대회 모두 협회 공식 룰이다. **一発(일발)**과 **裏ドラ(우라도라)**가 있고, **順位ウマ(순위 우마)**는 10-30, **オカ(오카)**가 있다. 신청자가 정원을 넘으면 선착순으로 마감한다.
 
 ## 의미
 
