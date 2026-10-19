@@ -10,6 +10,9 @@ interface Props {
 }
 const SITE_NAME = '마작치는 마작껌';
 const CONTACT_EMAIL = 'mahjong.iris@gmail.com';
+// Cloudflare Web Analytics 사이트 토큰. 비어 있으면 방문 분석 코드를 넣지 않습니다.
+// (쿠키를 쓰지 않는 집계 방식이고, 토큰은 공개돼도 되는 사이트 구분값입니다)
+const ANALYTICS_TOKEN = '';
 const { title, description = '작혼 패보를 Mortal과 함께 다시 보는 마작 블로그. 패보 복기, 이론 공부, 마장 탐방, 마작 뉴스.', current } = Astro.props;
 const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
 ---
@@ -28,6 +31,9 @@ const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+    {ANALYTICS_TOKEN && (
+      <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: ANALYTICS_TOKEN })}></script>
+    )}
   </head>
   <body>
     <a class="skip" href="#main">본문으로 건너뛰기</a>
