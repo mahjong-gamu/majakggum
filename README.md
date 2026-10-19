@@ -45,15 +45,12 @@ npm run dev      # http://localhost:4321 에서 확인 (저장하면 바로 반�
 npm run build    # 배포용 결과물 만들기 (dist/ 폴더)
 ```
 
-## 배포 (Cloudflare Pages)
+## 배포 (Cloudflare)
 
-1. 이 폴더를 GitHub 저장소에 올립니다 (GitHub Desktop 앱이 가장 쉬움).
-2. Cloudflare 대시보드 → Workers & Pages → Create → Pages → Connect to Git → 저장소 선택.
-3. 빌드 설정
-   - Framework preset: `Astro`
-   - Build command: `npm run build`
-   - Build output directory: `dist`
-   - Node 버전은 `.node-version` 파일(22.22.0)로 지정되어 있습니다.
-4. 배포가 끝나면 `프로젝트이름.pages.dev` 주소가 생깁니다. `astro.config.mjs` 의 `site` 값을 그 주소로 바꿔 주세요.
+- 주소: https://majakggum.mahjong-iris.workers.dev
+- GitHub 저장소: https://github.com/mahjong-gamu/majakggum
+- Cloudflare 대시보드 → Compute (Workers & Pages) → `majakggum` 에서 빌드 기록을 볼 수 있습니다.
+- 빌드 설정: Build command `npm run build`, 결과물 폴더 `dist`. Node 버전은 `.node-version` 파일(22.22.0)로 지정되어 있습니다.
+- 도메인을 바꾸면 `astro.config.mjs` 의 `site` 값도 같이 바꿔 주세요.
 
-이후로는 GitHub에 글을 올릴 때마다 자동으로 다시 배포됩니다.
+GitHub의 `main` 브랜치에 글을 올리면 자동으로 다시 배포됩니다.
