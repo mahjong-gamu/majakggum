@@ -7,7 +7,7 @@ const base = {
   title: z.string(),
   date: z.coerce.date(),
   excerpt: z.string(), // 목록·홈 카드에 보이는 한두 줄 요약
-  meta: z.string().optional(), // 날짜 옆에 붙는 짧은 정보 (예: "옥의 간 반장전 · 2위")
+  meta: z.string().optional(), // 날짜 옆에 붙는 짧은 정보 (예: "옥탁 반장전 · 2위")
   cover: z.string().optional(), // 대표 이미지 경로 (예: /images/visits/abc.jpg)
   draft: z.boolean().default(false), // true면 사이트에 안 보임
 };

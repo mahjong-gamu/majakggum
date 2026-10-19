@@ -36,7 +36,9 @@ export function seatsAround(me: Seat) {
   };
 }
 
-export const withMe = (seat: string | undefined, me: string) => (seat === me ? `${seat}(나)` : seat ?? '');
+// 내 닉네임 — 내 자리 옆에 "(마작껌)"처럼 붙습니다
+export const MY_NAME = '마작껌';
+export const withMe = (seat: string | undefined, me: string) => (seat === me ? `${seat}(${MY_NAME})` : seat ?? '');
 
 export function formatScore(v: string | number) {
   return typeof v === 'number' ? v.toLocaleString('en-US') : v;
