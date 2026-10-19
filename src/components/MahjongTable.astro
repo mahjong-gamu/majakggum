@@ -116,7 +116,7 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
           <span class="center__sub">공탁 {mo.kyotaku}{mo.turn ? ` · ${mo.turn}순` : ''}</span>
           {dora.length > 0 && (
             <span class="center__dora">
-              <span>도라</span>
+              <span>도라 표시패</span>
               {dora.map((d) => <img src={d.src} alt={`도라 표시패 ${d.name}`} width="60" height="78" />)}
             </span>
           )}
