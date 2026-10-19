@@ -10,6 +10,7 @@ const base = {
   meta: z.string().optional(), // 날짜 옆에 붙는 짧은 정보 (예: "옥탁 반장전 · 2위")
   cover: z.string().optional(), // 대표 이미지 경로 (예: /images/visits/abc.jpg)
   draft: z.boolean().default(false), // true면 사이트에 안 보임
+  claude: z.boolean().default(false), // true면 글 맨 아래에 "Claude의 도움을 받아 작성했습니다" 알림이 붙음
 };
 
 // 사람은 닉네임 대신 동1국 기준 자리로 적습니다

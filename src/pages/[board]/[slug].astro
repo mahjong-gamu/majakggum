@@ -49,6 +49,13 @@ const hasBody = Boolean(entry.body && entry.body.trim());
         <Content />
       </section>
     )}
+
+    {d.claude && (
+      <aside class="ai-note" aria-label="작성 도움 안내">
+        <span class="ai-note__mark" aria-hidden="true">✦</span>
+        <p>이 글은 <strong>Claude</strong>(Anthropic의 AI)의 도움을 받아 작성했습니다.</p>
+      </aside>
+    )}
   </article>
 </Base>
 
@@ -65,5 +72,9 @@ const hasBody = Boolean(entry.body && entry.body.trim());
   .extra { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: var(--muted); }
   .cover { width: 100%; max-width: 960px; max-height: 520px; object-fit: cover; border-radius: 24px; }
   .prose :global(h2:first-child) { margin-top: 0; }
+  .ai-note { max-width: 740px; display: flex; align-items: center; gap: 10px; padding: 12px 16px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--paper-2); color: var(--muted); font-size: 14px; }
+  .ai-note p { margin: 0; line-height: 1.6; }
+  .ai-note strong { color: var(--ink-2); }
+  .ai-note__mark { color: var(--gold); font-size: 13px; }
   @media (max-width: 640px) { .post { padding-top: 20px; gap: 36px; } .excerpt { font-size: 16px; } }
 </style>
