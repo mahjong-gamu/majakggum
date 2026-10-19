@@ -28,6 +28,7 @@ const tablePlayer = z.object({
   river: z.string().default(''), // 버림패 (순서대로)
   riichi: z.number().int().optional(), // 리치 선언패가 버림패 중 몇 번째인지 (1부터) — 옆으로 눕혀 표시
   melds: z.array(meld).default([]), // 후로패
+  hand: z.string().optional(), // 손패 (상대 것) — 안 쓰면 뒷면으로 표시. 내 손패는 moment.hand 에
 });
 
 const reviews = defineCollection({

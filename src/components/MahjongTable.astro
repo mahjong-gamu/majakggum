@@ -52,11 +52,18 @@ const seats = POS.map(({ key, rot }) => {
     riichi: Boolean(p.riichi),
     rows: riverRows(p.river ?? '', p.riichi),
     melds: (p.melds ?? []).map(meldCells),
+    hand: handCells(seat, p),
+    draw: seat === myseat && mo.draw ? parseTiles(mo.draw).map((t) => tileSrc(t)) : [],
   };
 });
 
-const hand = parseTiles(mo.hand).map((t) => tileSrc(t));
-const draw = mo.draw ? parseTiles(mo.draw).map((t) => tileSrc(t)) : [];
+// 손패: 나는 moment.hand, 상대는 players.자리.hand. 상대 손패를 안 적었으면 뒷면으로 (13 - 후로 수 × 3장)
+function handCells(seat: Seat, p: any): string[] {
+  const src = seat === myseat ? mo.hand : p.hand;
+  if (src) return parseTiles(src).map((t) => tileSrc(t));
+  const n = Math.max(0, 13 - 3 * (p.melds?.length ?? 0));
+  return Array.from({ length: n }, () => '/tiles/back.svg');
+}
 const dora = parseTiles(mo.dora ?? '').map((t) => ({ src: tileSrc(t), name: t.name }));
 const label = kyokuLabel(mo.kyoku, mo.honba);
 const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) => `${s.seat}${s.me ? '(나)' : ''} ${s.wind} ${s.score}점`).join(', ');
@@ -75,24 +82,21 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
               </div>
             ))}
           </div>
-          {s.melds.length > 0 && (
-            <div class="melds">
-              {s.melds.map((m: Cell[]) => (
-                <span class="meld">
-                  {m.map((c) => (c.side
-                    ? <span class="side"><img src={c.back ? '/tiles/back.svg' : c.src} alt="" width="60" height="78" /></span>
-                    : <img class="t" src={c.back ? '/tiles/back.svg' : c.src} alt="" width="60" height="78" />))}
-                </span>
-              ))}
-            </div>
-          )}
-          {s.me && (
-            <div class="hand">
-              {hand.map((src) => <img class="t" src={src} alt="" width="60" height="78" />)}
-              {draw.length > 0 && <span class="hand__gap"></span>}
-              {draw.map((src) => <img class="t t--draw" src={src} alt="" width="60" height="78" />)}
-            </div>
-          )}
+          <!-- 손패 + 쯔모 + 후로를 한 줄로, 그 변의 가운데에 -->
+          <div class:list={['handrow', { opp: !s.me }]}>
+            <span class="hand">
+              {s.hand.map((src) => <img class="t" src={src} alt="" width="60" height="78" />)}
+              {s.draw.length > 0 && <span class="hand__gap"></span>}
+              {s.draw.map((src) => <img class="t t--draw" src={src} alt="" width="60" height="78" />)}
+            </span>
+            {s.melds.map((m: Cell[]) => (
+              <span class="meld">
+                {m.map((c) => (c.side
+                  ? <span class="side"><img src={c.back ? '/tiles/back.svg' : c.src} alt="" width="60" height="78" /></span>
+                  : <img class="t" src={c.back ? '/tiles/back.svg' : c.src} alt="" width="60" height="78" />))}
+              </span>
+            ))}
+          </div>
         </div>
       ))}
 
@@ -137,22 +141,23 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
 <style>
   .mt { margin: 0; display: flex; flex-direction: column; gap: 10px; }
   .mt__table { container-type: inline-size; position: relative; width: 100%; max-width: 760px; margin: 0 auto; aspect-ratio: 1; border-radius: 22px; }
-  /* t = 패 1장 너비. 테이블 한 변 = 22t */
-  .board { position: absolute; inset: 0; --t: calc(100cqw / 22); }
+  /* t = 패 1장 너비. 테이블 한 변 = 19.5t. s = 그 줄에서 쓰는 패 크기 */
+  .board { position: absolute; inset: 0; --t: calc(100cqw / 19.5); --s: var(--t); }
   .layer { position: absolute; inset: 0; transform: rotate(var(--rot)); }
-  .t { display: block; width: var(--t); height: calc(var(--t) * 1.3); filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35)); }
-  .side { position: relative; display: block; flex: none; width: calc(var(--t) * 1.3); height: var(--t); }
-  .side img { position: absolute; left: 50%; top: 50%; width: var(--t); height: calc(var(--t) * 1.3); transform: translate(-50%, -50%) rotate(-90deg); filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35)); }
+  .t { display: block; flex: none; width: var(--s); height: calc(var(--s) * 1.3); filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35)); }
+  .side { position: relative; display: block; flex: none; width: calc(var(--s) * 1.3); height: var(--s); }
+  .side img { position: absolute; left: 50%; top: 50%; width: var(--s); height: calc(var(--s) * 1.3); transform: translate(-50%, -50%) rotate(-90deg); filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35)); }
 
-  .river { position: absolute; top: calc(50% + var(--t) * 3.55); left: calc(50% - var(--t) * 3); display: flex; flex-direction: column; }
+  .river { position: absolute; top: calc(50% + var(--t) * 3.3); left: calc(50% - var(--t) * 3); display: flex; flex-direction: column; }
   .row { display: flex; align-items: flex-end; }
-  .melds { position: absolute; right: calc(var(--t) * 0.25); bottom: calc(var(--t) * 0.25); display: flex; flex-direction: row-reverse; align-items: flex-end; gap: calc(var(--t) * 0.25); }
-  .meld { display: flex; align-items: flex-end; }
-  .hand { position: absolute; left: calc(var(--t) * 0.25); bottom: calc(var(--t) * 0.25); display: flex; align-items: flex-end; }
-  .hand__gap { width: calc(var(--t) * 0.35); }
-  .t--draw { transform: translateY(calc(var(--t) * -0.15)); }
+  /* 손패·후로 줄: 각 변의 가운데 */
+  .handrow { position: absolute; left: 0; right: 0; bottom: calc(var(--t) * 0.2); display: flex; justify-content: center; align-items: flex-end; gap: calc(var(--s) * 0.3); }
+  .handrow.opp { --s: calc(var(--t) * 0.82); }
+  .hand, .meld { display: flex; align-items: flex-end; }
+  .hand__gap { width: calc(var(--s) * 0.3); }
+  .t--draw { transform: translateY(calc(var(--s) * -0.15)); }
 
-  .center { position: absolute; left: 50%; top: 50%; width: calc(var(--t) * 6.6); height: calc(var(--t) * 6.6); transform: translate(-50%, -50%); background: #101a16; border-radius: calc(var(--t) * 0.45); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 6px 18px rgba(0, 0, 0, 0.35); color: #f3efe4; }
+  .center { position: absolute; left: 50%; top: 50%; width: calc(var(--t) * 6.2); height: calc(var(--t) * 6.2); transform: translate(-50%, -50%); background: #101a16; border-radius: calc(var(--t) * 0.45); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 6px 18px rgba(0, 0, 0, 0.35); color: #f3efe4; }
   .clayer { position: absolute; inset: 0; transform: rotate(var(--rot)); }
   .plate { position: absolute; left: 0; right: 0; bottom: calc(var(--t) * 0.18); display: flex; align-items: baseline; justify-content: center; gap: calc(var(--t) * 0.18); line-height: 1; }
   .plate__wind { font-family: var(--display); font-weight: 800; font-size: max(10px, calc(var(--t) * 0.5)); }
@@ -162,7 +167,7 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
   .plate--me .plate__score { color: #f0d9a8; }
   .stick { position: absolute; left: 50%; bottom: calc(var(--t) * 0.72); width: calc(var(--t) * 2.4); height: calc(var(--t) * 0.16); transform: translateX(-50%); border-radius: 99px; background: #fff; }
   .stick::after { content: ''; position: absolute; left: 50%; top: 50%; width: calc(var(--t) * 0.12); height: calc(var(--t) * 0.12); border-radius: 50%; background: #d4201b; transform: translate(-50%, -50%); }
-  .center__mid { position: absolute; inset: calc(var(--t) * 1.25); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(var(--t) * 0.16); text-align: center; }
+  .center__mid { position: absolute; inset: calc(var(--t) * 1.05); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(var(--t) * 0.16); text-align: center; }
   .center__kyoku { font-family: var(--display); font-weight: 800; font-size: max(12px, calc(var(--t) * 0.58)); white-space: nowrap; letter-spacing: -0.02em; }
   .center__sub { font-size: max(9px, calc(var(--t) * 0.32)); color: #b9cbbf; white-space: nowrap; }
   .center__dora { display: flex; align-items: center; gap: calc(var(--t) * 0.08); font-size: max(9px, calc(var(--t) * 0.3)); color: #b9cbbf; }
