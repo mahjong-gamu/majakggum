@@ -9,17 +9,17 @@ const all = await getAllPosts();
 const latest = all.slice(0, 6);
 const counts = Object.fromEntries(await Promise.all(BOARDS.map(async (b) => [b.key, (await getBoardPosts(b.key)).length])));
 
-// 첫 화면 매트 위에는 가장 최근 패보 복기 글의 첫 번째 주요 국면을 올립니다.
+// 첫 화면 매트 위에는 가장 최근 패보 복기 글의 주요 국면을 올립니다.
 const reviews = await getBoardPosts('reviews');
 const featured = reviews[0]?.entry;
-const moment = featured?.data.moments?.[0];
+const moment = featured?.data.moment;
 const aiPick = moment?.candidates.find((c: any) => c.pick === 'ai' || c.pick === 'both');
 const myPick = moment?.candidates.find((c: any) => c.pick === 'me' || c.pick === 'both');
 
 const steps = [
   { no: '01', title: '대국 중 내 판단', text: '그 순간 무엇을 보고, 왜 그 패를 골랐는지 먼저 적습니다.' },
   { no: '02', title: 'Mortal의 판단', text: '후보별 확률과 내 선택 사이의 차이를 숫자로 확인합니다.' },
-  { no: '03', title: '복기 후 생각', text: '다음 대국에서 의식할 것 하나만 남깁니다.' },
+  { no: '03', title: 'Mortal의 선택 이유 추정', text: 'Mortal이 왜 그 수를 골랐을지 추정해 봅니다.' },
 ];
 ---
 <Base>

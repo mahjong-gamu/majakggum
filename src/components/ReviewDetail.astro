@@ -8,11 +8,29 @@ interface Props {
 const { data } = Astro.props;
 const m = data.metrics ?? {};
 const metrics = [
-  { label: 'Mortal 일치율', value: m.match },
-  { label: 'Rating', value: m.rating },
-  { label: '불일치 선택', value: m.mismatches },
-  { label: '큰 실수', value: m.blunders, warn: true },
+  { label: '레이팅', value: m.rating },
+  { label: '일치율', value: m.match },
+  { label: '악수율', value: m.bad, warn: true },
+  { label: '빅코치 판단', value: m.coach, text: true },
 ].filter((x) => x.value);
+const mo = data.moment;
+
+// 점수·포인트 앞의 +/- 로 색을 정합니다
+const sign = (v?: string) => (!v ? '' : /^\s*\+/.test(v) ? 'up' : /^\s*[-−]/.test(v) ? 'down' : '');
+
+// 국별 흐름 한 줄 설명
+const BADGE: Record<string, string> = { 화료: '화료', 방총: '방총', 타가화료: '타가 화료', 유국: '유국' };
+function roundText(r: any) {
+  if (r.result === '화료') return r.how === '론' ? `론 화료${r.from ? ` · ${r.from} 방총` : ''}` : `${r.how ?? '쯔모'} 화료`;
+  if (r.result === '방총') return `${r.winner ?? '상대'}에게 방총`;
+  if (r.result === '타가화료') {
+    const how = r.how ?? '론';
+    return `${r.winner ?? '상대'} ${how} 화료${how === '론' && r.from ? ` · ${r.from} 방총` : ''}`;
+  }
+  const kind = r.draw ?? '황패유국';
+  return r.tenpai ? `${kind} · 텐파이 ${r.tenpai}` : kind;
+}
+
 const color = (pick: string) => (pick === 'ai' || pick === 'both' ? 'var(--green)' : pick === 'me' ? 'var(--me)' : 'var(--other)');
 const doraName = (s?: string) => {
   if (!s) return '';
@@ -29,27 +47,35 @@ const doraName = (s?: string) => {
   )}
 
   {(data.finals.length > 0 || metrics.length > 0) && (
-    <section class="two" aria-label="대국 결과">
+    <section class="summary" aria-label="대국 결과">
       {data.finals.length > 0 && (
-        <div class="panel">
+        <div class="panel box">
           <h2 class="h-small">최종 결과</h2>
-          {data.finals.map((f: any) => (
-            <div class:list={['final', { me: f.me }]}>
-              <span class="mono muted rank">{f.rank}</span>
-              <span class="who">{f.player}</span>
-              <span class="mono">{f.score}</span>
-            </div>
-          ))}
+          <table class="finals">
+            <tbody>
+              {data.finals.map((f: any) => (
+                <tr class:list={{ me: f.me }}>
+                  <td class="mono rank">{f.rank}</td>
+                  <td class="who">{f.player}</td>
+                  <td class="mono num">{f.score}</td>
+                  <td class:list={['mono num pt', sign(f.pt)]}>{f.pt ?? ''}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
       {metrics.length > 0 && (
-        <div class="panel metrics">
-          {metrics.map((x) => (
-            <div class="metric">
-              <span class="muted">{x.label}</span>
-              <span class="mono metric__v" style={x.warn ? 'color:var(--red)' : ''}>{x.value}</span>
-            </div>
-          ))}
+        <div class="panel box">
+          <h2 class="h-small">Mortal 평가</h2>
+          <dl class="metrics">
+            {metrics.map((x) => (
+              <div class="metric">
+                <dt>{x.label}</dt>
+                <dd class:list={['metric__v', { mono: !x.text, warn: x.warn, text: x.text }]}>{x.value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       )}
     </section>
@@ -58,140 +84,133 @@ const doraName = (s?: string) => {
   {data.rounds.length > 0 && (
     <section class="sec" aria-labelledby="flow-title">
       <h2 id="flow-title" class="serif h2">국별 흐름</h2>
-      <div class="rounds">
+      <ol class="rounds">
         {data.rounds.map((r: any) => (
-          <div class:list={['round', { key: r.key }]}>
-            <strong>{r.label}</strong>
-            <span>{r.result}</span>
-            <span class="mono delta">{r.delta}</span>
-          </div>
+          <li class:list={['round', { key: r.key }]}>
+            <span class="round__label">{r.label}</span>
+            <span class:list={['badge', `badge--${r.result}`]}>{BADGE[r.result]}</span>
+            <span class="round__text">
+              {roundText(r)}
+              {r.note && <span class="round__note">{r.note}</span>}
+              {r.key && <span class="round__key">주요 국면</span>}
+            </span>
+            <span class:list={['mono round__delta', sign(r.delta)]}>{r.delta}</span>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
   )}
 
-  {data.moments.length > 0 && (
+  {mo && (
     <section class="sec" aria-labelledby="key-title">
       <h2 id="key-title" class="serif h2">주요 국면</h2>
-      {data.moments.length > 1 && (
-        <div class="tabs" role="tablist" aria-label="국면 선택">
-          {data.moments.map((mo: any, i: number) => (
-            <button type="button" role="tab" id={`tab-${i}`} aria-controls={`moment-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-tab={i}>{mo.label}</button>
-          ))}
-        </div>
-      )}
-      {data.moments.map((mo: any, i: number) => (
-        <div class="panel moment" id={`moment-${i}`} role="tabpanel" aria-labelledby={data.moments.length > 1 ? `tab-${i}` : undefined} hidden={i !== 0}>
-          {data.moments.length === 1 && <h3 class="h-small">{mo.label}</h3>}
-          {mo.seats.length > 0 && (
-            <div class="seats">
-              {mo.seats.map((s: any) => (
-                <div class:list={['seat', { me: s.me }]}><span>{s.player}</span><span class="mono">{s.score}</span></div>
-              ))}
+      <div class="panel moment">
+        <h3 class="moment__title">{mo.label}</h3>
+        {mo.seats.length > 0 && (
+          <div class="seats">
+            {mo.seats.map((s: any) => (
+              <div class:list={['seat', { me: s.me }]}><span>{s.player}</span><span class="mono">{s.score}</span></div>
+            ))}
+          </div>
+        )}
+        <div class="mat felt">
+          <div class="mat__info">
+            {mo.situation && <span>{mo.situation}</span>}
+            {mo.dora && (
+              <span class="mat__dora">도라 표시패 <Tiles tiles={mo.dora} size="card" label={`도라 표시패 ${doraName(mo.dora)}`} /></span>
+            )}
+          </div>
+          {mo.river && (
+            <div class="stack">
+              <span class="label">내 버림패</span>
+              <Tiles tiles={mo.river} size="sm" />
             </div>
           )}
-          <div class="mat felt">
-            <div class="mat__info">
-              {mo.situation && <span>{mo.situation}</span>}
-              {mo.dora && (
-                <span class="mat__dora">도라 표시패 <Tiles tiles={mo.dora} size="card" label={`도라 표시패 ${doraName(mo.dora)}`} /></span>
-              )}
-            </div>
-            {mo.river && (
-              <div class="stack">
-                <span class="label">내 버림패</span>
-                <Tiles tiles={mo.river} size="sm" />
+          <div class="stack">
+            <span class="label">손패{mo.draw && ' · 오른쪽 끝이 쯔모'}</span>
+            <Tiles tiles={mo.hand} draw={mo.draw} size="lg" />
+          </div>
+        </div>
+        {mo.candidates.length > 0 && (
+          <div class="stack">
+            <h4 class="h-small">Mortal 판단</h4>
+            {mo.candidates.map((c: any) => (
+              <div class="cand">
+                <span class="cand__name">{c.action}</span>
+                <div class="bar"><div style={`width:${Math.max(0, Math.min(100, c.prob))}%;background:${color(c.pick)}`}></div></div>
+                <span class="mono cand__p">{c.prob}%</span>
               </div>
-            )}
-            <div class="stack">
-              <span class="label">손패{mo.draw && ' · 오른쪽 끝이 쯔모'}</span>
-              <Tiles tiles={mo.hand} draw={mo.draw} size="lg" />
+            ))}
+            <div class="legend">
+              <span><i style="background:var(--green)"></i>Mortal 1순위</span>
+              <span><i style="background:var(--me)"></i>내 선택</span>
+              <span><i style="background:var(--other)"></i>그 외</span>
             </div>
           </div>
-          {mo.candidates.length > 0 && (
-            <div class="stack">
-              <h3 class="h-small">Mortal 판단</h3>
-              {mo.candidates.map((c: any) => (
-                <div class="cand">
-                  <span class="cand__name">{c.action}</span>
-                  <div class="bar"><div style={`width:${Math.max(0, Math.min(100, c.prob))}%;background:${color(c.pick)}`}></div></div>
-                  <span class="mono cand__p">{c.prob}%</span>
-                </div>
-              ))}
-              <div class="legend">
-                <span><i style="background:var(--green)"></i>Mortal 1순위</span>
-                <span><i style="background:var(--me)"></i>내 선택</span>
-                <span><i style="background:var(--other)"></i>그 외</span>
-              </div>
-            </div>
-          )}
-          {(mo.why || mo.after) && (
-            <div class="notes">
-              {mo.why && <div class="note note--me"><h3>대국 중 내 판단</h3><p>{mo.why}</p></div>}
-              {mo.after && <div class="note note--ai"><h3>복기 후 생각</h3><p>{mo.after}</p></div>}
-            </div>
-          )}
-        </div>
-      ))}
+        )}
+        {(mo.why || mo.mortalWhy) && (
+          <div class="notes">
+            {mo.why && <div class="note note--me"><h4>대국 중 내 판단</h4><p>{mo.why}</p></div>}
+            {mo.mortalWhy && <div class="note note--ai"><h4>Mortal의 선택 이유 추정</h4><p>{mo.mortalWhy}</p></div>}
+          </div>
+        )}
+      </div>
     </section>
   )}
 </div>
 
-<script>
-  document.querySelectorAll<HTMLElement>('[role="tablist"]').forEach((list) => {
-    const tabs = Array.from(list.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
-    const select = (tab: HTMLButtonElement) => {
-      tabs.forEach((t) => {
-        const on = t === tab;
-        t.setAttribute('aria-selected', on ? 'true' : 'false');
-        t.tabIndex = on ? 0 : -1;
-        const panel = document.getElementById(t.getAttribute('aria-controls') || '');
-        if (panel) panel.hidden = !on;
-      });
-    };
-    tabs.forEach((t, i) => {
-      t.addEventListener('click', () => select(t));
-      t.addEventListener('keydown', (e) => {
-        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-        const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
-        select(next);
-        next.focus();
-      });
-    });
-  });
-</script>
-
 <style>
-  .review { display: flex; flex-direction: column; gap: 52px; }
+  .review { display: flex; flex-direction: column; gap: 44px; }
   .links { display: flex; flex-wrap: wrap; gap: 10px; }
-  .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 20px; }
-  .h-small { margin: 0 0 8px; font-size: 15px; font-weight: 700; }
-  .h2 { margin: 0; font-size: clamp(22px, 2.6vw, 27px); letter-spacing: -0.03em; }
-  .sec { display: flex; flex-direction: column; gap: 18px; }
-  .final { display: flex; align-items: center; gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
-  .final:last-child { border-bottom: 0; }
-  .final.me { font-weight: 700; }
-  .final.me .who::after { content: ''; display: inline-block; width: 6px; height: 6px; margin-left: 8px; border-radius: 50%; background: var(--red); vertical-align: middle; }
-  .rank { width: 36px; }
-  .who { flex: 1; }
-  .metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-content: start; }
-  .metric { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
-  .metric__v { font-size: clamp(28px, 3vw, 36px); font-weight: 600; color: var(--ink); letter-spacing: -0.02em; }
-  .rounds { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
-  .round { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 16px; display: flex; flex-direction: column; gap: 3px; font-size: 13px; color: var(--ink-2); }
-  .round strong { font-size: 15px; color: var(--ink); }
-  .round.key { background: var(--felt); color: var(--felt-muted); border-color: var(--felt); box-shadow: 0 10px 24px -16px rgba(16, 54, 44, 0.9); }
-  .round.key strong { color: #fff; }
-  .delta { font-size: 14px; font-weight: 600; color: var(--ink); }
-  .round.key .delta { color: #f0d9a8; }
-  .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
-  .tabs button { flex: 0 0 auto; font-size: 14px; font-weight: 700; min-height: 44px; padding: 10px 18px; border-radius: 999px; cursor: pointer; border: 1px solid var(--line-2); background: var(--card); color: var(--ink-2); }
-  .tabs button:hover { color: var(--ink); background: var(--paper-2); }
-  .tabs button[aria-selected='true'] { background: var(--felt); color: var(--felt-ink); border-color: var(--felt); }
-  .moment { border-radius: 26px; padding: clamp(16px, 3vw, 30px); display: flex; flex-direction: column; gap: 28px; }
-  .moment[hidden] { display: none; }
+  .h-small { margin: 0 0 6px; font-size: 14px; font-weight: 700; color: var(--ink-2); }
+  .h2 { margin: 0; font-size: clamp(22px, 2.6vw, 26px); letter-spacing: -0.03em; }
+  .sec { display: flex; flex-direction: column; gap: 14px; }
+  .up { color: var(--green); }
+  .down { color: var(--red); }
+
+  /* 최종 결과 + Mortal 평가 */
+  .summary { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 14px; }
+  .box { padding: 14px 18px; border-radius: var(--r-md); }
+  .finals { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .finals td { padding: 5px 0; border-bottom: 1px solid var(--line); }
+  .finals tr:last-child td { border-bottom: 0; }
+  .finals .rank { width: 40px; color: var(--muted); font-size: 13px; }
+  .finals .who { padding-right: 8px; }
+  .finals .num { text-align: right; white-space: nowrap; font-weight: 600; }
+  .finals .pt { width: 72px; font-size: 13px; }
+  .finals tr.me td { font-weight: 700; }
+  .finals tr.me .who::after { content: ''; display: inline-block; width: 6px; height: 6px; margin-left: 7px; border-radius: 50%; background: var(--red); vertical-align: middle; }
+  .metrics { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+  .metric { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .metric dt { font-size: 12px; color: var(--muted); }
+  .metric__v { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.2; color: var(--ink); letter-spacing: -0.02em; }
+  .metric__v.warn { color: var(--red); }
+  .metric__v.text { font-size: 18px; font-weight: 700; padding-top: 3px; }
+
+  /* 국별 흐름: 한 국에 한 줄 */
+  .rounds { list-style: none; margin: 0; padding: 0; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; }
+  .round { display: grid; grid-template-columns: 92px 66px minmax(0, 1fr) 76px; align-items: center; gap: 10px; padding: 7px 16px; border-top: 1px solid var(--line); font-size: 14px; }
+  .round:first-child { border-top: 0; }
+  .round.key { background: var(--green-tint); box-shadow: inset 3px 0 0 var(--felt); }
+  .round__label { font-weight: 700; white-space: nowrap; }
+  .badge { justify-self: start; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .badge--화료 { background: var(--green-tint); color: var(--green); }
+  .round.key .badge--화료 { background: #fff; }
+  .badge--방총 { background: var(--red-tint); color: var(--red-ink); }
+  .badge--타가화료 { background: #e6e9f2; color: #3b4a72; }
+  .badge--유국 { background: var(--paper-2); color: var(--muted); }
+  .round__text { color: var(--ink-2); display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+  .round__note { font-size: 12px; color: var(--muted); }
+  .round__key { font-size: 11px; font-weight: 700; color: var(--felt); }
+  .round__delta { text-align: right; font-weight: 600; white-space: nowrap; color: var(--muted); }
+  .round__delta.up { color: var(--green); }
+  .round__delta.down { color: var(--red); }
+
+  /* 주요 국면 */
+  .moment { border-radius: 24px; padding: clamp(16px, 3vw, 28px); display: flex; flex-direction: column; gap: 24px; }
+  .moment__title { margin: 0; font-family: var(--display); font-size: 19px; letter-spacing: -0.02em; }
   .seats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
-  .seat { border-radius: var(--r-sm); padding: 10px 14px; background: var(--paper); display: flex; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 500; border: 1px solid transparent; }
+  .seat { border-radius: var(--r-sm); padding: 9px 14px; background: var(--paper); display: flex; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 500; border: 1px solid transparent; }
   .seat.me { background: var(--green-tint); border-color: rgba(29, 115, 80, 0.25); font-weight: 700; }
   .seat .mono { font-weight: 600; white-space: nowrap; }
   .mat { border-radius: 20px; padding: clamp(16px, 3vw, 28px); display: flex; flex-direction: column; gap: 22px; }
@@ -211,14 +230,23 @@ const doraName = (s?: string) => {
   .legend span { display: flex; align-items: center; gap: 6px; }
   .legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
   .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; }
-  .note { border-radius: var(--r-md); padding: 20px 22px; display: flex; flex-direction: column; gap: 8px; border-left: 4px solid; }
-  .note h3 { margin: 0; font-size: 14px; }
+  .note { border-radius: var(--r-md); padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; border-left: 4px solid; }
+  .note h4 { margin: 0; font-size: 14px; }
   .note p { margin: 0; font-size: 15px; line-height: 1.8; color: var(--ink-2); }
   .note--me { background: var(--red-tint); border-color: var(--me); }
-  .note--me h3 { color: var(--red-ink); }
+  .note--me h4 { color: var(--red-ink); }
   .note--ai { background: var(--green-tint); border-color: var(--green); }
-  .note--ai h3 { color: var(--green); }
-  @media (max-width: 480px) {
+  .note--ai h4 { color: var(--green); }
+
+  @media (max-width: 720px) {
+    .summary { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .round { grid-template-columns: 74px minmax(0, 1fr) 64px; grid-template-areas: 'label badge delta' 'text text text'; row-gap: 4px; padding: 9px 12px; }
+    .round__label { grid-area: label; font-size: 13px; }
+    .badge { grid-area: badge; }
+    .round__text { grid-area: text; font-size: 13px; }
+    .round__delta { grid-area: delta; }
     .seats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .seat { flex-direction: column; gap: 2px; font-size: 13px; }
     .mat { margin: 0 -6px; padding: 16px 12px; }
