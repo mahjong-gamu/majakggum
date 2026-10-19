@@ -26,7 +26,7 @@ const steps = [
 <Base>
   <div class="home">
     <section class="wrap hero-wrap" aria-labelledby="hero-title">
-      <div class="felt hero">
+      <div class:list={['felt hero', { 'hero--solo': !(featured && moment) }]}>
         <div class="hero__text">
           <span class="eyebrow hero__eyebrow">작혼 패보 × Mortal 복기</span>
           <h1 id="hero-title" class="display">한 판 치고,<br />한 번 더 생각하는<br />마작</h1>
@@ -122,6 +122,8 @@ const steps = [
 
   /* 첫 화면: 펠트 매트 */
   .hero { border-radius: 28px; padding: clamp(28px, 5vw, 64px); display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); align-items: center; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 30px 60px -40px rgba(16, 54, 44, 0.8); }
+  /* 복기 글이 아직 없으면 글만 한 줄로 */
+  .hero--solo { grid-template-columns: minmax(0, 1fr); }
   .hero__text { display: flex; flex-direction: column; gap: 22px; }
   .hero__eyebrow { color: var(--felt-muted); }
   h1 { margin: 0; font-size: clamp(38px, 5.6vw, 68px); line-height: 1.12; letter-spacing: -0.045em; font-weight: 800; color: #fbf8f0; }
