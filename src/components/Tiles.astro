@@ -13,7 +13,7 @@ const drawList = draw ? parseTiles(draw) : [];
 const names = (l: { name: string }[]) => l.map((t) => t.name).join(' ');
 ---
 <div class={`tiles tiles--${size}`} role="img" aria-label={label ?? `패 ${names(list)}${drawList.length ? `, 쯔모 ${names(drawList)}` : ''}`}>
-  {list.map((t) => <img class="tile" src={tileSrc(t)} alt="" width="60" height="80" />)}
+  {list.map((t) => <img class="tile" src={tileSrc(t)} alt="" width="60" height="78" />)}
   {drawList.length > 0 && <span class="tile-gap" aria-hidden="true"></span>}
-  {drawList.map((t) => <img class="tile tile--draw" src={tileSrc(t)} alt="" width="60" height="80" />)}
+  {drawList.map((t) => <img class="tile tile--draw" src={tileSrc(t)} alt="" width="60" height="78" />)}
 </div>

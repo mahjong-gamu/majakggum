@@ -90,7 +90,7 @@ const steps = [
       <div class="boards">
         {BOARDS.map((b) => (
           <a class="board" href={`/${b.key}/`} style={`--tint:${b.tint};--ink-b:${b.ink}`}>
-            <img class="board__wind" src={`/tiles/${b.wind}.svg`} alt="" width="60" height="80" />
+            <img class="board__wind" src={`/tiles/${b.wind}.svg`} alt="" width="60" height="78" />
             <span class="board__name">{b.label}</span>
             <span class="board__short">{b.short}</span>
             <span class="board__count mono">글 {counts[b.key]}개 →</span>

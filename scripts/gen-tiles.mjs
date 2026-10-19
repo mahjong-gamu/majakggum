@@ -1,5 +1,6 @@
 // 마작패 SVG 이미지를 public/tiles/ 에 만듭니다.
-// 한자는 Noto Serif JP 글꼴에서 윤곽선(path)으로 뽑아 넣기 때문에 어느 컴퓨터에서도 똑같이 보입니다.
+// 고전 스타일: 흰 앞면 + 검정 테두리, 붓글씨 한자, 남색 통, 마디 있는 대나무 삭.
+// 한자는 LXGW WenKai TC 글꼴에서 윤곽선(path)으로 뽑아 넣기 때문에 어느 컴퓨터에서도 똑같이 보입니다.
 // 다시 만들려면: npm run tiles
 import fs from 'node:fs';
 import path from 'node:path';
@@ -8,182 +9,157 @@ import opentype from 'opentype.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outDir = path.join(root, 'public', 'tiles');
-const fontDir = path.join(root, 'node_modules', '@fontsource', 'noto-serif-jp', 'files');
+const fontDir = path.join(root, 'node_modules', '@fontsource', 'lxgw-wenkai-tc', 'files');
+const fonts = fs.readdirSync(fontDir).filter((f) => /-\d+-700-normal\.woff$/.test(f))
+  .map((f) => opentype.parse(new Uint8Array(fs.readFileSync(path.join(fontDir, f))).buffer));
 
-const C = {
-  ink: '#1c1f2b',
-  red: '#c5302a',
-  green: '#1d7350',
-  blue: '#1f4f96',
-  gold: '#d39b1c',
-  face: '#fffdf6',
-};
+const C = { ink: '#151515', red: '#d4201b', redDark: '#8f1410', navy: '#1f2b7b', green: '#25801f', greenDark: '#155011' };
 
-// ---------- 글꼴에서 한자 윤곽선 꺼내기 ----------
-const fontCache = new Map();
-function fontsFor(weight) {
-  if (!fontCache.has(weight)) {
-    const files = fs.readdirSync(fontDir).filter((f) => f.endsWith(`-${weight}-normal.woff`) && /-\d+-/.test(f));
-    fontCache.set(weight, files.map((f) => opentype.parse(new Uint8Array(fs.readFileSync(path.join(fontDir, f))).buffer)));
-  }
-  return fontCache.get(weight);
-}
-
-// 글자를 (x, y, w, h) 상자 안 가운데에 꽉 차게 그립니다.
-function glyph(ch, box, fill, weight = 700) {
-  const font = fontsFor(weight).find((f) => f.charToGlyphIndex(ch) > 0);
+// 같은 종류의 글자는 같은 글꼴 크기(size)로 그리고, 글자 모양의 가운데를 (cx, cy)에 맞춥니다.
+// boldPx: 글자 둘레에 같은 색 선을 더해 붓글씨처럼 굵게 (px 단위)
+function glyphAt(ch, cx, cy, size, fill, boldPx) {
+  const font = fonts.find((f) => f.charToGlyphIndex(ch) > 0);
   if (!font) throw new Error(`글꼴에 없는 글자: ${ch}`);
   const p = font.getPath(ch, 0, 0, 100);
   const bb = p.getBoundingBox();
-  const s = Math.min(box.w / (bb.x2 - bb.x1), box.h / (bb.y2 - bb.y1));
-  const tx = box.x + (box.w - (bb.x2 - bb.x1) * s) / 2 - bb.x1 * s;
-  const ty = box.y + (box.h - (bb.y2 - bb.y1) * s) / 2 - bb.y1 * s;
-  return `<path fill="${fill}" transform="translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${s.toFixed(4)})" d="${p.toPathData(1)}"/>`;
+  const s = size / 100;
+  const tx = cx - ((bb.x1 + bb.x2) / 2) * s;
+  const ty = cy - ((bb.y1 + bb.y2) / 2) * s;
+  const stroke = boldPx ? ` stroke="${fill}" stroke-width="${(boldPx / s).toFixed(2)}" stroke-linejoin="round"` : '';
+  // 소수점 2자리 이상이어야 획이 깨지지 않습니다
+  return `<path fill="${fill}"${stroke} transform="translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${s.toFixed(4)})" d="${p.toPathData(2)}"/>`;
 }
 
-// ---------- 패 바탕 ----------
-// 60×80: 위 74px가 앞면, 아래로 보이는 초록 부분이 패 뒷면의 두께입니다.
+// ---------- 패 바탕: 60×78, 흰 앞면 + 굵은 검정 테두리 ----------
 function tile(body, title) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 80" width="60" height="80" role="img" aria-label="${title}">
-<defs><linearGradient id="f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffefa"/><stop offset="1" stop-color="#f1eadb"/></linearGradient></defs>
-<rect x="0.5" y="3" width="59" height="76.5" rx="7" fill="#1f6450"/>
-<rect x="0.5" y="0.5" width="59" height="73" rx="7" fill="url(#f)" stroke="#cfc6b1"/>
-<rect x="2.5" y="2.5" width="55" height="69" rx="5.5" fill="none" stroke="#fff" stroke-opacity="0.8"/>
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 78" width="60" height="78" role="img" aria-label="${title}">
+<rect x="1.4" y="1.4" width="57.2" height="75.2" rx="6" fill="#fff" stroke="${C.ink}" stroke-width="2.4"/>
 ${body}
 </svg>
 `;
 }
 
-// ---------- 통수(筒子) ----------
-function coin(cx, cy, r, color) {
-  return [
-    `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${color}"/>`,
-    `<circle cx="${cx}" cy="${cy}" r="${(r * 0.8).toFixed(2)}" fill="${C.face}"/>`,
-    `<circle cx="${cx}" cy="${cy}" r="${(r * 0.62).toFixed(2)}" fill="${color}"/>`,
-    `<circle cx="${cx}" cy="${cy}" r="${(r * 0.36).toFixed(2)}" fill="${C.face}"/>`,
-    `<circle cx="${cx}" cy="${cy}" r="${(r * 0.18).toFixed(2)}" fill="${color}"/>`,
-  ].join('');
+// ---------- 만수(萬子): 숫자는 모두 크기 32, 萬은 39 ----------
+const NUM = ['', '一', '二', '三', '四', '伍', '六', '七', '八', '九'];
+const manzu = (n, aka = false) => glyphAt(NUM[n], 30, 19.5, 32, aka ? C.red : C.ink, 1.4) + glyphAt('萬', 30, 53.5, 39, C.red, 1.0);
+
+// ---------- 통수(筒子): 남색 고리 안에 점 8개 ----------
+function coin(cx, cy, r, c) {
+  const dots = Array.from({ length: 8 }, (_, k) => {
+    const a = (k * Math.PI) / 4;
+    return `<circle cx="${(cx + Math.cos(a) * r * 0.58).toFixed(2)}" cy="${(cy + Math.sin(a) * r * 0.58).toFixed(2)}" r="${(r * 0.165).toFixed(2)}" fill="${c}"/>`;
+  }).join('');
+  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c}"/>`
+    + `<circle cx="${cx}" cy="${cy}" r="${(r * 0.8).toFixed(2)}" fill="#fff"/>`
+    + dots
+    + `<circle cx="${cx}" cy="${cy}" r="${(r * 0.32).toFixed(2)}" fill="${c}"/>`
+    + `<circle cx="${cx}" cy="${cy}" r="${(r * 0.13).toFixed(2)}" fill="#fff"/>`;
 }
 
 function bigCoin() {
-  const cx = 30, cy = 37;
-  const petals = Array.from({ length: 12 }, (_, i) => {
-    const a = (i * Math.PI) / 6;
-    return `<circle cx="${(cx + Math.cos(a) * 15.5).toFixed(2)}" cy="${(cy + Math.sin(a) * 15.5).toFixed(2)}" r="2.1" fill="${C.red}"/>`;
+  const cx = 30, cy = 39;
+  const ring = (n, rr, size, fill) => Array.from({ length: n }, (_, k) => {
+    const a = (k * 2 * Math.PI) / n;
+    return `<circle cx="${(cx + Math.cos(a) * rr).toFixed(2)}" cy="${(cy + Math.sin(a) * rr).toFixed(2)}" r="${size}" fill="${fill}"/>`;
   }).join('');
-  return [
-    `<circle cx="${cx}" cy="${cy}" r="22" fill="${C.green}"/>`,
-    `<circle cx="${cx}" cy="${cy}" r="19.5" fill="${C.face}"/>`,
-    `<circle cx="${cx}" cy="${cy}" r="18" fill="none" stroke="${C.blue}" stroke-width="1.2"/>`,
-    petals,
-    `<circle cx="${cx}" cy="${cy}" r="11.5" fill="${C.blue}"/>`,
-    `<circle cx="${cx}" cy="${cy}" r="8.5" fill="${C.face}"/>`,
-    `<circle cx="${cx}" cy="${cy}" r="6.5" fill="${C.red}"/>`,
-    `<circle cx="${cx}" cy="${cy}" r="3" fill="${C.face}"/>`,
-    `<circle cx="${cx}" cy="${cy}" r="1.4" fill="${C.red}"/>`,
-  ].join('');
+  const petals = Array.from({ length: 8 }, (_, k) =>
+    `<ellipse cx="${cx}" cy="${cy - 6}" rx="2" ry="3.6" fill="${C.red}" transform="rotate(${k * 45} ${cx} ${cy})"/>`).join('');
+  return `<circle cx="${cx}" cy="${cy}" r="23" fill="${C.navy}"/>`
+    + ring(20, 20.2, 1.3, '#fff')
+    + `<circle cx="${cx}" cy="${cy}" r="17.5" fill="#fff"/>`
+    + `<circle cx="${cx}" cy="${cy}" r="15.5" fill="none" stroke="${C.navy}" stroke-width="1.4"/>`
+    + ring(12, 12.6, 1.6, C.navy)
+    + `<circle cx="${cx}" cy="${cy}" r="10" fill="none" stroke="${C.red}" stroke-width="1"/>`
+    + petals
+    + `<circle cx="${cx}" cy="${cy}" r="2.6" fill="${C.red}"/>`;
 }
 
-const B = C.blue, G = C.green, R = C.red;
+const N = C.navy, R = C.red;
 const PIN = {
-  2: [[30, 22, 12, G], [30, 52, 12, B]],
-  3: [[16, 17, 9.5, B], [30, 37, 9.5, R], [44, 57, 9.5, G]],
-  4: [[19, 23, 10, B], [41, 23, 10, G], [19, 51, 10, G], [41, 51, 10, B]],
-  5: [[17, 18, 9, B], [43, 18, 9, G], [30, 37, 9, R], [17, 56, 9, G], [43, 56, 9, B]],
-  6: [[19, 16, 8.3, G], [41, 16, 8.3, G], [19, 41, 8.3, R], [41, 41, 8.3, R], [19, 60, 8.3, R], [41, 60, 8.3, R]],
-  7: [[14, 12, 6.8, G], [30, 19, 6.8, G], [46, 26, 6.8, G], [19, 44, 7.6, R], [41, 44, 7.6, R], [19, 61, 7.6, R], [41, 61, 7.6, R]],
-  8: [20, 40].flatMap((x) => [13, 29, 45, 61].map((y) => [x, y, 7.2, B])),
-  9: [[15, B], [37, R], [59, G]].flatMap(([y, c]) => [14, 30, 46].map((x) => [x, y, 7.4, c])),
+  2: [[30, 21, 12, N], [30, 57, 12, N]],
+  3: [[16, 17, 10.2, N], [30, 39, 10.2, R], [44, 61, 10.2, N]],
+  4: [[18, 22, 11, N], [42, 22, 11, N], [18, 56, 11, N], [42, 56, 11, N]],
+  5: [[17, 17, 9.6, N], [43, 17, 9.6, N], [30, 39, 9.6, R], [17, 61, 9.6, N], [43, 61, 9.6, N]],
+  6: [[19, 15, 8.8, N], [41, 15, 8.8, N], [19, 42, 8.8, R], [41, 42, 8.8, R], [19, 62, 8.8, R], [41, 62, 8.8, R]],
+  7: [[14, 12.5, 7.4, N], [30, 19.5, 7.4, N], [46, 26.5, 7.4, N], [19, 45, 8.2, R], [41, 45, 8.2, R], [19, 63, 8.2, R], [41, 63, 8.2, R]],
+  8: [19, 41].flatMap((x) => [13, 30, 47, 64].map((y) => [x, y, 7.9, N])),
+  9: [[15, N], [39, R], [63, N]].flatMap(([y, c]) => [14, 30, 46].map((x) => [x, y, 7.7, c])),
 };
+const pinzu = (n, aka = false) => (n === 1 ? bigCoin() : PIN[n].map(([x, y, r, c]) => coin(x, y, r, aka ? R : c)).join(''));
 
-function pinzu(n, aka = false) {
-  if (n === 1) return bigCoin();
-  return PIN[n].map(([x, y, r, c]) => coin(x, y, r, aka ? R : c)).join('');
-}
-
-// ---------- 삭수(索子) ----------
+// ---------- 삭수(索子): 마디가 셋 있는 대나무 ----------
 function stick(cx, cy, h, color, angle = 0) {
-  const w = 7.6;
-  const top = -h / 2;
+  const dark = color === C.red ? C.redDark : C.greenDark;
+  const cap = (y) => `<rect x="-4.2" y="${y.toFixed(2)}" width="8.4" height="3.2" rx="1.6" fill="${color}" stroke="${dark}" stroke-width="0.7"/>`;
   return `<g transform="translate(${cx} ${cy}) rotate(${angle})">`
-    + `<rect x="${-w / 2}" y="${top}" width="${w}" height="${h}" rx="${w / 2}" fill="${color}"/>`
-    + `<rect x="${-w / 2}" y="${(-h / 6 - 0.6).toFixed(2)}" width="${w}" height="1.3" fill="${C.face}"/>`
-    + `<rect x="${-w / 2}" y="${(h / 6 - 0.6).toFixed(2)}" width="${w}" height="1.3" fill="${C.face}"/>`
-    + `<rect x="-0.55" y="${(top + 2.2).toFixed(2)}" width="1.1" height="${(h - 4.4).toFixed(2)}" rx="0.55" fill="${C.face}" fill-opacity="0.55"/>`
+    + `<rect x="-2.8" y="${(-h / 2 + 1.5).toFixed(2)}" width="5.6" height="${(h - 3).toFixed(2)}" fill="${color}" stroke="${dark}" stroke-width="0.7"/>`
+    + cap(-h / 2) + cap(-1.6) + cap(h / 2 - 3.2)
+    + `<path d="M0 ${(-h / 2 + 4).toFixed(2)} V -2.6 M0 2.6 V ${(h / 2 - 4).toFixed(2)}" stroke="#fff" stroke-width="1.1" stroke-linecap="round" opacity="0.8"/>`
     + `</g>`;
 }
-
+const G = C.green;
 const SOU = {
-  2: [[30, 21, 27, G], [30, 53, 27, G]],
-  3: [[30, 21, 27, G], [19, 53, 27, G], [41, 53, 27, G]],
-  4: [[19, 21, 27, G], [41, 21, 27, G], [19, 53, 27, G], [41, 53, 27, G]],
-  5: [[15, 21, 27, G], [45, 21, 27, G], [30, 37, 24, R], [15, 53, 27, G], [45, 53, 27, G]],
-  6: [14, 30, 46].flatMap((x) => [[x, 21, 27, G], [x, 53, 27, G]]),
-  7: [[30, 14, 18, R], ...[14, 30, 46].flatMap((x) => [[x, 37, 18, G], [x, 59, 18, G]])],
+  2: [[30, 21, 27, G], [30, 57, 27, G]],
+  3: [[30, 21, 27, G], [19, 57, 27, G], [41, 57, 27, G]],
+  4: [[19, 21, 27, G], [41, 21, 27, G], [19, 57, 27, G], [41, 57, 27, G]],
+  5: [[15, 21, 27, G], [45, 21, 27, G], [30, 39, 22, R], [15, 57, 27, G], [45, 57, 27, G]],
+  6: [14, 30, 46].flatMap((x) => [[x, 21, 27, G], [x, 57, 27, G]]),
+  7: [[30, 14, 19, R], ...[14, 30, 46].flatMap((x) => [[x, 39, 19, G], [x, 61.5, 19, G]])],
+  // 8삭: 양옆은 세운 막대, 위 가운데는 ∧, 아래 가운데는 ∨
   8: [
-    [9, 21, 27, G, 0], [23, 21, 27, G, 20], [37, 21, 27, G, -20], [51, 21, 27, G, 0],
-    [9, 53, 27, G, 0], [23, 53, 27, G, -20], [37, 53, 27, G, 20], [51, 53, 27, G, 0],
+    [12, 23, 26, G], [48, 23, 26, G], [12, 56, 26, G], [48, 56, 26, G],
+    [24, 24.5, 25, G, 29.7], [36, 24.5, 25, G, -29.7],
+    [24, 55.5, 25, G, -29.7], [36, 55.5, 25, G, 29.7],
   ],
-  9: [14, 37, 60].flatMap((y) => [[14, y, 19, G], [30, y, 19, R], [46, y, 19, G]]),
+  9: [16, 39, 62].flatMap((y) => [[14, y, 20, G], [30, y, 20, R], [46, y, 20, G]]),
 };
 
-// 1삭은 새 그림
-function bird() {
-  const pivot = [36, 47];
-  const feathers = [-55, -28, 0, 28, 55].map((a, i) => {
-    const c = i % 2 ? C.blue : C.green;
-    return `<g transform="rotate(${a} ${pivot[0]} ${pivot[1]})">`
-      + `<ellipse cx="36" cy="27" rx="5.6" ry="14" fill="${c}"/>`
-      + `<circle cx="36" cy="19" r="3" fill="${C.face}"/><circle cx="36" cy="19" r="1.7" fill="${C.red}"/>`
-      + `</g>`;
+// 1삭: 정면을 보는 공작 — 회색 볏 깃털, 눈무늬가 있는 둥근 초록 꼬리, 양쪽 날개, 빨간 다리
+function peacock() {
+  const cx = 30, cy = 31;
+  const g = C.green, dk = C.greenDark;
+  const spikes = Array.from({ length: 23 }, (_, i) => {
+    const a = (-172 + i * (164 / 22)) * Math.PI / 180;
+    const len = [23, 20.5, 22][i % 3];
+    const p = (r, da) => `${(cx + Math.cos(a + da) * r).toFixed(2)} ${(cy + Math.sin(a + da) * r).toFixed(2)}`;
+    return `<path d="M${p(12, -0.09)} L${p(len, 0)} L${p(12, 0.09)} Z" fill="${i % 2 ? '#7d8185' : '#55595d'}"/>`;
   }).join('');
-  return [
-    feathers,
-    `<ellipse cx="27" cy="51" rx="12" ry="9.5" fill="${C.green}"/>`,
-    `<path d="M20 52 Q27 58 36 50" fill="none" stroke="${C.face}" stroke-width="1.3" stroke-linecap="round"/>`,
-    `<path d="M18 46 Q14 40 16 33" fill="none" stroke="${C.green}" stroke-width="6" stroke-linecap="round"/>`,
-    `<circle cx="16" cy="32" r="5.6" fill="${C.red}"/>`,
-    `<circle cx="14.6" cy="31" r="1.3" fill="${C.face}"/>`,
-    `<path d="M11 31.2 L4.5 33.6 L11 35 Z" fill="${C.gold}"/>`,
-    `<path d="M24 60 L22 68 M30 60 L31 68" stroke="${C.ink}" stroke-width="1.8" stroke-linecap="round"/>`,
-  ].join('');
+  const eyes = [[26, 23.5], [34, 23.5], [19.5, 28.5], [26.5, 28.5], [33.5, 28.5], [40.5, 28.5],
+    [19.5, 34], [26.5, 34], [33.5, 34], [40.5, 34], [26, 39.5], [34, 39.5]]
+    .map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.5" fill="#fff"/><circle cx="${x}" cy="${y}" r="1.05" fill="#222"/>`).join('');
+  const wingLines = (s) => [[-6, -6], [-7.5, -3], [-8, 0], [-7.5, 3], [-6, 5.5]].map(([dx, dy]) =>
+    `<path d="M${30 + s * 7} 46 q${s * -3} ${dy * 0.3} ${s * dx * 1.6} ${dy}" stroke="${g}" stroke-width="1.5" fill="none" stroke-linecap="round"/>`).join('');
+  const wing = (s) => {
+    const x0 = 30 + s * 2, x1 = 30 + s * 21;
+    return `<path d="M${x0} 61 L${x0} 50 Q${30 + s * 14} 47 ${x1} 61 Z" fill="${g}" stroke="${dk}" stroke-width="0.6"/>`
+      + [0.3, 0.55, 0.8].map((t) => `<path d="M${x0} 60 L${(x0 + (x1 - x0) * t).toFixed(1)} ${(50 + t * 6).toFixed(1)}" stroke="#fff" stroke-width="0.8"/>`).join('');
+  };
+  return spikes
+    + `<ellipse cx="${cx}" cy="${cy + 0.5}" rx="16" ry="13.5" fill="${g}" stroke="${dk}" stroke-width="0.6"/>`
+    + eyes
+    + wingLines(-1) + wingLines(1)
+    + wing(-1) + wing(1)
+    + `<path d="M26.5 45 Q30 42 33.5 45 L33 60 Q30 62 27 60 Z" fill="${g}" stroke="${dk}" stroke-width="0.6"/>`
+    + `<path d="M28 49 L30 52 L32 49 M28 54 L30 57 L32 54" stroke="#fff" stroke-width="0.8" fill="none"/>`
+    + `<circle cx="24.5" cy="46.5" r="2.4" fill="${g}"/><circle cx="24" cy="46" r="0.6" fill="#fff"/>`
+    + `<path d="M22.4 46 L19.2 47.4 L22.4 47.8 Z" fill="${C.red}"/>`
+    + `<path d="M27.5 61.5 V68.5 M32.5 61.5 V68.5 M27.5 68.5 l-3.4 1.4 M27.5 68.5 l1.6 1.8 M32.5 68.5 l-3.4 1.4 M32.5 68.5 l1.6 1.8" stroke="${C.red}" stroke-width="1.5" stroke-linecap="round" fill="none"/>`;
 }
+const souzu = (n, aka = false) => (n === 1 ? peacock() : SOU[n].map(([x, y, h, c, a = 0]) => stick(x, y, h, aka ? R : c, a)).join(''));
 
-function souzu(n, aka = false) {
-  if (n === 1) return bird();
-  return SOU[n].map(([x, y, h, c, a = 0]) => stick(x, y, h, aka ? R : c, a)).join('');
-}
-
-// ---------- 만수(萬子) ----------
-const NUM = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
-function manzu(n, aka = false) {
-  const numBox = { x: 13, y: 7, w: 34, h: n === 1 ? 20 : 27 };
-  if (n === 1) numBox.y = 14;
-  return glyph(NUM[n], numBox, aka ? R : C.ink, 900) + glyph('萬', { x: 9, y: 39, w: 42, h: 30 }, R, 700);
-}
-
-// ---------- 자패(字牌) ----------
-const HONORS = [
-  ['東', C.ink], ['南', C.ink], ['西', C.ink], ['北', C.ink], ['白', null], ['發', C.green], ['中', C.red],
-];
-function honor(i) {
-  const [ch, color] = HONORS[i - 1];
-  if (!color) {
-    return `<rect x="12" y="13" width="36" height="48" rx="3" fill="none" stroke="${C.blue}" stroke-width="3"/>`
-      + `<rect x="17" y="18" width="26" height="38" rx="1.5" fill="none" stroke="${C.blue}" stroke-width="1.2"/>`;
-  }
-  return glyph(ch, { x: 8, y: 9, w: 44, h: 56 }, color, 900);
-}
+// ---------- 자패(字牌): 모두 크기 50, 白은 빈 패 ----------
+const HON = [['東', C.ink], ['南', C.ink], ['西', C.ink], ['北', C.ink], [null], ['發', C.green], ['中', C.red]];
+const honor = (i) => {
+  const [ch, c] = HON[i - 1];
+  return ch ? glyphAt(ch, 30, 39, 50, c, 1.3) : '';
+};
 
 // ---------- 패 뒷면 ----------
-function back() {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 80" width="60" height="80" role="img" aria-label="패 뒷면">
-<rect x="0.5" y="3" width="59" height="76.5" rx="7" fill="#e9e1cd"/>
-<rect x="0.5" y="0.5" width="59" height="73" rx="7" fill="#1f6450" stroke="#164a3b"/>
-<rect x="5" y="5" width="50" height="64" rx="4" fill="none" stroke="#fff" stroke-opacity="0.18"/>
+const back = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 78" width="60" height="78" role="img" aria-label="패 뒷면">
+<rect x="1.4" y="1.4" width="57.2" height="75.2" rx="6" fill="#1f6450" stroke="${C.ink}" stroke-width="2.4"/>
+<rect x="6" y="6" width="48" height="66" rx="3.5" fill="none" stroke="#fff" stroke-opacity="0.22"/>
 </svg>
 `;
-}
 
 // ---------- 저장 ----------
 fs.mkdirSync(outDir, { recursive: true });

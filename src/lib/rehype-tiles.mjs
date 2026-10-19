@@ -7,7 +7,7 @@ function textOf(node) {
 }
 
 function tileNode(t) {
-  return { type: 'element', tagName: 'img', properties: { className: ['tile'], src: tileSrc(t), alt: '', width: 60, height: 80 }, children: [] };
+  return { type: 'element', tagName: 'img', properties: { className: ['tile'], src: tileSrc(t), alt: '', width: 60, height: 78 }, children: [] };
 }
 
 export default function rehypeTiles() {

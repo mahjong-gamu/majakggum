@@ -20,7 +20,7 @@ const posts = await getBoardPosts(key);
         <h1 class="display" style={`color:${board.ink}`}>{board.label}</h1>
         <p>{board.desc}</p>
       </div>
-      <img class="hero__wind" src={`/tiles/${board.wind}.svg`} alt="" width="60" height="80" />
+      <img class="hero__wind" src={`/tiles/${board.wind}.svg`} alt="" width="60" height="78" />
     </section>
     {posts.length > 0 ? (
       <div class="grid">
