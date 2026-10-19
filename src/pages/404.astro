@@ -2,9 +2,21 @@
 import Base from '../layouts/Base.astro';
 ---
 <Base title="페이지를 찾을 수 없어요">
-  <div class="wrap" style="padding-top:96px;display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center">
-    <h1 class="serif" style="margin:0;font-size:40px">유국입니다</h1>
-    <p class="muted" style="margin:0">찾으시는 페이지가 없어요. 주소를 다시 확인해 주세요.</p>
+  <div class="wrap nf">
+    <div class="backs" aria-hidden="true">
+      {Array.from({ length: 4 }, () => <img src="/tiles/back.svg" alt="" width="60" height="80" />)}
+    </div>
+    <h1 class="display">유국입니다</h1>
+    <p class="muted">찾으시는 페이지가 없어요. 주소를 다시 확인해 주세요.</p>
     <a class="btn btn--dark" href="/">홈으로</a>
   </div>
 </Base>
+
+<style>
+  .nf { padding-top: 96px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
+  .backs { display: flex; gap: 3px; margin-bottom: 8px; }
+  .backs img { width: 40px; filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.18)); }
+  .backs img:nth-child(odd) { transform: rotate(-3deg); }
+  h1 { margin: 0; font-size: clamp(36px, 5vw, 48px); font-weight: 800; letter-spacing: -0.04em; }
+  p { margin: 0; }
+</style>

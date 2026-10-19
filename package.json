@@ -5,7 +5,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "tiles": "node scripts/gen-tiles.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.3",
@@ -15,5 +16,9 @@
   "private": true,
   "engines": {
     "node": ">=22.22.0"
+  },
+  "devDependencies": {
+    "@fontsource/noto-serif-jp": "^5.3.1",
+    "opentype.js": "^2.0.0"
   }
 }

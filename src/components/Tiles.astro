@@ -1,5 +1,5 @@
 ---
-import { parseTiles } from '../lib/tiles.mjs';
+import { parseTiles, tileSrc } from '../lib/tiles.mjs';
 
 interface Props {
   tiles?: string;
@@ -10,13 +10,10 @@ interface Props {
 const { tiles = '', draw, size = 'lg', label } = Astro.props;
 const list = parseTiles(tiles);
 const drawList = draw ? parseTiles(draw) : [];
+const names = (l: { name: string }[]) => l.map((t) => t.name).join(' ');
 ---
-<div class={`tiles tiles--${size}`} role="img" aria-label={label ?? `패 ${tiles}${draw ? ` 쯔모 ${draw}` : ''}`}>
-  {list.map((t) => (
-    <span class={`tile tile--${t.tone}`} aria-hidden="true">{t.face}{t.suit && <small>{t.suit}</small>}</span>
-  ))}
+<div class={`tiles tiles--${size}`} role="img" aria-label={label ?? `패 ${names(list)}${drawList.length ? `, 쯔모 ${names(drawList)}` : ''}`}>
+  {list.map((t) => <img class="tile" src={tileSrc(t)} alt="" width="60" height="80" />)}
   {drawList.length > 0 && <span class="tile-gap" aria-hidden="true"></span>}
-  {drawList.map((t) => (
-    <span class={`tile tile--${t.tone}`} aria-hidden="true">{t.face}{t.suit && <small>{t.suit}</small>}</span>
-  ))}
+  {drawList.map((t) => <img class="tile tile--draw" src={tileSrc(t)} alt="" width="60" height="80" />)}
 </div>

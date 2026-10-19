@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 80" width="60" height="80" role="img" aria-label="중">
+<defs><linearGradient id="f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffefa"/><stop offset="1" stop-color="#f1eadb"/></linearGradient></defs>
+<rect x="0.5" y="3" width="59" height="76.5" rx="7" fill="#1f6450"/>
+<rect x="0.5" y="0.5" width="59" height="73" rx="7" fill="url(#f)" stroke="#cfc6b1"/>
+<rect x="2.5" y="2.5" width="55" height="69" rx="5.5" fill="none" stroke="#fff" stroke-opacity="0.8"/>
+<path fill="#c5302a" transform="translate(3.95 55.97) scale(0.5000)" d="M23.4-30.4L23.4-25.2Q23.4-24.5 21.5-23.3Q19.5-22.1 16.5-21.2Q13.5-20.3 10.3-20.3L8.1-20.3L8.1-69.1L24.5-62.9L42.2-62.9L42.2-85.4L61.4-83.6Q61.3-82.6 60.6-81.8Q59.8-81 57.7-80.7L57.7-62.9L75.8-62.9L82.4-70.2L96.1-59.8Q95.7-59.2 94.8-58.6Q93.8-57.9 92.2-57.6L92.2-25.4Q92.2-25 90-24.2Q87.8-23.4 84.9-22.7Q81.9-22 79.4-22L76.7-22L76.7-30.4L57.7-30.4L57.7 4.2Q57.7 4.9 55.8 6.2Q53.9 7.5 51 8.5Q48.1 9.5 45.1 9.5L42.2 9.5L42.2-30.4L23.4-30.4M76.7-60.1L57.7-60.1L57.7-33.2L76.7-33.2L76.7-60.1M23.4-33.2L42.2-33.2L42.2-60.1L23.4-60.1"/>
+</svg>

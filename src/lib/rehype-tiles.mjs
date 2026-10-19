@@ -1,5 +1,5 @@
 // 마크다운 본문에서 `3456m234p067s` 처럼 백틱으로 감싼 패 표기를 패 그림으로 바꿉니다.
-import { parseTiles, TILE_PATTERN } from './tiles.mjs';
+import { parseTiles, tileSrc, TILE_PATTERN } from './tiles.mjs';
 
 function textOf(node) {
   if (node.type === 'text') return node.value;
@@ -7,11 +7,7 @@ function textOf(node) {
 }
 
 function tileNode(t) {
-  const children = [{ type: 'text', value: t.face }];
-  if (t.suit) {
-    children.push({ type: 'element', tagName: 'small', properties: {}, children: [{ type: 'text', value: t.suit }] });
-  }
-  return { type: 'element', tagName: 'span', properties: { className: ['tile', `tile--${t.tone}`] }, children };
+  return { type: 'element', tagName: 'img', properties: { className: ['tile'], src: tileSrc(t), alt: '', width: 60, height: 80 }, children: [] };
 }
 
 export default function rehypeTiles() {
@@ -26,7 +22,7 @@ export default function rehypeTiles() {
             return {
               type: 'element',
               tagName: 'span',
-              properties: { className: ['tiles', 'tiles--inline'], role: 'img', ariaLabel: `패 ${text}` },
+              properties: { className: ['tiles', 'tiles--inline'], role: 'img', ariaLabel: `패 ${tiles.map((t) => t.name).join(' ')}` },
               children: tiles.map(tileNode),
             };
           }

@@ -10,6 +10,8 @@ src/content/theory/    이론 공부 글
 src/content/visits/    마장 탐방 글
 src/content/news/      마작 뉴스 글
 public/images/         사진 (글에서는 /images/... 로 씀)
+public/tiles/          마작패 그림 (SVG)
+scripts/gen-tiles.mjs  마작패 그림을 만드는 스크립트
 templates/             새 글 쓸 때 복사할 양식
 src/lib/boards.ts      게시판 이름·소개·색상
 src/styles/global.css  전체 색상·글꼴
@@ -30,6 +32,9 @@ src/styles/global.css  전체 색상·글꼴
 
 `3456m234p067s88p9s` — m=萬, p=筒, s=索, z=자패(1z~7z = 東南西北白發中), 0=적5.
 본문에서 백틱(`` ` ``)으로 감싸면 패 그림으로 바뀝니다.
+
+패 그림은 `public/tiles/` 의 SVG 파일(`1m.svg` … `7z.svg`, `0m/0p/0s.svg` = 적5, `back.svg` = 뒷면)입니다.
+`scripts/gen-tiles.mjs` 로 만든 것이라, 색이나 모양을 바꾸려면 그 파일을 고친 뒤 `npm run tiles` 를 실행하세요.
 
 ### 임시 저장
 

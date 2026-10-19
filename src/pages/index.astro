@@ -9,90 +9,101 @@ const all = await getAllPosts();
 const latest = all.slice(0, 6);
 const counts = Object.fromEntries(await Promise.all(BOARDS.map(async (b) => [b.key, (await getBoardPosts(b.key)).length])));
 
-// 배너 카드에는 가장 최근 패보 복기 글의 첫 번째 주요 국면을 보여줍니다.
+// 첫 화면 매트 위에는 가장 최근 패보 복기 글의 첫 번째 주요 국면을 올립니다.
 const reviews = await getBoardPosts('reviews');
 const featured = reviews[0]?.entry;
 const moment = featured?.data.moments?.[0];
 const aiPick = moment?.candidates.find((c: any) => c.pick === 'ai' || c.pick === 'both');
 const myPick = moment?.candidates.find((c: any) => c.pick === 'me' || c.pick === 'both');
+
+const steps = [
+  { no: '01', title: '대국 중 내 판단', text: '그 순간 무엇을 보고, 왜 그 패를 골랐는지 먼저 적습니다.' },
+  { no: '02', title: 'Mortal의 판단', text: '후보별 확률과 내 선택 사이의 차이를 숫자로 확인합니다.' },
+  { no: '03', title: '복기 후 생각', text: '다음 대국에서 의식할 것 하나만 남깁니다.' },
+];
 ---
 <Base>
-  <div class="wrap home">
-    <section class="banner" aria-labelledby="banner-title">
-      <span class="pill">작혼 패보 × Mortal 복기 블로그</span>
-      <h1 id="banner-title" class="serif">한 판 치고, 한 번 더<br />생각해보는 마작</h1>
-      <p class="lead">
-        마작치는 마작껌은 제가 친 작혼 대국을 Mortal과 함께 다시 보는 곳입니다. 주요 국면에서 왜 그렇게 쳤는지, AI는 무엇을 골랐는지 기록하고,
-        공부한 이론과 다녀온 마장, 마작 소식도 함께 올립니다.
-      </p>
-      <div class="actions">
-        <a class="btn btn--dark" href="/reviews/">최근 복기 보기</a>
-        <a class="btn btn--light" href="/theory/">이론 공부 둘러보기</a>
-      </div>
+  <div class="home">
+    <section class="wrap hero-wrap" aria-labelledby="hero-title">
+      <div class="felt hero">
+        <div class="hero__text">
+          <span class="eyebrow hero__eyebrow">작혼 패보 × Mortal 복기</span>
+          <h1 id="hero-title" class="display">한 판 치고,<br />한 번 더 생각하는<br />마작</h1>
+          <p class="lead">
+            제가 친 작혼 대국을 Mortal과 함께 다시 봅니다. 주요 국면에서 왜 그렇게 쳤는지, AI는 무엇을 골랐는지 기록하고
+            공부한 이론과 다녀온 마장, 마작 소식도 함께 올립니다.
+          </p>
+          <div class="actions">
+            <a class="btn btn--ivory" href="/reviews/">최근 복기 보기</a>
+            <a class="btn btn--ghost" href="/theory/">이론 공부 둘러보기</a>
+          </div>
+        </div>
 
-      <div class="banner-cards">
-        {featured && moment ? (
-          <a class="panel feature" href={postUrl('reviews', featured.id)}>
-            <div class="feature__head">
-              <span class="avatar mono" aria-hidden="true">AI</span>
-              <div>
-                <strong>Mortal이 {moment.label.split('·')[0].trim()}을 다시 봤어요</strong>
-                <span class="muted small">{featured.data.meta}</span>
-              </div>
+        {featured && moment && (
+          <a class="table" href={postUrl('reviews', featured.id)} aria-label={`최근 복기: ${featured.data.title}`}>
+            <div class="table__meta">
+              <span class="mono">{moment.label}</span>
+              <span class="table__sub">{featured.data.meta}</span>
             </div>
-            <Tiles tiles={moment.hand} draw={moment.draw} size="sm" />
-            <div class="pick-grid">
+            <div class="table__hand">
+              <Tiles tiles={moment.hand} draw={moment.draw} size="lg" />
+            </div>
+            <div class="picks">
               {myPick && (
                 <div class="pick pick--me">
                   <span class="pick__who">내 선택</span>
                   <span class="pick__what">{myPick.action}</span>
-                  <span class="mono muted small">{myPick.prob}%</span>
+                  <span class="pick__bar"><i style={`width:${myPick.prob}%`}></i></span>
+                  <span class="mono pick__p">{myPick.prob}%</span>
                 </div>
               )}
               {aiPick && (
                 <div class="pick pick--ai">
                   <span class="pick__who">Mortal 추천</span>
                   <span class="pick__what">{aiPick.action}</span>
-                  <span class="mono muted small">{aiPick.prob}%</span>
+                  <span class="pick__bar"><i style={`width:${aiPick.prob}%`}></i></span>
+                  <span class="mono pick__p">{aiPick.prob}%</span>
                 </div>
               )}
             </div>
+            <span class="table__more">복기 읽기 →</span>
           </a>
-        ) : null}
-
-        <div class="panel record">
-          <strong>복기에서 남기는 것</strong>
-          <div class="record__row">
-            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F6B4F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M7.5 12.5l3 3 6-6.5"></path></svg>
-            <div><strong>대국 중 내 판단</strong><span class="muted">그 순간 무엇을 보고, 왜 그 패를 골랐는지</span></div>
-          </div>
-          <div class="record__row">
-            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2F5BA8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="8" rx="1"></rect><rect x="10" y="7" width="4" height="13" rx="1"></rect><rect x="17" y="3" width="4" height="17" rx="1"></rect></svg>
-            <div><strong>Mortal의 판단</strong><span class="muted">후보별 확률과 내 선택과의 차이</span></div>
-          </div>
-          <div class="record__row">
-            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9C4A17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-4-4L4 16v4z"></path></svg>
-            <div><strong>복기 후 생각</strong><span class="muted">다음 대국에서 의식할 한 가지</span></div>
-          </div>
-        </div>
+        )}
       </div>
     </section>
 
-    <section class="block" aria-labelledby="boards-title">
-      <h2 id="boards-title" class="section-title">게시판</h2>
+    <section class="wrap steps" aria-label="복기에서 남기는 것">
+      {steps.map((s) => (
+        <div class="step">
+          <span class="mono step__no">{s.no}</span>
+          <strong class="step__title">{s.title}</strong>
+          <p class="step__text">{s.text}</p>
+        </div>
+      ))}
+    </section>
+
+    <section class="wrap block" aria-labelledby="boards-title">
+      <div class="section-head">
+        <h2 id="boards-title" class="section-title">게시판</h2>
+        <span class="eyebrow">Boards</span>
+      </div>
       <div class="boards">
         {BOARDS.map((b) => (
-          <a class="board-tile" href={`/${b.key}/`} style={`background:${b.tint}`}>
-            <span class="board-tile__name" style={`color:${b.ink}`}>{b.label}</span>
-            <span class="board-tile__short">{b.short}</span>
-            <span class="board-tile__count mono">글 {counts[b.key]}개 →</span>
+          <a class="board" href={`/${b.key}/`} style={`--tint:${b.tint};--ink-b:${b.ink}`}>
+            <img class="board__wind" src={`/tiles/${b.wind}.svg`} alt="" width="60" height="80" />
+            <span class="board__name">{b.label}</span>
+            <span class="board__short">{b.short}</span>
+            <span class="board__count mono">글 {counts[b.key]}개 →</span>
           </a>
         ))}
       </div>
     </section>
 
-    <section class="block" aria-labelledby="latest-title">
-      <h2 id="latest-title" class="section-title">최신 글</h2>
+    <section class="wrap block" aria-labelledby="latest-title">
+      <div class="section-head">
+        <h2 id="latest-title" class="section-title">최신 글</h2>
+        <span class="eyebrow">Latest</span>
+      </div>
       {latest.length > 0 ? (
         <div class="grid">
           {latest.map(({ board, entry }) => <PostCard board={board} entry={entry} />)}
@@ -105,45 +116,72 @@ const myPick = moment?.candidates.find((c: any) => c.pick === 'me' || c.pick ===
 </Base>
 
 <style>
-  .home { display: flex; flex-direction: column; gap: 80px; }
-  .banner { padding-top: 72px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px; }
-  .pill { font-size: 14px; font-weight: 500; padding: 8px 16px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); color: var(--muted); }
-  h1 { margin: 0; font-size: clamp(36px, 6.4vw, 76px); line-height: 1.18; letter-spacing: -0.03em; max-width: 920px; }
-  .lead { margin: 0; font-size: 18px; line-height: 1.75; color: var(--muted); max-width: 640px; }
-  .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-  .banner-cards { width: 100%; max-width: 980px; margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 20px; text-align: left; }
-  .banner-cards .panel { border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 18px; }
-  .feature { text-decoration: none; color: var(--ink); }
-  .feature:hover { color: var(--ink); border-color: var(--line-2); }
-  .feature__head { display: flex; align-items: center; gap: 12px; }
-  .feature__head div { display: flex; flex-direction: column; gap: 2px; }
-  .avatar { width: 40px; height: 40px; flex: none; border-radius: 50%; background: var(--green); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; }
-  .small { font-size: 13px; }
-  .pick-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .pick { border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
-  .pick--me { background: var(--red-tint); }
-  .pick--ai { background: #e3efe8; }
-  .pick__who { font-size: 13px; font-weight: 700; }
-  .pick--me .pick__who { color: var(--red-ink); }
-  .pick--ai .pick__who { color: var(--green); }
-  .pick__what { font-size: 17px; font-weight: 700; }
-  .record { gap: 16px !important; }
-  .record__row { display: flex; gap: 12px; align-items: flex-start; }
-  .record__row svg { flex: none; margin-top: 2px; }
-  .record__row div { display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
-  .record__row .muted { font-size: 14px; line-height: 1.65; }
-  .block { display: flex; flex-direction: column; gap: 20px; }
-  .boards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 14px; }
-  .board-tile { border-radius: 24px; padding: 22px 24px; display: flex; flex-direction: column; gap: 8px; min-height: 140px; text-decoration: none; color: var(--ink); transition: transform 0.15s ease; }
-  .board-tile:hover { color: var(--ink); transform: translateY(-2px); }
-  .board-tile__name { font-size: 19px; font-weight: 700; }
-  .board-tile__short { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
-  .board-tile__count { margin-top: auto; font-size: 13px; color: var(--ink-2); }
+  .home { display: flex; flex-direction: column; gap: 72px; padding-top: 28px; }
+  .home > .wrap { width: 100%; }
+
+  /* 첫 화면: 펠트 매트 */
+  .hero { border-radius: 28px; padding: clamp(28px, 5vw, 64px); display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); align-items: center; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 30px 60px -40px rgba(16, 54, 44, 0.8); }
+  .hero__text { display: flex; flex-direction: column; gap: 22px; }
+  .hero__eyebrow { color: var(--felt-muted); }
+  h1 { margin: 0; font-size: clamp(38px, 5.6vw, 68px); line-height: 1.12; letter-spacing: -0.045em; font-weight: 800; color: #fbf8f0; }
+  .lead { margin: 0; font-size: 17px; line-height: 1.8; color: var(--felt-muted); max-width: 520px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+
+  .table { display: flex; flex-direction: column; gap: 22px; text-decoration: none; color: var(--felt-ink); padding: clamp(20px, 3vw, 28px); border-radius: 20px; background: rgba(8, 30, 24, 0.32); border: 1px solid rgba(243, 239, 228, 0.12); transition: background 0.2s ease, transform 0.2s ease; }
+  .table:hover { color: var(--felt-ink); background: rgba(8, 30, 24, 0.45); transform: translateY(-2px); }
+  .table__meta { display: flex; flex-direction: column; gap: 2px; }
+  .table__meta .mono { font-family: var(--sans); font-size: 15px; font-weight: 700; color: #fff; }
+  .table__sub { font-size: 13px; color: var(--felt-muted); }
+  .table__hand { padding-top: 8px; }
+  .table__hand :global(.tile) { filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.35)); }
+  .picks { display: flex; flex-direction: column; gap: 10px; }
+  .pick { display: grid; grid-template-columns: 82px minmax(0, 1fr) 54px; grid-template-areas: 'who what p' 'who bar p'; align-items: center; column-gap: 12px; row-gap: 6px; }
+  .pick__who { grid-area: who; font-size: 12px; font-weight: 700; color: var(--felt-muted); }
+  .pick__what { grid-area: what; font-size: 15px; font-weight: 700; }
+  .pick__bar { grid-area: bar; height: 6px; border-radius: 3px; background: rgba(243, 239, 228, 0.14); overflow: hidden; }
+  .pick__bar i { display: block; height: 100%; border-radius: 3px; }
+  .pick--me .pick__bar i { background: var(--me); }
+  .pick--ai .pick__bar i { background: #8fd3ad; }
+  .pick__p { grid-area: p; text-align: right; font-size: 14px; font-weight: 600; }
+  .table__more { align-self: flex-end; font-size: 13px; font-weight: 700; color: #f0d9a8; }
+
+  /* 복기에서 남기는 것 */
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+  .step { display: flex; flex-direction: column; gap: 6px; padding: 4px 28px; border-left: 1px solid var(--line-2); }
+  .step:first-child { border-left: 0; padding-left: 0; }
+  .step__no { font-size: 13px; font-weight: 600; color: var(--red); }
+  .step__title { font-family: var(--display); font-size: 20px; letter-spacing: -0.02em; }
+  .step__text { margin: 0; font-size: 15px; line-height: 1.7; color: var(--muted); }
+
+  /* 게시판 */
+  .block { display: flex; flex-direction: column; gap: 24px; }
+  .boards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .board { position: relative; overflow: hidden; border-radius: var(--r-lg); padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 8px; min-height: 196px; text-decoration: none; color: var(--ink); background: var(--tint); border: 1px solid rgba(0, 0, 0, 0.04); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .board:hover { color: var(--ink); transform: translateY(-3px); box-shadow: var(--shadow); }
+  .board__wind { width: 40px; margin-bottom: 8px; transform: rotate(-5deg); filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.15)); transition: transform 0.25s ease; }
+  .board:hover .board__wind { transform: rotate(0deg) translateY(-3px); }
+  .board__name { font-family: var(--display); font-size: 21px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink-b); }
+  .board__short { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+  .board__count { margin-top: auto; padding-top: 6px; font-size: 12px; font-weight: 600; color: var(--ink-b); }
+
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: minmax(0, 1fr); }
+    .boards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
   @media (max-width: 640px) {
-    .home { gap: 56px; }
-    .banner { padding-top: 44px; }
+    .home { gap: 52px; padding-top: 16px; }
+    .hero-wrap { padding: 0 12px; }
+    .hero { border-radius: 22px; padding: 28px 20px; }
     .lead { font-size: 16px; }
-    .banner-cards { margin-top: 12px; }
-    .banner-cards .panel { padding: 22px; }
+    .table { padding: 18px 14px; }
+    .steps { grid-template-columns: 1fr; gap: 18px; }
+    .step, .step:first-child { border-left: 0; padding: 0 0 18px; border-bottom: 1px solid var(--line); }
+    .step:last-child { border-bottom: 0; padding-bottom: 0; }
+    .boards { grid-template-columns: 1fr; }
+    .board { min-height: 0; display: grid; grid-template-columns: 44px minmax(0, 1fr); grid-template-areas: 'wind name' 'wind short' 'wind count'; column-gap: 16px; row-gap: 4px; padding: 18px; }
+    .board__wind { grid-area: wind; margin: 0; width: 40px; align-self: start; }
+    .board__name { grid-area: name; font-size: 19px; }
+    .board__short { grid-area: short; }
+    .board__count { grid-area: count; padding-top: 4px; }
   }
 </style>

@@ -29,7 +29,7 @@ const hasBody = Boolean(entry.body && entry.body.trim());
         <span class="chip" style={`background:${board.tint};color:${board.ink}`}>{board.label}</span>
         <span class="date">{formatDate(d.date)}{d.meta && ` · ${d.meta}`}</span>
       </div>
-      <h1 class="serif">{d.title}</h1>
+      <h1 class="display">{d.title}</h1>
       <p class="excerpt">{d.excerpt}</p>
       {(d.source || d.place) && (
         <div class="extra">
@@ -54,13 +54,13 @@ const hasBody = Boolean(entry.body && entry.body.trim());
 
 <style>
   .post { display: flex; flex-direction: column; gap: 48px; padding-top: 40px; }
-  .head { display: flex; flex-direction: column; gap: 16px; max-width: 860px; }
+  .head { display: flex; flex-direction: column; gap: 16px; max-width: 860px; padding-bottom: 36px; border-bottom: 1px solid var(--line); }
   .back { align-self: flex-start; font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
   .back:hover { color: var(--ink); }
   .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
   .meta .chip { font-size: 13px; padding: 5px 12px; }
   .meta .date { font-size: 13px; }
-  h1 { margin: 0; font-size: clamp(30px, 4.4vw, 50px); line-height: 1.25; letter-spacing: -0.03em; }
+  h1 { margin: 0; font-size: clamp(30px, 4.4vw, 52px); line-height: 1.22; letter-spacing: -0.04em; font-weight: 800; }
   .excerpt { margin: 0; font-size: 17px; line-height: 1.75; color: var(--muted); }
   .extra { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: var(--muted); }
   .cover { width: 100%; max-width: 960px; max-height: 520px; object-fit: cover; border-radius: 24px; }
