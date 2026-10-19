@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PostCard from '../components/PostCard.astro';
 import Tiles from '../components/Tiles.astro';
 import { BOARDS } from '../lib/boards';
+import { kyokuLabel } from '../lib/mahjong';
 import { getAllPosts, getBoardPosts, postUrl } from '../lib/posts';
 
 const all = await getAllPosts();
@@ -42,7 +43,7 @@ const steps = [
         {featured && moment && (
           <a class="table" href={postUrl('reviews', featured.id)} aria-label={`최근 복기: ${featured.data.title}`}>
             <div class="table__meta">
-              <span class="mono">{moment.label}</span>
+              <span class="mono">{kyokuLabel(moment.kyoku, moment.honba)}{moment.turn && ` ${moment.turn}순`} · {moment.title}</span>
               <span class="table__sub">{featured.data.meta}</span>
             </div>
             <div class="table__hand">

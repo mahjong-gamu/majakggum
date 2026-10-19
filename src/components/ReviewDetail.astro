@@ -1,11 +1,12 @@
 ---
-import Tiles from './Tiles.astro';
-import { parseTiles } from '../lib/tiles.mjs';
+import MahjongTable from './MahjongTable.astro';
+import { kyokuLabel, withMe } from '../lib/mahjong';
 
 interface Props {
   data: any;
 }
 const { data } = Astro.props;
+const me = data.myseat;
 const m = data.metrics ?? {};
 const metrics = [
   { label: '레이팅', value: m.rating },
@@ -21,22 +22,18 @@ const sign = (v?: string) => (!v ? '' : /^\s*\+/.test(v) ? 'up' : /^\s*[-−]/.t
 // 국별 흐름 한 줄 설명
 const BADGE: Record<string, string> = { 화료: '화료', 방총: '방총', 타가화료: '타가 화료', 유국: '유국' };
 function roundText(r: any) {
-  if (r.result === '화료') return r.how === '론' ? `론 화료${r.from ? ` · ${r.from} 방총` : ''}` : `${r.how ?? '쯔모'} 화료`;
-  if (r.result === '방총') return `${r.winner ?? '상대'}에게 방총`;
+  const who = (s?: string) => withMe(s, me) || '상대';
+  if (r.result === '화료') return r.how === '론' ? `론 화료${r.from ? ` · ${who(r.from)} 방총` : ''}` : `${r.how ?? '쯔모'} 화료`;
+  if (r.result === '방총') return `${who(r.winner)}에게 방총`;
   if (r.result === '타가화료') {
     const how = r.how ?? '론';
-    return `${r.winner ?? '상대'} ${how} 화료${how === '론' && r.from ? ` · ${r.from} 방총` : ''}`;
+    return `${who(r.winner)} ${how} 화료${how === '론' && r.from ? ` · ${who(r.from)} 방총` : ''}`;
   }
   const kind = r.draw ?? '황패유국';
   return r.tenpai ? `${kind} · 텐파이 ${r.tenpai}` : kind;
 }
 
 const color = (pick: string) => (pick === 'ai' || pick === 'both' ? 'var(--green)' : pick === 'me' ? 'var(--me)' : 'var(--other)');
-const doraName = (s?: string) => {
-  if (!s) return '';
-  const t = parseTiles(s)[0];
-  return t ? t.name : s;
-};
 ---
 <div class="review">
   {(data.majsoul || data.mortal) && (
@@ -54,9 +51,9 @@ const doraName = (s?: string) => {
           <table class="finals">
             <tbody>
               {data.finals.map((f: any) => (
-                <tr class:list={{ me: f.me }}>
+                <tr class:list={{ me: f.seat === me }}>
                   <td class="mono rank">{f.rank}</td>
-                  <td class="who">{f.player}</td>
+                  <td class="who">{withMe(f.seat, me)}</td>
                   <td class="mono num">{f.score}</td>
                   <td class:list={['mono num pt', sign(f.pt)]}>{f.pt ?? ''}</td>
                 </tr>
@@ -87,7 +84,7 @@ const doraName = (s?: string) => {
       <ol class="rounds">
         {data.rounds.map((r: any) => (
           <li class:list={['round', { key: r.key }]}>
-            <span class="round__label">{r.label}</span>
+            <span class="round__label">{kyokuLabel(r.kyoku, r.honba)}</span>
             <span class:list={['badge', `badge--${r.result}`]}>{BADGE[r.result]}</span>
             <span class="round__text">
               {roundText(r)}
@@ -105,32 +102,11 @@ const doraName = (s?: string) => {
     <section class="sec" aria-labelledby="key-title">
       <h2 id="key-title" class="serif h2">주요 국면</h2>
       <div class="panel moment">
-        <h3 class="moment__title">{mo.label}</h3>
-        {mo.seats.length > 0 && (
-          <div class="seats">
-            {mo.seats.map((s: any) => (
-              <div class:list={['seat', { me: s.me }]}><span>{s.player}</span><span class="mono">{s.score}</span></div>
-            ))}
-          </div>
-        )}
-        <div class="mat felt">
-          <div class="mat__info">
-            {mo.situation && <span>{mo.situation}</span>}
-            {mo.dora && (
-              <span class="mat__dora">도라 표시패 <Tiles tiles={mo.dora} size="card" label={`도라 표시패 ${doraName(mo.dora)}`} /></span>
-            )}
-          </div>
-          {mo.river && (
-            <div class="stack">
-              <span class="label">내 버림패</span>
-              <Tiles tiles={mo.river} size="sm" />
-            </div>
-          )}
-          <div class="stack">
-            <span class="label">손패{mo.draw && ' · 오른쪽 끝이 쯔모'}</span>
-            <Tiles tiles={mo.hand} draw={mo.draw} size="lg" />
-          </div>
+        <div class="moment__head">
+          <h3 class="moment__title">{kyokuLabel(mo.kyoku, mo.honba)}{mo.turn && ` ${mo.turn}순`} · {mo.title}</h3>
+          {mo.situation && <p class="moment__sit">{mo.situation}</p>}
         </div>
+        <MahjongTable moment={mo} myseat={data.myseat} />
         {mo.candidates.length > 0 && (
           <div class="stack">
             <h4 class="h-small">Mortal 판단</h4>
@@ -189,7 +165,7 @@ const doraName = (s?: string) => {
 
   /* 국별 흐름: 한 국에 한 줄 */
   .rounds { list-style: none; margin: 0; padding: 0; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; }
-  .round { display: grid; grid-template-columns: 92px 66px minmax(0, 1fr) 76px; align-items: center; gap: 10px; padding: 7px 16px; border-top: 1px solid var(--line); font-size: 14px; }
+  .round { display: grid; grid-template-columns: 112px 66px minmax(0, 1fr) 76px; align-items: center; gap: 10px; padding: 7px 16px; border-top: 1px solid var(--line); font-size: 14px; }
   .round:first-child { border-top: 0; }
   .round.key { background: var(--green-tint); box-shadow: inset 3px 0 0 var(--felt); }
   .round__label { font-weight: 700; white-space: nowrap; }
@@ -208,16 +184,9 @@ const doraName = (s?: string) => {
 
   /* 주요 국면 */
   .moment { border-radius: 24px; padding: clamp(16px, 3vw, 28px); display: flex; flex-direction: column; gap: 24px; }
+  .moment__head { display: flex; flex-direction: column; gap: 4px; }
   .moment__title { margin: 0; font-family: var(--display); font-size: 19px; letter-spacing: -0.02em; }
-  .seats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
-  .seat { border-radius: var(--r-sm); padding: 9px 14px; background: var(--paper); display: flex; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 500; border: 1px solid transparent; }
-  .seat.me { background: var(--green-tint); border-color: rgba(29, 115, 80, 0.25); font-weight: 700; }
-  .seat .mono { font-weight: 600; white-space: nowrap; }
-  .mat { border-radius: 20px; padding: clamp(16px, 3vw, 28px); display: flex; flex-direction: column; gap: 22px; }
-  .mat__info { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 18px; font-size: 14px; font-weight: 500; color: var(--felt-ink); }
-  .mat__dora { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--felt-muted); }
-  .mat__dora :global(.tile) { width: 24px; }
-  .mat :global(.tile) { filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.35)); }
+  .moment__sit { margin: 0; font-size: 14px; color: var(--muted); }
   .stack { display: flex; flex-direction: column; gap: 10px; }
   .label { font-size: 13px; color: var(--muted); font-weight: 500; }
   .mat .label { color: var(--felt-muted); }
@@ -242,14 +211,11 @@ const doraName = (s?: string) => {
     .summary { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 520px) {
-    .round { grid-template-columns: 74px minmax(0, 1fr) 64px; grid-template-areas: 'label badge delta' 'text text text'; row-gap: 4px; padding: 9px 12px; }
+    .round { grid-template-columns: 100px minmax(0, 1fr) 64px; grid-template-areas: 'label badge delta' 'text text text'; row-gap: 4px; padding: 9px 12px; }
     .round__label { grid-area: label; font-size: 13px; }
     .badge { grid-area: badge; }
     .round__text { grid-area: text; font-size: 13px; }
     .round__delta { grid-area: delta; }
-    .seats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .seat { flex-direction: column; gap: 2px; font-size: 13px; }
-    .mat { margin: 0 -6px; padding: 16px 12px; }
     .cand { grid-template-columns: 76px minmax(0, 1fr) 50px; gap: 8px; }
   }
 </style>
