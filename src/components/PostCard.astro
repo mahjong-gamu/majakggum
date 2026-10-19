@@ -1,0 +1,35 @@
+---
+import Tiles from './Tiles.astro';
+import { getBoard, formatDate } from '../lib/boards';
+import { postUrl } from '../lib/posts';
+
+interface Props {
+  board: string;
+  entry: any;
+  showBoard?: boolean;
+}
+const { board, entry, showBoard = true } = Astro.props;
+const b = getBoard(board);
+const d = entry.data;
+const hand: string | undefined = d.hand;
+const placeholder: Record<string, string> = { reviews: '패보', theory: '이론 노트', visits: '마장 사진', news: '마작 뉴스' };
+---
+<a class="post-card" href={postUrl(board, entry.id)}>
+  <div class:list={['post-card__thumb', { 'post-card__thumb--img': d.cover }]} style={`background:${b.tint}`}>
+    {d.cover ? (
+      <img src={d.cover} alt="" loading="lazy" />
+    ) : hand ? (
+      <Tiles tiles={hand} size="card" />
+    ) : (
+      <span>{placeholder[board]}</span>
+    )}
+  </div>
+  <div class="post-card__body">
+    <div class="post-card__top">
+      {showBoard && <span class="chip" style={`background:${b.tint};color:${b.ink}`}>{b.label}</span>}
+      <span class="date">{formatDate(d.date)}{d.meta && ` · ${d.meta}`}</span>
+    </div>
+    <span class="post-card__title">{d.title}</span>
+    <span class="post-card__excerpt">{d.excerpt}</span>
+  </div>
+</a>

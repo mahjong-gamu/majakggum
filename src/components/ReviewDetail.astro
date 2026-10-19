@@ -1,0 +1,216 @@
+---
+import Tiles from './Tiles.astro';
+import { parseTiles } from '../lib/tiles.mjs';
+
+interface Props {
+  data: any;
+}
+const { data } = Astro.props;
+const m = data.metrics ?? {};
+const metrics = [
+  { label: 'Mortal 일치율', value: m.match },
+  { label: 'Rating', value: m.rating },
+  { label: '불일치 선택', value: m.mismatches },
+  { label: '큰 실수', value: m.blunders, warn: true },
+].filter((x) => x.value);
+const color = (pick: string) => (pick === 'ai' || pick === 'both' ? 'var(--green)' : pick === 'me' ? 'var(--me)' : 'var(--other)');
+const doraName = (s?: string) => {
+  if (!s) return '';
+  const t = parseTiles(s)[0];
+  return t ? `${t.face}${t.suit}` : s;
+};
+---
+<div class="review">
+  {(data.majsoul || data.mortal) && (
+    <div class="links">
+      {data.majsoul && <a class="btn btn--light btn--small" href={data.majsoul} target="_blank" rel="noopener">작혼 패보 열기</a>}
+      {data.mortal && <a class="btn btn--light btn--small" href={data.mortal} target="_blank" rel="noopener">Mortal 리뷰 원본</a>}
+    </div>
+  )}
+
+  {(data.finals.length > 0 || metrics.length > 0) && (
+    <section class="two" aria-label="대국 결과">
+      {data.finals.length > 0 && (
+        <div class="panel">
+          <h2 class="h-small">최종 결과</h2>
+          {data.finals.map((f: any) => (
+            <div class:list={['final', { me: f.me }]}>
+              <span class="mono muted rank">{f.rank}</span>
+              <span class="who">{f.player}</span>
+              <span class="mono">{f.score}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {metrics.length > 0 && (
+        <div class="panel metrics">
+          {metrics.map((x) => (
+            <div class="metric">
+              <span class="muted">{x.label}</span>
+              <span class="mono metric__v" style={x.warn ? 'color:var(--red)' : ''}>{x.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  )}
+
+  {data.rounds.length > 0 && (
+    <section class="sec" aria-labelledby="flow-title">
+      <h2 id="flow-title" class="serif h2">국별 흐름</h2>
+      <div class="rounds">
+        {data.rounds.map((r: any) => (
+          <div class:list={['round', { key: r.key }]}>
+            <strong>{r.label}</strong>
+            <span>{r.result}</span>
+            <span class="mono delta">{r.delta}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {data.moments.length > 0 && (
+    <section class="sec" aria-labelledby="key-title">
+      <h2 id="key-title" class="serif h2">주요 국면</h2>
+      {data.moments.length > 1 && (
+        <div class="tabs" role="tablist" aria-label="국면 선택">
+          {data.moments.map((mo: any, i: number) => (
+            <button type="button" role="tab" id={`tab-${i}`} aria-controls={`moment-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-tab={i}>{mo.label}</button>
+          ))}
+        </div>
+      )}
+      {data.moments.map((mo: any, i: number) => (
+        <div class="panel moment" id={`moment-${i}`} role="tabpanel" aria-labelledby={data.moments.length > 1 ? `tab-${i}` : undefined} hidden={i !== 0}>
+          {data.moments.length === 1 && <h3 class="h-small">{mo.label}</h3>}
+          {mo.seats.length > 0 && (
+            <div class="seats">
+              {mo.seats.map((s: any) => (
+                <div class:list={['seat', { me: s.me }]}><span>{s.player}</span><span class="mono">{s.score}</span></div>
+              ))}
+            </div>
+          )}
+          {mo.river && (
+            <div class="stack">
+              <span class="label">내 버림패</span>
+              <Tiles tiles={mo.river} size="sm" />
+            </div>
+          )}
+          <div class="stack">
+            <div class="label row">
+              {mo.situation && <span>{mo.situation}</span>}
+              {mo.dora && <span>도라 표시패 {doraName(mo.dora)}</span>}
+            </div>
+            <div class="hand">
+              <Tiles tiles={mo.hand} draw={mo.draw} size="lg" />
+              {mo.draw && <span class="label">쯔모</span>}
+            </div>
+          </div>
+          {mo.candidates.length > 0 && (
+            <div class="stack">
+              <h3 class="h-small">Mortal 판단</h3>
+              {mo.candidates.map((c: any) => (
+                <div class="cand">
+                  <span class="cand__name">{c.action}</span>
+                  <div class="bar"><div style={`width:${Math.max(0, Math.min(100, c.prob))}%;background:${color(c.pick)}`}></div></div>
+                  <span class="mono cand__p">{c.prob}%</span>
+                </div>
+              ))}
+              <div class="legend">
+                <span><i style="background:var(--green)"></i>Mortal 1순위</span>
+                <span><i style="background:var(--me)"></i>내 선택</span>
+                <span><i style="background:var(--other)"></i>그 외</span>
+              </div>
+            </div>
+          )}
+          {(mo.why || mo.after) && (
+            <div class="notes">
+              {mo.why && <div class="note note--me"><h3>대국 중 내 판단</h3><p>{mo.why}</p></div>}
+              {mo.after && <div class="note note--ai"><h3>복기 후 생각</h3><p>{mo.after}</p></div>}
+            </div>
+          )}
+        </div>
+      ))}
+    </section>
+  )}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[role="tablist"]').forEach((list) => {
+    const tabs = Array.from(list.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const select = (tab: HTMLButtonElement) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls') || '');
+        if (panel) panel.hidden = !on;
+      });
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(t));
+      t.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+        select(next);
+        next.focus();
+      });
+    });
+  });
+</script>
+
+<style>
+  .review { display: flex; flex-direction: column; gap: 48px; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 20px; }
+  .h-small { margin: 0 0 6px; font-size: 16px; }
+  .h2 { margin: 0; font-size: 24px; }
+  .sec { display: flex; flex-direction: column; gap: 16px; }
+  .final { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px solid #efeee8; font-size: 15px; }
+  .final:last-child { border-bottom: 0; }
+  .final.me { font-weight: 700; }
+  .rank { width: 36px; }
+  .who { flex: 1; }
+  .metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-content: start; }
+  .metric { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+  .metric__v { font-size: clamp(26px, 3vw, 34px); font-weight: 600; color: var(--ink); }
+  .rounds { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .round { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+  .round strong { font-size: 15px; }
+  .round.key { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+  .delta { font-size: 14px; font-weight: 600; }
+  .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
+  .tabs button { flex: 0 0 auto; font-size: 14px; font-weight: 700; min-height: 44px; padding: 10px 18px; border-radius: 999px; cursor: pointer; border: 1px solid var(--line-2); background: var(--card); color: var(--ink); }
+  .tabs button[aria-selected='true'] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+  .moment { border-radius: 28px; padding: clamp(18px, 3vw, 32px); display: flex; flex-direction: column; gap: 26px; }
+  .moment[hidden] { display: none; }
+  .seats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+  .seat { border-radius: 12px; padding: 10px 14px; background: #f3f2ec; display: flex; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 500; }
+  .seat.me { background: #e3efe8; }
+  .seat .mono { font-weight: 600; white-space: nowrap; }
+  .stack { display: flex; flex-direction: column; gap: 10px; }
+  .label { font-size: 13px; color: var(--muted); font-weight: 500; }
+  .row { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+  .hand { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px; }
+  .cand { display: grid; grid-template-columns: minmax(84px, 140px) minmax(0, 1fr) 58px; align-items: center; gap: 12px; }
+  .cand__name { font-weight: 700; font-size: 14px; }
+  .bar { height: 14px; background: #efeee8; border-radius: 7px; overflow: hidden; }
+  .bar div { height: 100%; border-radius: 7px; }
+  .cand__p { font-size: 14px; font-weight: 600; text-align: right; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--muted); }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+  .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; }
+  .note { border-radius: 20px; padding: 20px 22px; display: flex; flex-direction: column; gap: 8px; }
+  .note h3 { margin: 0; font-size: 15px; }
+  .note p { margin: 0; font-size: 15px; line-height: 1.75; }
+  .note--me { background: var(--red-tint); }
+  .note--me h3 { color: var(--red-ink); }
+  .note--ai { background: #e3efe8; }
+  .note--ai h3 { color: var(--green); }
+  @media (max-width: 480px) {
+    .seats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .seat { flex-direction: column; gap: 2px; font-size: 13px; }
+    .hand { flex-direction: column; align-items: flex-start; gap: 4px; }
+  }
+</style>

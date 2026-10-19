@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { BOARDS, getBoard, type BoardKey } from '../../lib/boards';
+import { getBoardPosts } from '../../lib/posts';
+
+export function getStaticPaths() {
+  return BOARDS.map((b) => ({ params: { board: b.key } }));
+}
+
+const key = Astro.params.board as BoardKey;
+const board = getBoard(key);
+const posts = await getBoardPosts(key);
+---
+<Base title={board.label} description={board.desc} current={key}>
+  <div class="wrap list">
+    <section class="hero" style={`background:${board.tint}`}>
+      <span class="mono count" style={`color:${board.ink}`}>글 {posts.length}개</span>
+      <h1 class="serif">{board.label}</h1>
+      <p>{board.desc}</p>
+    </section>
+    {posts.length > 0 ? (
+      <div class="grid">
+        {posts.map(({ entry }) => <PostCard board={key} entry={entry} showBoard={false} />)}
+      </div>
+    ) : (
+      <p class="muted">아직 글이 없습니다.</p>
+    )}
+  </div>
+</Base>
+
+<style>
+  .list { display: flex; flex-direction: column; gap: 40px; padding-top: 56px; }
+  .hero { border-radius: 32px; padding: clamp(28px, 5vw, 56px); display: flex; flex-direction: column; gap: 14px; }
+  .count { font-size: 13px; font-weight: 600; }
+  h1 { margin: 0; font-size: clamp(32px, 5vw, 56px); letter-spacing: -0.03em; line-height: 1.2; }
+  p { margin: 0; font-size: 17px; line-height: 1.7; color: var(--ink-2); max-width: 640px; }
+  @media (max-width: 640px) { .list { padding-top: 28px; gap: 28px; } .hero { border-radius: 24px; } p { font-size: 16px; } }
+</style>

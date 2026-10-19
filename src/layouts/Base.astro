@@ -1,0 +1,55 @@
+---
+import '../styles/global.css';
+import { BOARDS } from '../lib/boards';
+
+interface Props {
+  title?: string;
+  description?: string;
+  current?: string;
+}
+const SITE_NAME = '마작치는 마작껌';
+const { title, description = '작혼 패보를 Mortal과 함께 다시 보는 마작 블로그. 패보 복기, 이론 공부, 마장 탐방, 마작 뉴스.', current } = Astro.props;
+const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#f9f9f6" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <a class="skip" href="#main">본문으로 건너뛰기</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="/" aria-label={`${SITE_NAME} 홈`}>
+          <span class="logo-tile" aria-hidden="true">中</span>
+          <span class="logo-name">{SITE_NAME}</span>
+        </a>
+        <nav class="nav" aria-label="게시판">
+          {BOARDS.map((b) => (
+            <a href={`/${b.key}/`} aria-current={current === b.key ? 'page' : undefined}>{b.label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <span class="serif" style="font-size:16px;color:var(--ink)">{SITE_NAME}</span>
+        <span>작혼 패보 · Mortal 복기 · 이론 · 마장 탐방 · 뉴스</span>
+      </div>
+    </footer>
+  </body>
+</html>

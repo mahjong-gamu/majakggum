@@ -1,0 +1,50 @@
+// 게시판 정의. 탭 순서, 이름, 소개 문구, 색상을 여기서 바꿀 수 있습니다.
+export const BOARDS = [
+  {
+    key: 'reviews',
+    label: '패보 복기',
+    short: '작혼 패보를 Mortal로 다시 보고 판단 이유를 남깁니다.',
+    desc: '제가 친 작혼 대국을 Mortal 리뷰와 함께 다시 봅니다. 주요 국면마다 대국 중 생각과 AI의 판단, 복기 후 생각을 나란히 기록합니다.',
+    tint: '#E3EFE8',
+    ink: '#1F6B4F',
+  },
+  {
+    key: 'theory',
+    label: '이론 공부',
+    short: '복기에서 나온 질문을 이론으로 정리합니다.',
+    desc: '복기하다 막힌 부분을 이론으로 정리합니다. 리치 판단, 수비, 점수 상황별 전략처럼 다음 대국에 바로 쓸 수 있는 내용 위주로 씁니다.',
+    tint: '#E4EAF5',
+    ink: '#2F5BA8',
+  },
+  {
+    key: 'visits',
+    label: '마장 탐방',
+    short: '직접 다녀온 오프 마장 이야기.',
+    desc: '직접 가본 오프 마장의 분위기, 룰과 요금, 찾아가는 길을 기록합니다.',
+    tint: '#F6E6DA',
+    ink: '#9C4A17',
+  },
+  {
+    key: 'news',
+    label: '마작 뉴스',
+    short: '대회, 작혼, 마작 AI 소식과 짧은 코멘트.',
+    desc: '대회 소식, 작혼 업데이트, 마작 AI 관련 소식을 요약하고 제 코멘트를 붙입니다. 원문 링크는 항상 함께 둡니다.',
+    tint: '#EDE6F3',
+    ink: '#6A3F8F',
+  },
+] as const;
+
+export type BoardKey = (typeof BOARDS)[number]['key'];
+
+export function getBoard(key: string) {
+  const b = BOARDS.find((x) => x.key === key);
+  if (!b) throw new Error(`알 수 없는 게시판: ${key}`);
+  return b;
+}
+
+export function formatDate(d: Date) {
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(d.getUTCDate()).padStart(2, '0');
+  return `${y}.${m}.${day}`;
+}
