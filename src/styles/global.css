@@ -172,6 +172,12 @@ main { padding-bottom: 104px; }
 .site-footer .tiles .tile { width: 20px; filter: none; }
 .footer-brand { display: flex; align-items: center; gap: 12px; }
 .footer-brand .display { font-size: 17px; color: var(--ink); }
+.footer-social { display: flex; flex-wrap: wrap; gap: 8px; }
+.social { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 16px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--card); color: var(--ink-2); font-size: 14px; font-weight: 500; text-decoration: none; }
+.social svg { width: 18px; height: 18px; flex: none; }
+.social--youtube svg { color: #e62117; }
+.social--instagram svg { color: #c13584; }
+.social:hover { background: var(--paper); border-color: var(--ink-2); color: var(--ink); }
 .footer-bottom { flex-basis: 100%; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; padding-top: 16px; border-top: 1px solid var(--line-2); font-size: 13px; }
 .footer-bottom small { font-size: inherit; }
 .footer-bottom a { color: var(--ink-2); font-weight: 500; }
