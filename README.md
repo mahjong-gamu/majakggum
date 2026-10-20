@@ -6,7 +6,7 @@
 
 ```
 src/content/reviews/   패보 복기 글 (.md)
-src/content/theory/    이론 공부 글
+src/content/theory/    마작 공부 글
 src/content/visits/    마장 탐방 글
 src/content/news/      마작 뉴스 글
 public/images/         사진 (글에서는 /images/... 로 씀)

@@ -15,7 +15,7 @@ const INSTAGRAM_URL = 'https://www.instagram.com/mahjong.gamu/';
 // Cloudflare Web Analytics 사이트 토큰. 비어 있으면 방문 분석 코드를 넣지 않습니다.
 // (쿠키를 쓰지 않는 집계 방식이고, 토큰은 공개돼도 되는 사이트 구분값입니다)
 const ANALYTICS_TOKEN = 'ab5317686b924745acbbe7e864f6c131';
-const { title, description = '작혼 패보를 Mortal과 함께 다시 보는 마작 블로그. 패보 복기, 이론 공부, 마장 탐방, 마작 뉴스.', current } = Astro.props;
+const { title, description = '작혼 패보를 Mortal과 함께 다시 보는 마작 블로그. 패보 복기, 마작 공부, 마장 탐방, 마작 뉴스.', current } = Astro.props;
 const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
 ---
 <!doctype html>
@@ -61,7 +61,7 @@ const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
           <Tiles tiles="1234z" size="card" label="동 남 서 북" />
           <span class="display">{SITE_NAME}</span>
         </div>
-        <span>작혼 패보 · Mortal 복기 · 이론 · 마장 탐방 · 뉴스</span>
+        <span>작혼 패보 · Mortal 복기 · 마작 공부 · 마장 탐방 · 뉴스</span>
         <nav class="footer-social" aria-label="마작껌 SNS">
           <a class="social social--youtube" href={YOUTUBE_URL} target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor" /><path d="M10 9l5 3-5 3z" fill="#fff" /></svg>
