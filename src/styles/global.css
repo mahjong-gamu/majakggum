@@ -110,8 +110,17 @@ main { padding-bottom: 104px; }
 .tiles--sm .tile--draw { transform: translateY(-4px); }
 .tiles--card { justify-content: center; }
 .tiles--card .tile { width: 22px; }
-.tiles--inline { display: inline-flex; flex-wrap: nowrap; vertical-align: -0.45em; margin: 0 3px; gap: 1px; }
-.tiles--inline .tile { width: 21px; filter: none; }
+.tiles--inline { --tw: 21px; display: inline-flex; flex-wrap: nowrap; vertical-align: -0.45em; margin: 0 3px; gap: 5px; }
+.tiles--inline .tile { width: var(--tw); filter: none; }
+.tiles--block { --tw: clamp(20px, 5.4vw, 36px); gap: 6px clamp(6px, 1.6vw, 12px); margin: 0.9em 0 1.3em; }
+.tiles--block .tile { width: var(--tw); }
+.tile-grp { display: inline-flex; flex-wrap: nowrap; align-items: flex-end; gap: 1px; }
+/* 옆으로 눕힌 패 (울어 온 패), --stack = 두 장 겹침 (가깡) */
+.tile-side { position: relative; display: block; flex: none; width: calc(var(--tw) * 1.3); height: var(--tw); }
+.tile-side .tile { position: absolute; left: 50%; top: 50%; width: var(--tw); transform: translate(-50%, -50%) rotate(-90deg); }
+.tile-side--stack { height: calc(var(--tw) * 2); }
+.tile-side--stack .tile:first-child { top: 25%; }
+.tile-side--stack .tile:last-child { top: 75%; }
 /* 손패(lg)는 한 줄에 맞춰 크기가 줄어듭니다 */
 .tiles--lg { flex-wrap: nowrap; width: 100%; max-width: calc(14 * 46px + 13 * 2px + 12px); }
 .tiles--lg .tile { flex: 1 1 0; min-width: 0; width: auto; max-width: 46px; }
@@ -161,8 +170,9 @@ main { padding-bottom: 104px; }
 .prose code { font-family: var(--mono); font-size: 0.88em; background: var(--paper-2); padding: 2px 6px; border-radius: 6px; }
 .prose pre { background: var(--ink); color: var(--paper); padding: 18px; border-radius: var(--r-md); overflow-x: auto; font-size: 14px; }
 .prose pre code { background: none; padding: 0; }
-.prose table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; font-size: 15px; }
+.prose table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; font-size: 15px; line-height: 1.55; }
 .prose th, .prose td { border-bottom: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+.prose th:first-child, .prose td:first-child { white-space: nowrap; }
 .prose ul, .prose ol { padding-left: 1.3em; }
 .prose li::marker { color: var(--red); }
 

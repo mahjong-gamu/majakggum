@@ -3,20 +3,37 @@
 const SUITS = { m: '만', p: '통', s: '삭' };
 const HONORS = ['동', '남', '서', '북', '백', '발', '중'];
 
-export const TILE_PATTERN = /^(?:[0-9]+[mpsz])+$/;
+// 본문용 확장 표기: 숫자 뒤 ^ = 옆으로 눕힘(울어 온 패), ^^ = 눕힌 패 2장을 겹침(가깡),
+// # = 뒷면, 띄어쓰기 = 묶음 사이 간격. 예) `4^23m` 치, `#33#z` 안깡, `88m234p 23m 4m`
+const GROUP = '(?:(?:[0-9]\\^{0,2}|#)+[mpsz])+';
+export const TILE_PATTERN = new RegExp(`^${GROUP}(?:\\s+${GROUP})*$`);
 
 export function parseTiles(str = '') {
   const out = [];
   let buf = [];
   for (const c of String(str).replace(/\s+/g, '')) {
     if ('mpsz'.includes(c)) {
-      for (const d of buf) out.push(makeTile(d, c));
+      for (const b of buf) {
+        const t = b.d === '#' ? { code: 'back', name: '뒷면' } : makeTile(b.d, c);
+        if (b.side) t.side = true;
+        if (b.stack) t.stack = true;
+        out.push(t);
+      }
       buf = [];
-    } else if (/[0-9]/.test(c)) {
-      buf.push(c);
+    } else if (/[0-9#]/.test(c)) {
+      buf.push({ d: c });
+    } else if (c === '^' && buf.length) {
+      const last = buf[buf.length - 1];
+      if (last.side) last.stack = true;
+      else last.side = true;
     }
   }
   return out;
+}
+
+// 띄어쓰기로 나눈 묶음별 패 목록
+export function parseTileGroups(str = '') {
+  return String(str).trim().split(/\s+/).map(parseTiles);
 }
 
 export function tileSrc(t) {
