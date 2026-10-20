@@ -11,7 +11,7 @@ export const BOARDS = [
     wind: '1z',
   },
   {
-    key: 'theory',
+    key: 'study',
     label: '마작 공부',
     short: '전술서·자료·AI로 공부한 내용을 정리해 나눕니다.',
     desc: '마작 전술서와 여러 자료, Mortal 같은 AI를 보며 공부한 내용을 정리해 나누는 곳입니다. 입문 설명서부터 리치 판단, 수비, 점수 상황별 전략까지 함께 공부해요.',

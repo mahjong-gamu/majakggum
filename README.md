@@ -6,7 +6,7 @@
 
 ```
 src/content/reviews/   패보 복기 글 (.md)
-src/content/theory/    마작 공부 글
+src/content/study/    마작 공부 글
 src/content/visits/    마장 탐방 글
 src/content/news/      마작 뉴스 글
 public/images/         사진 (글에서는 /images/... 로 씀)
@@ -21,7 +21,7 @@ src/styles/global.css  전체 색상·글꼴
 
 1. `templates/` 의 양식을 복사해서 해당 게시판 폴더에 넣습니다.
    - 패보 복기 → `templates/패보복기.md` → `src/content/reviews/`
-   - 나머지 → `templates/일반글.md` → `src/content/theory|visits|news/`
+   - 나머지 → `templates/일반글.md` → `src/content/study|visits|news/`
 2. 파일 이름이 글 주소가 됩니다. 영문·숫자·하이픈 추천 (예: `2026-10-20-e3-push.md` → `/reviews/2026-10-20-e3-push/`).
 3. 맨 위 `---` 사이의 항목을 채우고, 그 아래에 본문을 씁니다.
 4. 저장해서 GitHub에 올리면 몇 분 뒤 사이트에 반영됩니다.

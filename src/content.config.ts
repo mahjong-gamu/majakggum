@@ -108,7 +108,7 @@ const simple = (dir: string) =>
 
 export const collections = {
   reviews,
-  theory: simple('theory'),
+  study: simple('study'),
   visits: simple('visits'),
   news: simple('news'),
 };

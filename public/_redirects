@@ -1,0 +1,2 @@
+/theory /study/ 301
+/theory/* /study/:splat 301
