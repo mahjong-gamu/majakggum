@@ -77,7 +77,9 @@ const SCENE_RULES = `You write the scene for a cover illustration of one Korean 
 Read the article and return JSON: {"scene": "...", "mood": "..."}.
 - "scene": one or two English sentences (max 60 words) describing a single symbolic, atmospheric scene that matches the article's mood (e.g. a sunlit hall with mahjong tables ready for an event, an empty mahjong table by a bright window, a train toward a regional city, a stack of new books, a phone on a cosy desk).
 - "mood": 2-6 English words that match the article's real tone. Announcements, events, new leagues, sponsors, festivals and community news are bright and positive ("festive, warm", "fresh, hopeful"); wins are "celebratory, proud"; only a dramatic close match or sad news is "tense" or "sombre". Do not make good news dark.
-- Prefer scenes of objects and places (tables, halls, windows, paths, books, phones). Leave people out unless they are essential.
+- Prefer scenes of objects and places. Leave people out.
+- Pick a concrete visual idea specific to THIS article: its place, season, what changes, what it means (e.g. new regional branches → small lit mahjong tables appearing along a coastal or snowy regional town; a sponsor joining → two paths merging toward one bright table; a trophy match → a quiet table with a soft gold glow; a book release → new books stacked by a window). Do not default to a generic room full of tables.
+- Do not repeat any of the recently used scenes listed after the article.
 Hard rules for "scene":
 - Never name or describe any real person, team, organization, company, game, broadcaster, venue or event. No proper nouns at all.
 - No faces or recognizable people. If people appear at all, they are tiny, distant, faceless silhouettes.
@@ -172,6 +174,10 @@ function sceneProblems(s) {
   return issues;
 }
 
+function readLog() {
+  try { return JSON.parse(fs.readFileSync(LOG_FILE, 'utf8')); } catch { return {}; }
+}
+
 function fallbackScene(data) {
   // 분류(meta)를 먼저 보고, 없으면 제목으로 정한다
   return FALLBACK.find((f) => f.re.test(data.meta || '')) || FALLBACK.find((f) => f.re.test(data.title || '')) || DEFAULT_SCENE;
@@ -185,7 +191,9 @@ async function makeScene(data, body) {
   }
   if (!KEY || !ACCOUNT) return { ...fallbackScene(data), source: 'fallback (no key)' };
 
-  const article = `제목: ${data.title}\n분류: ${data.meta || ''}\n요약: ${data.excerpt || ''}\n\n${body.replace(/^## 출처[\s\S]*$/m, '').slice(0, 2500)}`;
+  const recent = Object.values(readLog()).map((e) => e.scene).filter(Boolean).slice(-6);
+  const article = `제목: ${data.title}\n분류: ${data.meta || ''}\n요약: ${data.excerpt || ''}\n\n${body.replace(/^## 출처[\s\S]*$/m, '').slice(0, 2500)}` +
+    (recent.length ? `\n\n[Recently used scenes — do not repeat]\n- ${recent.join('\n- ')}` : '');
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
       const result = await call(TEXT_MODEL, {
@@ -233,7 +241,7 @@ async function makeImage(prompt) {
 
 // ── 이미지 검사 ─────────────────────────────────────────────────────────────
 const HARD = { text: '글자·숫자가 보임', faces: '알아볼 수 있는 얼굴·인물', logos: '로고·캐릭터', money: '돈·칩·도박' };
-const SOFT = { distorted: '일그러진 물체', tiles: '패 앞면이 크게 보임', dark: '어둡거나 음울함' };
+const SOFT = { distorted: '일그러진 물체', tiles: '패 앞면이 크게 보임', dark: '어둡거나 음울함', people: '사람이 눈에 띔', low: '완성도 낮음' };
 const FIX_HINT = {
   text: 'Absolutely no text, letters, numbers or symbols anywhere, including on walls, screens, tiles and objects.',
   faces: 'Do not show any people at all.',
@@ -242,6 +250,8 @@ const FIX_HINT = {
   distorted: 'Keep every object simple, clean and geometrically correct.',
   tiles: 'Mahjong tiles must be small, face-down and far from the viewer.',
   dark: 'Make the whole scene brighter and warmer: soft daylight, light cream walls, gentle shadows.',
+  people: 'No people or silhouettes at all.',
+  low: 'Make it a cleaner, more striking and well-composed illustration.',
 };
 
 const INSPECT_RULES = (mood) => `You are a strict art director checking a cover illustration for a Korean mahjong news site.
@@ -254,6 +264,7 @@ Look carefully at the image and answer only with JSON:
  "money": true/false  (money, coins, poker chips, playing cards, betting or casino items),
  "distorted": true/false (broken, melted or impossible objects that a viewer would notice at a glance at small size; ignore minor stylisation),
  "tiles": true/false  (mahjong tile faces shown large and close enough to read),
+ "people": true/false (a person or silhouette that is easy to notice, e.g. near the center or larger than a small distant figure),
  "dark": true/false   (most of the image is in deep shadow, or it feels gloomy, cold or ominous; a bright, sunlit or warmly lit scene is false even if it is quiet or empty. If the intended mood is tense or sombre, answer false),
  "quality": 1-5       (how good and fitting the image is as a cover for the intended mood, 5 = excellent)}
 Answer true only when you clearly see the problem.`;
@@ -276,8 +287,8 @@ async function inspect(buf, mood) {
       if (typeof out.description !== 'string') throw new Error('검사 결과 형식이 다릅니다');
       visionPick = [model, format];
       const hard = Object.keys(HARD).filter((k) => out[k] === true);
-      const soft = Object.keys(SOFT).filter((k) => out[k] === true);
       const quality = Math.max(1, Math.min(5, Number(out.quality) || 3));
+      const soft = Object.keys(SOFT).filter((k) => (k === 'low' ? quality <= 2 : out[k] === true));
       return { model, description: out.description, hard, soft, quality, pass: !hard.length && !soft.length };
     } catch (e) {
       errors.push(`${model}: ${e.message}`);
