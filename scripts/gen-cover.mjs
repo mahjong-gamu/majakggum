@@ -233,7 +233,7 @@ async function makeImage(prompt) {
 
 // ── 이미지 검사 ─────────────────────────────────────────────────────────────
 const HARD = { text: '글자·숫자가 보임', faces: '알아볼 수 있는 얼굴·인물', logos: '로고·캐릭터', money: '돈·칩·도박' };
-const SOFT = { distorted: '일그러진 물체', tiles: '패 앞면이 크게 보임', mood: '분위기가 기사와 다름' };
+const SOFT = { distorted: '일그러진 물체', tiles: '패 앞면이 크게 보임', dark: '어둡거나 음울함' };
 const FIX_HINT = {
   text: 'Absolutely no text, letters, numbers or symbols anywhere, including on walls, screens, tiles and objects.',
   faces: 'Do not show any people at all.',
@@ -241,7 +241,7 @@ const FIX_HINT = {
   money: 'No money, coins, chips, cards or betting items anywhere.',
   distorted: 'Keep every object simple, clean and geometrically correct.',
   tiles: 'Mahjong tiles must be small, face-down and far from the viewer.',
-  mood: 'Make the lighting and colours match the mood: brighter, warmer and more inviting.',
+  dark: 'Make the whole scene brighter and warmer: soft daylight, light cream walls, gentle shadows.',
 };
 
 const INSPECT_RULES = (mood) => `You are a strict art director checking a cover illustration for a Korean mahjong news site.
@@ -252,9 +252,11 @@ Look carefully at the image and answer only with JSON:
  "faces": true/false  (any face with visible features, or a person large enough to be a portrait),
  "logos": true/false  (logos, emblems, brand marks, mascots, game or anime characters),
  "money": true/false  (money, coins, poker chips, playing cards, betting or casino items),
- "distorted": true/false (clearly broken or melted objects, impossible furniture, garbled shapes),
+ "distorted": true/false (broken, melted or impossible objects that a viewer would notice at a glance at small size; ignore minor stylisation),
  "tiles": true/false  (mahjong tile faces shown large and close enough to read),
- "mood": true/false   (true if the image is clearly darker, gloomier or colder than the intended mood)}`;
+ "dark": true/false   (most of the image is in deep shadow, or it feels gloomy, cold or ominous; a bright, sunlit or warmly lit scene is false even if it is quiet or empty. If the intended mood is tense or sombre, answer false),
+ "quality": 1-5       (how good and fitting the image is as a cover for the intended mood, 5 = excellent)}
+Answer true only when you clearly see the problem.`;
 
 let visionPick = null; // 처음 응답한 검사 모델을 기억해 다음부터 그것만 쓴다
 async function inspect(buf, mood) {
@@ -275,7 +277,8 @@ async function inspect(buf, mood) {
       visionPick = [model, format];
       const hard = Object.keys(HARD).filter((k) => out[k] === true);
       const soft = Object.keys(SOFT).filter((k) => out[k] === true);
-      return { model, description: out.description, hard, soft, pass: !hard.length && !soft.length };
+      const quality = Math.max(1, Math.min(5, Number(out.quality) || 3));
+      return { model, description: out.description, hard, soft, quality, pass: !hard.length && !soft.length };
     } catch (e) {
       errors.push(`${model}: ${e.message}`);
     }
@@ -298,13 +301,15 @@ async function generateChecked(scene, onAttempt) {
     const a = { n: i, prompt, raw, check };
     attempts.push(a);
     await onAttempt?.(a);
-    const status = check.pass ? '통과' : `문제: ${label([...check.hard, ...check.soft])}`;
+    const status = (check.pass ? '통과' : `문제: ${label([...check.hard, ...check.soft])}`) + ` · 점수 ${check.quality}/5`;
     console.log(`  · ${i}번째 — ${status} (${check.model.split('/').pop()}: ${check.description})`);
     if (check.pass) break;
     [...check.hard, ...check.soft].forEach((k) => fixes.add(k));
   }
-  // 통과한 것, 없으면 큰 문제(글자·얼굴·로고·돈)가 없는 것 중 가벼운 문제가 가장 적은 것
-  const usable = attempts.filter((a) => !a.check.hard.length).sort((x, y) => x.check.soft.length - y.check.soft.length);
+  // 통과한 것, 없으면 큰 문제(글자·얼굴·로고·돈)가 없는 것 중 가벼운 문제가 적고 점수가 높은 것
+  const usable = attempts
+    .filter((a) => !a.check.hard.length)
+    .sort((x, y) => x.check.soft.length - y.check.soft.length || y.check.quality - x.check.quality);
   const best = usable[0];
   if (!best) return { ok: false, attempts };
   const webp = await sharp(best.raw).webp({ quality: WEBP_QUALITY }).toBuffer();
@@ -382,7 +387,7 @@ async function main() {
     try {
       const r = await generateChecked(scene);
       const entry = { scene: scene.scene, mood: scene.mood, sceneFrom: scene.source, model: IMAGE_MODEL, size: SIZE, createdAt: new Date().toISOString(),
-        attempts: r.attempts.map((a) => ({ n: a.n, prompt: a.prompt, model: a.check.model, description: a.check.description, hard: a.check.hard, soft: a.check.soft })) };
+        attempts: r.attempts.map((a) => ({ n: a.n, prompt: a.prompt, model: a.check.model, description: a.check.description, hard: a.check.hard, soft: a.check.soft, quality: a.check.quality })) };
       if (!r.ok) {
         log[t.slug] = { ...entry, result: 'rejected' };
         fs.writeFileSync(LOG_FILE, JSON.stringify(log, null, 2) + '\n');
