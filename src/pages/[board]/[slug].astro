@@ -67,14 +67,14 @@ const hasBody = Boolean(entry.body && entry.body.trim());
   .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
   .meta .chip { font-size: 13px; padding: 5px 12px; }
   .meta .date { font-size: 13px; }
-  h1 { margin: 0; font-size: clamp(30px, 4.4vw, 52px); line-height: 1.22; letter-spacing: -0.04em; font-weight: 800; }
+  h1 { margin: 0; font-size: clamp(30px, 4.4vw, 48px); line-height: 1.25; letter-spacing: -0.035em; font-weight: 800; }
   .excerpt { margin: 0; font-size: 17px; line-height: 1.75; color: var(--muted); }
   .extra { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: var(--muted); }
-  .cover { width: 100%; max-width: 960px; max-height: 520px; object-fit: cover; border-radius: 24px; }
+  .cover { width: 100%; max-width: 960px; max-height: 520px; object-fit: cover; border-radius: var(--r-lg); }
   .prose :global(h2:first-child) { margin-top: 0; }
-  .ai-note { max-width: 740px; display: flex; align-items: center; gap: 10px; padding: 12px 16px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--paper-2); color: var(--muted); font-size: 14px; }
+  .ai-note { max-width: 740px; display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: var(--r-md); background: var(--card); box-shadow: var(--shadow); color: var(--muted); font-size: 14px; }
   .ai-note p { margin: 0; line-height: 1.6; }
   .ai-note strong { color: var(--ink-2); }
-  .ai-note__mark { color: var(--gold); font-size: 13px; }
+  .ai-note__mark { color: var(--accent); font-size: 13px; }
   @media (max-width: 640px) { .post { padding-top: 20px; gap: 36px; } .excerpt { font-size: 16px; } }
 </style>

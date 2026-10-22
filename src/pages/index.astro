@@ -25,8 +25,8 @@ const steps = [
 ---
 <Base>
   <div class="home">
-    <section class="wrap hero-wrap" aria-labelledby="hero-title">
-      <div class:list={['felt hero', { 'hero--solo': !(featured && moment) }]}>
+    <section class="felt hero-band" aria-labelledby="hero-title">
+      <div class:list={['wrap hero', { 'hero--solo': !(featured && moment) }]}>
         <div class="hero__text">
           <span class="eyebrow hero__eyebrow">작혼 패보 × Mortal 복기</span>
           <h1 id="hero-title" class="display">한 판 치고,<br />한 번 더 생각하는<br />마작</h1>
@@ -117,23 +117,25 @@ const steps = [
 </Base>
 
 <style>
-  .home { display: flex; flex-direction: column; gap: 72px; padding-top: 28px; }
+  .home { display: flex; flex-direction: column; gap: 72px; }
   .home > .wrap { width: 100%; }
 
-  /* 첫 화면: 펠트 매트 */
-  .hero { border-radius: 28px; padding: clamp(28px, 5vw, 64px); display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); align-items: center; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 30px 60px -40px rgba(16, 54, 44, 0.8); }
+  /* 첫 화면: 짙은 초록 단색 띠 (화면 가로 전체) */
+  .hero-band { padding: clamp(48px, 7vw, 88px) 0; }
+  .hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); align-items: center; }
   /* 복기 글이 아직 없으면 글만 한 줄로 */
   .hero--solo { grid-template-columns: minmax(0, 1fr); }
   .hero__text { display: flex; flex-direction: column; gap: 22px; }
   .hero__eyebrow { color: var(--felt-muted); }
-  h1 { margin: 0; font-size: clamp(38px, 5.6vw, 68px); line-height: 1.12; letter-spacing: -0.045em; font-weight: 800; color: #fbf8f0; }
-  .lead { margin: 0; font-size: 17px; line-height: 1.8; color: var(--felt-muted); max-width: 520px; }
-  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+  h1 { margin: 0; font-size: clamp(38px, 5.4vw, 64px); line-height: 1.18; letter-spacing: -0.04em; font-weight: 800; color: #fff; }
+  .lead { margin: 0; font-size: 19px; line-height: 1.75; color: var(--felt-muted); max-width: 540px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
 
-  .table { display: flex; flex-direction: column; gap: 22px; text-decoration: none; color: var(--felt-ink); padding: clamp(20px, 3vw, 28px); border-radius: 20px; background: rgba(8, 30, 24, 0.32); border: 1px solid rgba(243, 239, 228, 0.12); transition: background 0.2s ease, transform 0.2s ease; }
-  .table:hover { color: var(--felt-ink); background: rgba(8, 30, 24, 0.45); transform: translateY(-2px); }
+  .table { display: flex; flex-direction: column; gap: 22px; text-decoration: none; color: #fff; padding: clamp(20px, 3vw, 28px); border-radius: var(--r-lg); background: var(--uplift); box-shadow: 0 0 6px rgba(0, 0, 0, 0.24), 0 8px 12px rgba(0, 0, 0, 0.14); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .table:hover { color: #fff; transform: translateY(-2px); }
+  .table:active { transform: scale(0.98); box-shadow: 0 0 6px rgba(0, 0, 0, 0.24), 0 8px 12px rgba(0, 0, 0, 0); }
   .table__meta { display: flex; flex-direction: column; gap: 2px; }
-  .table__meta .mono { font-family: var(--sans); font-size: 15px; font-weight: 700; color: #fff; }
+  .table__meta .mono { font-family: var(--sans); font-size: 16px; font-weight: 700; color: #fff; letter-spacing: var(--track); }
   .table__sub { font-size: 13px; color: var(--felt-muted); }
   .table__hand { padding-top: 8px; }
   .table__hand :global(.tile) { filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.35)); }
@@ -141,46 +143,44 @@ const steps = [
   .pick { display: grid; grid-template-columns: 82px minmax(0, 1fr) 54px; grid-template-areas: 'who what p' 'who bar p'; align-items: center; column-gap: 12px; row-gap: 6px; }
   .pick__who { grid-area: who; font-size: 12px; font-weight: 700; color: var(--felt-muted); }
   .pick__what { grid-area: what; font-size: 15px; font-weight: 700; }
-  .pick__bar { grid-area: bar; height: 6px; border-radius: 3px; background: rgba(243, 239, 228, 0.14); overflow: hidden; }
+  .pick__bar { grid-area: bar; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.14); overflow: hidden; }
   .pick__bar i { display: block; height: 100%; border-radius: 3px; }
   .pick--me .pick__bar i { background: var(--me); }
-  .pick--ai .pick__bar i { background: #8fd3ad; }
+  .pick--ai .pick__bar i { background: var(--mint); }
   .pick__p { grid-area: p; text-align: right; font-size: 14px; font-weight: 600; }
-  .table__more { align-self: flex-end; font-size: 13px; font-weight: 700; color: #f0d9a8; }
+  .table__more { align-self: flex-end; display: inline-flex; align-items: center; min-height: 36px; padding: 6px 16px; border-radius: 50px; background: #fff; color: var(--accent); font-size: 14px; font-weight: 600; }
 
-  /* 복기에서 남기는 것 */
-  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
-  .step { display: flex; flex-direction: column; gap: 6px; padding: 4px 28px; border-left: 1px solid var(--line-2); }
-  .step:first-child { border-left: 0; padding-left: 0; }
-  .step__no { font-size: 13px; font-weight: 600; color: var(--red); }
-  .step__title { font-family: var(--display); font-size: 20px; letter-spacing: -0.02em; }
-  .step__text { margin: 0; font-size: 15px; line-height: 1.7; color: var(--muted); }
+  /* 복기에서 남기는 것 — 흰 카드 3장 */
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .step { display: flex; flex-direction: column; gap: 8px; padding: 24px; background: var(--card); border-radius: var(--r-lg); box-shadow: var(--shadow); }
+  .step__no { font-size: 13px; font-weight: 600; color: var(--point); }
+  .step__title { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+  .step__text { margin: 0; font-size: 15px; line-height: 1.65; color: var(--muted); }
 
   /* 게시판 */
   .block { display: flex; flex-direction: column; gap: 24px; }
-  .boards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-  .board { position: relative; overflow: hidden; border-radius: var(--r-lg); padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 8px; min-height: 196px; text-decoration: none; color: var(--ink); background: var(--tint); border: 1px solid rgba(0, 0, 0, 0.04); transition: transform 0.2s ease, box-shadow 0.2s ease; }
-  .board:hover { color: var(--ink); transform: translateY(-3px); box-shadow: var(--shadow); }
+  .boards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+  .board { position: relative; overflow: hidden; border-radius: var(--r-lg); padding: 24px 24px 22px; display: flex; flex-direction: column; gap: 8px; min-height: 200px; text-decoration: none; color: var(--ink); background: var(--tint); box-shadow: var(--shadow); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .board:hover { color: var(--ink); transform: translateY(-2px); box-shadow: var(--shadow-up); }
+  .board:active { transform: scale(0.98); }
   .board__wind { width: 40px; margin-bottom: 8px; transform: rotate(-5deg); filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.15)); transition: transform 0.25s ease; }
   .board:hover .board__wind { transform: rotate(0deg) translateY(-3px); }
-  .board__name { font-family: var(--display); font-size: 21px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink-b); }
+  .board__name { font-size: 21px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink-b); }
   .board__short { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
-  .board__count { margin-top: auto; padding-top: 6px; font-size: 12px; font-weight: 600; color: var(--ink-b); }
+  .board__count { margin-top: auto; padding-top: 6px; font-size: 13px; font-weight: 600; color: var(--ink-b); letter-spacing: var(--track); font-family: var(--sans); }
 
   @media (max-width: 960px) {
     .hero { grid-template-columns: minmax(0, 1fr); }
     .boards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .steps { grid-template-columns: 1fr; gap: 16px; }
   }
   @media (max-width: 640px) {
-    .home { gap: 52px; padding-top: 16px; }
-    .hero-wrap { padding: 0 12px; }
-    .hero { border-radius: 22px; padding: 28px 20px; }
+    .home { gap: 48px; }
+    .hero-band { padding: 40px 0 44px; }
     .lead { font-size: 16px; }
     .table { padding: 18px 14px; }
-    .steps { grid-template-columns: 1fr; gap: 18px; }
-    .step, .step:first-child { border-left: 0; padding: 0 0 18px; border-bottom: 1px solid var(--line); }
-    .step:last-child { border-bottom: 0; padding-bottom: 0; }
-    .boards { grid-template-columns: 1fr; }
+    .actions :global(.btn) { flex: 1 1 auto; }
+    .boards { grid-template-columns: 1fr; gap: 16px; }
     .board { min-height: 0; display: grid; grid-template-columns: 44px minmax(0, 1fr); grid-template-areas: 'wind name' 'wind short' 'wind count'; column-gap: 16px; row-gap: 4px; padding: 18px; }
     .board__wind { grid-area: wind; margin: 0; width: 40px; align-self: start; }
     .board__name { grid-area: name; font-size: 19px; }
