@@ -38,6 +38,26 @@ src/styles/global.css  전체 색상·글꼴
 
 맨 위에 `draft: true` 를 넣으면 사이트에 보이지 않습니다.
 
+### 뉴스 대표 이미지 (자동)
+
+마작 뉴스 글을 `main` 에 올리면 GitHub Actions(`.github/workflows/news-cover.yml`)가 OpenAI 이미지 API로 기사 분위기에 맞는 대표 이미지를 만들고, `public/images/news/<글이름>.webp` 저장과 머리말 `cover:` 추가까지 해서 다시 커밋합니다. 몇 분 뒤 사이트에 이미지가 붙습니다.
+
+- 이미 `cover` 가 있거나 `draft: true`, `autoCover: false` 인 글은 건너뜁니다.
+- 장면은 기사를 읽고 자동으로 정합니다. 직접 정하려면 머리말에 `coverPrompt: "영어로 장면 한두 문장"` 을 적습니다.
+- 모든 이미지에는 같은 스타일(사이트 초록·크림·주홍)과 금지 목록이 붙습니다: 글자·숫자, 실존 인물·얼굴, 로고·캐릭터, 돈·칩·도박, 패 클로즈업.
+- 쓴 프롬프트는 `scripts/cover-prompts.json` 에 남습니다.
+- 이미지가 마음에 안 들면: GitHub → Actions → "뉴스 대표 이미지" → Run workflow → 글 이름을 넣고 `force` 를 켜서 다시 만듭니다.
+- 비밀값: 저장소 Settings → Secrets and variables → Actions 에 `OPENAI_API_KEY`.
+
+내 컴퓨터에서 직접 만들 때는 저장소 맨 위에 `.env` 파일(`OPENAI_API_KEY=sk-...`, Git에 올라가지 않음)을 두고:
+
+```bash
+npm run cover                        # cover 없는 뉴스 글 전부
+npm run cover -- 2026-10-22-글이름    # 이 글만
+npm run cover -- 2026-10-22-글이름 --force   # 다시 만들기
+npm run cover -- --dry               # 이미지 없이 프롬프트만 보기
+```
+
 ## 내 컴퓨터에서 미리 보기
 
 [Node.js](https://nodejs.org) 22.22 이상이 필요합니다.
