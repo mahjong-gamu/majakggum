@@ -1,19 +1,20 @@
 #!/usr/bin/env node
-// 마작 뉴스 글의 대표 이미지(cover)를 OpenAI 이미지 API로 만든다.
+// 마작 뉴스 글의 대표 이미지(cover)를 Cloudflare Workers AI(무료 사용량 안)로 만든다.
 //
 //   npm run cover                     cover 가 없는 뉴스 글 전부
 //   npm run cover -- 2026-10-22-xxx   이 글만 (파일 이름에서 .md 를 뺀 것)
 //   npm run cover -- 글이름 --force   이미 cover 가 있어도 다시 만들기
 //   npm run cover -- --dry            API 호출 없이 프롬프트만 보기
 //
-// 필요한 것: 환경변수 OPENAI_API_KEY (내 컴퓨터에서는 저장소 맨 위 .env 파일, GitHub에서는 Secrets)
+// 필요한 것: 환경변수 CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_AI_TOKEN
+//   (내 컴퓨터에서는 저장소 맨 위 .env 파일, GitHub에서는 Secrets)
 //
 // 하는 일
 //   1. src/content/news/*.md 를 읽고, cover 가 없고 draft·autoCover:false 가 아닌 글을 고른다.
 //   2. 장면 문장을 정한다: 글에 coverPrompt 가 있으면 그것, 없으면 작은 텍스트 모델이 기사에서 뽑는다.
 //      이때 실존 인물·이름·로고·글자·돈/칩·패 클로즈업을 넣지 않도록 지시하고, 결과를 다시 검사한다.
 //   3. 고정 스타일 + 장면 + 금지 목록으로 최종 프롬프트를 만들어 이미지를 받는다.
-//   4. public/images/news/<글이름>.webp 로 저장하고 글 머리말에 cover: 줄을 넣는다.
+//   4. public/images/news/<글이름>.jpg(또는 .png) 로 저장하고 글 머리말에 cover: 줄을 넣는다.
 //   5. 쓴 프롬프트는 scripts/cover-prompts.json 에 남긴다(다시 만들거나 확인할 때 참고).
 
 import fs from 'node:fs';
@@ -25,12 +26,13 @@ const NEWS_DIR = path.join(ROOT, 'src/content/news');
 const IMG_DIR = path.join(ROOT, 'public/images/news');
 const LOG_FILE = path.join(ROOT, 'scripts/cover-prompts.json');
 
-const API = process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1';
-const KEY = process.env.OPENAI_API_KEY;
-const IMAGE_MODEL = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2.5-flare';
-const TEXT_MODEL = process.env.OPENAI_TEXT_MODEL || 'gpt-6-luna';
-const QUALITY = process.env.COVER_QUALITY || 'medium';
-const SIZE = '1536x864'; // 16:9 — 글 상단(최대 960×520)과 목록 카드(가로로 긴 띠)에 맞춤
+const ACCOUNT = process.env.CLOUDFLARE_ACCOUNT_ID;
+const KEY = process.env.CLOUDFLARE_AI_TOKEN;
+const API = process.env.CF_AI_BASE_URL || `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT}/ai/run`;
+const IMAGE_MODEL = process.env.CF_IMAGE_MODEL || '@cf/black-forest-labs/flux-2-klein-4b';
+const TEXT_MODEL = process.env.CF_TEXT_MODEL || '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
+const WIDTH = 1536, HEIGHT = 864; // 16:9 — 글 상단(최대 960×520)과 목록 카드(가로로 긴 띠)에 맞춤
+const SIZE = `${WIDTH}x${HEIGHT}`;
 
 const args = process.argv.slice(2);
 const FORCE = args.includes('--force');
@@ -103,17 +105,19 @@ function addCover(file, coverPath) {
 }
 
 // ── OpenAI 호출 ────────────────────────────────────────────────────────────
-async function call(endpoint, body, tries = 2) {
+// model: '@cf/...' 모델 이름, body: 객체(JSON) 또는 FormData(이미지 모델)
+async function call(model, body, tries = 2) {
   for (let i = 1; ; i++) {
-    const res = await fetch(`${API}${endpoint}`, {
+    const isForm = body instanceof FormData;
+    const res = await fetch(`${API}/${model}`, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+      headers: { Authorization: `Bearer ${KEY}`, ...(isForm ? {} : { 'Content-Type': 'application/json' }) },
+      body: isForm ? body : JSON.stringify(body),
       signal: AbortSignal.timeout(240_000),
     });
     const json = await res.json().catch(() => ({}));
-    if (res.ok) return json;
-    const msg = json?.error?.message || res.statusText;
+    if (res.ok && json.success !== false) return json.result ?? json;
+    const msg = (json?.errors || []).map((e) => `${e.code ?? ''} ${e.message ?? ''}`.trim()).join('; ') || json?.error?.message || res.statusText;
     if (i < tries && (res.status === 429 || res.status >= 500)) {
       await new Promise((r) => setTimeout(r, 15_000));
       continue;
@@ -125,13 +129,13 @@ async function call(endpoint, body, tries = 2) {
   }
 }
 
-function outputText(resp) {
-  if (typeof resp.output_text === 'string') return resp.output_text;
-  return (resp.output || [])
-    .flatMap((o) => o.content || [])
-    .filter((c) => c.type === 'output_text')
-    .map((c) => c.text)
-    .join('');
+// JSON 모드 응답: response 가 객체일 수도, 문자열일 수도 있다
+function parseJsonResponse(result) {
+  const r = result?.response;
+  if (r && typeof r === 'object') return r;
+  const text = String(r ?? '');
+  const m = text.match(/\{[\s\S]*\}/);
+  return JSON.parse(m ? m[0] : text);
 }
 
 // 장면 문장 검사: 이름(대문자 단어)·숫자·한글/일본어·금지어가 있으면 거부
@@ -163,36 +167,34 @@ async function makeScene(data, body) {
     if (issues.length) console.warn(`  ! coverPrompt 확인 필요 (${issues.join('; ')}) — 그대로 씁니다`);
     return { scene: data.coverPrompt, mood: '', source: 'coverPrompt' };
   }
-  if (!KEY) return { ...fallbackScene(data), source: 'fallback (no key)' };
+  if (!KEY || !ACCOUNT) return { ...fallbackScene(data), source: 'fallback (no key)' };
 
   const article = `제목: ${data.title}\n분류: ${data.meta || ''}\n요약: ${data.excerpt || ''}\n\n${body.replace(/^## 출처[\s\S]*$/m, '').slice(0, 2500)}`;
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      const resp = await call('/responses', {
-        model: TEXT_MODEL,
-        instructions: SCENE_RULES,
-        input: article,
-        text: {
-          format: {
-            type: 'json_schema',
-            name: 'cover_scene',
-            strict: true,
-            schema: {
-              type: 'object',
-              additionalProperties: false,
-              required: ['scene', 'mood'],
-              properties: { scene: { type: 'string' }, mood: { type: 'string' } },
-            },
+      const result = await call(TEXT_MODEL, {
+        messages: [
+          { role: 'system', content: SCENE_RULES },
+          { role: 'user', content: article },
+        ],
+        response_format: {
+          type: 'json_schema',
+          json_schema: {
+            type: 'object',
+            required: ['scene', 'mood'],
+            properties: { scene: { type: 'string' }, mood: { type: 'string' } },
           },
         },
+        max_tokens: 300,
       });
-      const out = JSON.parse(outputText(resp));
+      const out = parseJsonResponse(result);
+      if (typeof out.scene !== 'string' || typeof out.mood !== 'string') throw new Error('JSON 형식이 다릅니다');
       const issues = [...sceneProblems(out.scene), ...sceneProblems(out.mood)];
       if (!issues.length) return { scene: out.scene.trim(), mood: out.mood.trim(), source: TEXT_MODEL };
       console.warn(`  ! 장면 문장 거부 (${issues.join('; ')}): ${out.scene}`);
     } catch (e) {
       console.warn(`  ! 장면 문장 만들기 실패: ${e.message}`);
-      break;
+      if (attempt === 2 || e.status === 401 || e.status === 403) break;
     }
   }
   return { ...fallbackScene(data), source: 'fallback' };
@@ -203,24 +205,23 @@ function buildPrompt({ scene, mood }) {
 }
 
 async function makeImage(prompt) {
-  const resp = await call('/images/generations', {
-    model: IMAGE_MODEL,
-    prompt,
-    size: SIZE,
-    quality: QUALITY,
-    output_format: 'webp',
-    output_compression: 82,
-    n: 1,
-  });
-  const b64 = resp?.data?.[0]?.b64_json;
+  const form = new FormData();
+  form.append('prompt', prompt);
+  form.append('width', String(WIDTH));
+  form.append('height', String(HEIGHT));
+  const result = await call(IMAGE_MODEL, form);
+  const b64 = result?.image;
   if (!b64) throw new Error('이미지가 응답에 없습니다');
-  return Buffer.from(b64, 'base64');
+  const buf = Buffer.from(b64, 'base64');
+  // 파일 형식은 앞부분 바이트로 알아낸다
+  const ext = buf[0] === 0xff && buf[1] === 0xd8 ? 'jpg' : buf.slice(0, 4).toString('hex') === '89504e47' ? 'png' : buf.slice(8, 12).toString() === 'WEBP' ? 'webp' : 'jpg';
+  return { buf, ext };
 }
 
 // ── 실행 ─────────────────────────────────────────────────────────────────────
 async function main() {
-  if (!KEY && !DRY) {
-    console.error('OPENAI_API_KEY 가 없습니다. 저장소 맨 위 .env 파일이나 GitHub Secrets 에 넣어 주세요. (--dry 로 프롬프트만 볼 수 있습니다)');
+  if ((!KEY || !ACCOUNT) && !DRY) {
+    console.error('CLOUDFLARE_ACCOUNT_ID 와 CLOUDFLARE_AI_TOKEN 이 필요합니다. 저장소 맨 위 .env 파일이나 GitHub Secrets 에 넣어 주세요. (--dry 로 프롬프트만 볼 수 있습니다)');
     process.exit(1);
   }
 
@@ -257,20 +258,22 @@ async function main() {
       continue;
     }
     try {
-      const img = await makeImage(prompt);
-      const rel = `/images/news/${t.slug}.webp`;
+      const { buf: img, ext } = await makeImage(prompt);
+      const rel = `/images/news/${t.slug}.${ext}`;
       fs.writeFileSync(path.join(ROOT, 'public', rel), img);
+      // 다시 만들 때 확장자가 바뀌었으면 예전 파일을 지운다
+      const old = t.post.data.cover;
+      if (old && old !== rel && old.startsWith('/images/news/')) fs.rmSync(path.join(ROOT, 'public', old), { force: true });
       addCover(t.file, rel);
-      log[t.slug] = { prompt, scene: scene.scene, mood: scene.mood, sceneFrom: scene.source, model: IMAGE_MODEL, quality: QUALITY, size: SIZE, createdAt: new Date().toISOString() };
+      log[t.slug] = { prompt, scene: scene.scene, mood: scene.mood, sceneFrom: scene.source, model: IMAGE_MODEL, size: SIZE, createdAt: new Date().toISOString() };
       fs.writeFileSync(LOG_FILE, JSON.stringify(log, null, 2) + '\n');
       console.log(`  ✓ ${rel} (${Math.round(img.length / 1024)} KB)`);
     } catch (e) {
       failed++;
       const hint =
-        e.status === 401 ? ' — API 키가 틀렸거나 만료됐습니다'
-        : e.status === 403 ? ' — 조직 인증(Organization Verification)이 필요할 수 있습니다'
-        : e.status === 429 ? ' — 사용 한도나 결제 잔액을 확인하세요'
-        : e.status === 400 && /safety|moderation/i.test(e.message) ? ' — 안전 필터에 걸렸습니다. 글에 coverPrompt 를 직접 적어 다시 시도하세요'
+        e.status === 401 || e.status === 403 ? ' — 토큰이 틀렸거나 Workers AI 권한이 없습니다. 계정 ID도 확인하세요'
+        : e.status === 429 || /neuron|quota|limit/i.test(e.message) ? ' — 오늘 무료 사용량(하루 1만 Neurons)을 다 썼을 수 있습니다. 내일(한국 시간 오전 9시 이후) 다시 실행하세요'
+        : /nsfw|safety|flag/i.test(e.message) ? ' — 안전 필터에 걸렸습니다. 글에 coverPrompt 를 직접 적어 다시 시도하세요'
         : '';
       console.error(`  ✗ 실패: ${e.message}${hint}`);
     }

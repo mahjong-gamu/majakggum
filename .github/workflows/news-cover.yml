@@ -36,12 +36,13 @@ jobs:
 
       - name: 대표 이미지 만들기
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_AI_TOKEN: ${{ secrets.CLOUDFLARE_AI_TOKEN }}
           SLUG: ${{ inputs.slug }}
           FORCE: ${{ inputs.force && '--force' || '' }}
         run: |
-          if [ -z "$OPENAI_API_KEY" ]; then
-            echo "::error::저장소 Secrets 에 OPENAI_API_KEY 가 없습니다 (Settings → Secrets and variables → Actions)."
+          if [ -z "$CLOUDFLARE_ACCOUNT_ID" ] || [ -z "$CLOUDFLARE_AI_TOKEN" ]; then
+            echo "::error::저장소 Secrets 에 CLOUDFLARE_ACCOUNT_ID 와 CLOUDFLARE_AI_TOKEN 이 필요합니다 (Settings → Secrets and variables → Actions)."
             exit 1
           fi
           node scripts/gen-cover.mjs $SLUG $FORCE
