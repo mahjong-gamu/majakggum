@@ -9,8 +9,6 @@ const base = {
   excerpt: z.string(), // 목록·홈 카드에 보이는 한두 줄 요약
   meta: z.string().optional(), // 날짜 옆에 붙는 짧은 정보 (예: "옥탁 반장전 · 2위")
   cover: z.string().optional(), // 대표 이미지 경로 (예: /images/visits/abc.jpg)
-  coverPrompt: z.string().optional(), // 뉴스 대표 이미지를 AI로 만들 때 쓸 장면 (영어 한두 문장, 비우면 자동)
-  autoCover: z.boolean().default(true), // false면 뉴스 대표 이미지를 자동으로 만들지 않음
   draft: z.boolean().default(false), // true면 사이트에 안 보임
   claude: z.boolean().default(false), // true면 글 맨 아래에 "Claude의 도움을 받아 작성했습니다" 알림이 붙음
 };

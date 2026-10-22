@@ -38,37 +38,6 @@ src/styles/global.css  전체 색상·글꼴
 
 맨 위에 `draft: true` 를 넣으면 사이트에 보이지 않습니다.
 
-### 뉴스 대표 이미지 (자동)
-
-마작 뉴스 글을 `main` 에 올리면 GitHub Actions(`.github/workflows/news-cover.yml`)가 Cloudflare Workers AI(FLUX.2 klein 4B, 무료 사용량 안)로 기사 분위기에 맞는 대표 이미지를 만들고, `public/images/news/<글이름>.webp` 저장과 머리말 `cover:` 추가까지 해서 다시 커밋합니다. 몇 분 뒤 사이트에 이미지가 붙습니다.
-
-- 이미 `cover` 가 있거나 `draft: true`, `autoCover: false` 인 글은 건너뜁니다.
-- 장면은 기사를 읽고 자동으로 정합니다. 직접 정하려면 머리말에 `coverPrompt: "영어로 장면 한두 문장"` 을 적습니다.
-- 모든 이미지에는 같은 스타일(사이트 초록·크림·주홍)과 금지 목록이 붙습니다: 글자·숫자, 실존 인물·얼굴, 로고·캐릭터, 돈·칩·도박, 패 클로즈업.
-- 만든 뒤에는 이미지를 보는 모델이 **검사**합니다: 글자·얼굴·로고·돈/도박(큰 문제), 일그러짐·패 클로즈업·어둡고 음울한 분위기·눈에 띄는 사람·낮은 완성도(가벼운 문제). 문제가 있으면 그 내용을 프롬프트에 넣어 다시 만들고(최대 3번), 큰 문제가 끝까지 남으면 이미지를 붙이지 않습니다. 검사 결과도 `scripts/cover-prompts.json` 에 남습니다.
-- 기본 분위기는 밝고 따뜻하게, 사람은 되도록 뺍니다. 장면은 기사마다 다른 소재를 고르도록 최근 장면 6개를 피하게 합니다. 파일은 webp 로 압축합니다(보통 50~150KB).
-- **연결·품질 시험**: Actions → "뉴스 대표 이미지" → Run workflow 에서 `test` 를 켜면 글은 바꾸지 않고, 시도한 이미지들과 검사 결과(`report.json`)를 실행 기록의 Artifacts 로 받을 수 있습니다.
-- 쓴 프롬프트는 `scripts/cover-prompts.json` 에 남습니다.
-- 이미지가 마음에 안 들면: GitHub → Actions → "뉴스 대표 이미지" → Run workflow → 글 이름을 넣고 `force` 를 켜서 다시 만듭니다.
-- 비밀값: 저장소 Settings → Secrets and variables → Actions 에 `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_AI_TOKEN`(Workers AI 권한 토큰).
-- 무료 사용량: 하루 1만 Neurons(한국 시간 오전 9시에 새로 채워짐). 이미지 한 장에 수백 Neurons 정도라 하루 몇 장은 충분합니다.
-
-내 컴퓨터에서 직접 만들 때는 저장소 맨 위에 `.env` 파일(Git에 올라가지 않음)을 두고:
-
-```
-CLOUDFLARE_ACCOUNT_ID=계정ID
-CLOUDFLARE_AI_TOKEN=토큰
-```
-
-그다음:
-
-```bash
-npm run cover                        # cover 없는 뉴스 글 전부
-npm run cover -- 2026-10-22-글이름    # 이 글만
-npm run cover -- 2026-10-22-글이름 --force   # 다시 만들기
-npm run cover -- --dry               # 이미지 없이 프롬프트만 보기
-```
-
 ## 내 컴퓨터에서 미리 보기
 
 [Node.js](https://nodejs.org) 22.22 이상이 필요합니다.
