@@ -5,6 +5,7 @@
 //   npm run cover -- 2026-10-22-xxx   이 글만 (파일 이름에서 .md 를 뺀 것)
 //   npm run cover -- 글이름 --force   이미 cover 가 있어도 다시 만들기
 //   npm run cover -- --dry            API 호출 없이 프롬프트만 보기
+//   npm run cover -- --test [글이름]   연결 시험: 글은 그대로 두고 cover-test/ 에 이미지만 만들기 (기본: 가장 최근 뉴스 글)
 //
 // 필요한 것: 환경변수 CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_AI_TOKEN
 //   (내 컴퓨터에서는 저장소 맨 위 .env 파일, GitHub에서는 Secrets)
@@ -37,6 +38,7 @@ const SIZE = `${WIDTH}x${HEIGHT}`;
 const args = process.argv.slice(2);
 const FORCE = args.includes('--force');
 const DRY = args.includes('--dry');
+const TEST = args.includes('--test'); // 시험: 글은 건드리지 않고 cover-test/ 에 이미지만 만든다
 const ONLY = args.filter((a) => !a.startsWith('--')).map((a) => a.replace(/\.md$/, ''));
 
 // ── 고정 스타일: 모든 이미지에 똑같이 붙는다 (사이트 색: 짙은 초록·크림·주홍) ──────────
@@ -226,6 +228,28 @@ async function main() {
   }
 
   const files = fs.readdirSync(NEWS_DIR).filter((f) => f.endsWith('.md')).sort();
+
+  if (TEST) {
+    const slug = ONLY[0] || files.at(-1).replace(/\.md$/, '');
+    const post = readPost(path.join(NEWS_DIR, `${slug}.md`));
+    console.log(`▶ 연결 시험 — ${slug} (글은 바꾸지 않습니다)`);
+    const scene = await makeScene(post.data, post.body);
+    const prompt = buildPrompt(scene);
+    console.log(`  장면(${scene.source}): ${scene.scene}\n  ── 최종 프롬프트 ──\n${prompt.replace(/^/gm, '  ')}`);
+    try {
+      const { buf, ext } = await makeImage(prompt);
+      const out = path.join(ROOT, 'cover-test', `${slug}.${ext}`);
+      fs.mkdirSync(path.dirname(out), { recursive: true });
+      fs.writeFileSync(out, buf);
+      fs.writeFileSync(path.join(ROOT, 'cover-test', 'prompt.txt'), `scene source: ${scene.source}\n\n${prompt}\n`);
+      console.log(`  ✓ cover-test/${slug}.${ext} (${Math.round(buf.length / 1024)} KB)`);
+      return;
+    } catch (e) {
+      console.error(`  ✗ 실패: ${e.message}`);
+      process.exit(1);
+    }
+  }
+
   const targets = [];
   for (const f of files) {
     const slug = f.replace(/\.md$/, '');

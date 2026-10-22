@@ -16,6 +16,10 @@ on:
         description: "이미 이미지가 있어도 다시 만들기"
         type: boolean
         default: false
+      test:
+        description: "연결 시험만 (글은 바꾸지 않고 결과 이미지를 실행 기록에 첨부)"
+        type: boolean
+        default: false
 
 concurrency:
   group: news-cover
@@ -40,15 +44,24 @@ jobs:
           CLOUDFLARE_AI_TOKEN: ${{ secrets.CLOUDFLARE_AI_TOKEN }}
           SLUG: ${{ inputs.slug }}
           FORCE: ${{ inputs.force && '--force' || '' }}
+          TEST: ${{ inputs.test && '--test' || '' }}
         run: |
           if [ -z "$CLOUDFLARE_ACCOUNT_ID" ] || [ -z "$CLOUDFLARE_AI_TOKEN" ]; then
             echo "::error::저장소 Secrets 에 CLOUDFLARE_ACCOUNT_ID 와 CLOUDFLARE_AI_TOKEN 이 필요합니다 (Settings → Secrets and variables → Actions)."
             exit 1
           fi
-          node scripts/gen-cover.mjs $SLUG $FORCE
+          node scripts/gen-cover.mjs $SLUG $FORCE $TEST
+
+      - name: 시험 이미지 첨부
+        if: always() && inputs.test
+        uses: actions/upload-artifact@v4
+        with:
+          name: cover-test
+          path: cover-test/
+          if-no-files-found: ignore
 
       - name: 커밋
-        if: always()
+        if: always() && !inputs.test
         run: |
           git config user.name "mahjong-gamu-bot"
           git config user.email "mahjong-gamu@users.noreply.github.com"
