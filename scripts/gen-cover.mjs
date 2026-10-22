@@ -58,6 +58,8 @@ const STYLE = [
   'Editorial cover illustration for a Korean riichi mahjong news blog.',
   'Style: minimal flat illustration with soft grain texture, clean shapes, no clutter.',
   'Lighting: bright, warm and inviting by default (soft daylight or warm lamplight, airy cream tones); use darker, dramatic lighting only when the mood below is explicitly tense or sombre.',
+  'Mahjong tiles are drawn as simple plain ivory blocks with no symbols or markings on them.',
+  'The illustration fills the whole frame edge to edge, with no borders, frames or blank bands.',
   'Palette: deep forest green (#1e3932), warm cream (#f2f0eb), muted vermilion accent (#c9502e), a touch of soft gold.',
   'Composition: wide 16:9, main subject in the center third with generous margins, because the image is also cropped into a short wide strip. Prefer scenes of objects and places; if people appear at all they are tiny, distant, faceless silhouettes that take up less than a tenth of the frame.',
 ].join(' ');
@@ -78,6 +80,8 @@ Read the article and return JSON: {"scene": "...", "mood": "..."}.
 - "scene": one or two English sentences (max 60 words) describing a single symbolic, atmospheric scene that matches the article's mood (e.g. a sunlit hall with mahjong tables ready for an event, an empty mahjong table by a bright window, a train toward a regional city, a stack of new books, a phone on a cosy desk).
 - "mood": 2-6 English words that match the article's real tone. Announcements, events, new leagues, sponsors, festivals and community news are bright and positive ("festive, warm", "fresh, hopeful"); wins are "celebratory, proud"; only a dramatic close match or sad news is "tense" or "sombre". Do not make good news dark.
 - Prefer scenes of objects and places. Leave people out.
+- The scene must include a mahjong element (a mahjong table or tiles) so readers see it is mahjong news.
+- No screens, monitors, televisions, cameras or broadcast studios.
 - Pick a concrete visual idea specific to THIS article: its place, season, what changes, what it means (e.g. new regional branches → small lit mahjong tables appearing along a coastal or snowy regional town; a sponsor joining → two paths merging toward one bright table; a trophy match → a quiet table with a soft gold glow; a book release → new books stacked by a window). Do not default to a generic room full of tables.
 - Do not repeat any of the recently used scenes listed after the article.
 Hard rules for "scene":
@@ -158,7 +162,7 @@ function parseJsonResponse(result) {
 
 // 장면 문장 검사: 이름(대문자 단어)·숫자·한글/일본어·금지어가 있으면 거부
 const ALLOWED_CAPS = new Set(['A', 'An', 'The', 'Two', 'One', 'Japanese', 'Korean', 'Korea', 'Japan', 'Asian']);
-const BANNED = /\b(money|cash|coins?|banknotes?|chips?|bet|betting|casino|gambl\w*|cigarettes?|smok\w*|alcohol|beer|logo|emblem|text|letters?|words?|sign(?:s|age)?|caption|portrait|face(?!-down|\s+down)|smil\w*|anime|character)\b/i;
+const BANNED = /\b(money|cash|coins?|banknotes?|chips?|bet|betting|casino|gambl\w*|cigarettes?|smok\w*|alcohol|beer|logo|emblem|text|letters?|words?|sign(?:s|age)?|caption|portrait|face(?!-down|\s+down)|smil\w*|anime|character|screens?|monitors?|televisions?|tvs?|studio)\b/i;
 function sceneProblems(s) {
   const issues = [];
   if (/[^\x00-\x7F]/.test(s)) issues.push('non-English characters');
@@ -241,14 +245,15 @@ async function makeImage(prompt) {
 
 // ── 이미지 검사 ─────────────────────────────────────────────────────────────
 const HARD = { text: '글자·숫자가 보임', faces: '알아볼 수 있는 얼굴·인물', logos: '로고·캐릭터', money: '돈·칩·도박' };
-const SOFT = { distorted: '일그러진 물체', tiles: '패 앞면이 크게 보임', dark: '어둡거나 음울함', people: '사람이 눈에 띔', low: '완성도 낮음' };
+const SOFT = { nomahjong: '마작 요소 없음', distorted: '일그러진 물체', tiles: '패 앞면이 크게 보임', dark: '어둡거나 음울함', people: '사람이 눈에 띔', low: '완성도 낮음' };
 const FIX_HINT = {
-  text: 'Absolutely no text, letters, numbers or symbols anywhere, including on walls, screens, tiles and objects.',
+  text: 'Absolutely no text, letters, numbers or symbols anywhere; tiles are blank ivory blocks.',
   faces: 'Do not show any people at all.',
   logos: 'No logos, emblems, banners or characters anywhere.',
   money: 'No money, coins, chips, cards or betting items anywhere.',
   distorted: 'Keep every object simple, clean and geometrically correct.',
   tiles: 'Mahjong tiles must be small, face-down and far from the viewer.',
+  nomahjong: 'Place a clearly visible mahjong table with plain ivory tiles at the center of the scene.',
   dark: 'Make the whole scene brighter and warmer: soft daylight, light cream walls, gentle shadows.',
   people: 'No people or silhouettes at all.',
   low: 'Make it a cleaner, more striking and well-composed illustration.',
@@ -258,11 +263,12 @@ const INSPECT_RULES = (mood) => `You are a strict art director checking a cover 
 Intended mood: "${mood || 'calm, warm'}".
 Look carefully at the image and answer only with JSON:
 {"description": "one sentence describing what you actually see",
- "text": true/false   (any letters, numbers, kanji, hangul, symbols that look like writing, signs or watermarks),
+ "text": true/false   (any letters, numbers, kanji, hangul, symbols that look like writing, signs or watermarks — including small marks on tiles that look like characters),
  "faces": true/false  (any face with visible features, or a person large enough to be a portrait),
  "logos": true/false  (logos, emblems, brand marks, mascots, game or anime characters),
  "money": true/false  (money, coins, poker chips, playing cards, betting or casino items),
- "distorted": true/false (broken, melted or impossible objects that a viewer would notice at a glance at small size; ignore minor stylisation),
+ "nomahjong": true/false (true if no mahjong table or mahjong tiles are visible),
+ "distorted": true/false (broken, melted or impossible objects that a viewer would notice at a glance at small size, or blank bands/borders/unfinished edges around the picture; ignore minor stylisation),
  "tiles": true/false  (mahjong tile faces shown large and close enough to read),
  "people": true/false (a person or silhouette that is easy to notice, e.g. near the center or larger than a small distant figure),
  "dark": true/false   (most of the image is in deep shadow, or it feels gloomy, cold or ominous; a bright, sunlit or warmly lit scene is false even if it is quiet or empty. If the intended mood is tense or sombre, answer false),
