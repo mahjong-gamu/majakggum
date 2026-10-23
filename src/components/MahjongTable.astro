@@ -140,7 +140,7 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
 
 <style>
   .mt { margin: 0; display: flex; flex-direction: column; gap: 10px; }
-  .mt__table { container-type: inline-size; position: relative; width: 100%; max-width: 760px; margin: 0 auto; aspect-ratio: 1; border-radius: 22px; }
+  .mt__table { container-type: inline-size; position: relative; width: 100%; max-width: 760px; margin: 0 auto; aspect-ratio: 1; border-radius: var(--r-lg); }
   /* t = 패 1장 너비. 테이블 한 변 = 19.5t. s = 그 줄에서 쓰는 패 크기 */
   .board { position: absolute; inset: 0; --t: calc(100cqw / 19.5); --s: var(--t); }
   .layer { position: absolute; inset: 0; transform: rotate(var(--rot)); }
@@ -163,14 +163,14 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
   .plate__wind { font-family: var(--display); font-weight: 800; font-size: max(10px, calc(var(--t) * 0.5)); }
   .plate__wind.oya { color: #ff6b5e; }
   .plate__score { font-family: var(--mono); font-weight: 600; font-size: max(10px, calc(var(--t) * 0.46)); }
-  .plate__seat { font-size: max(8px, calc(var(--t) * 0.3)); color: #b9cbbf; }
-  .plate--me .plate__score { color: #f0d9a8; }
+  .plate__seat { font-size: max(8px, calc(var(--t) * 0.3)); color: var(--felt-muted); }
+  .plate--me .plate__score { color: var(--mint); }
   .stick { position: absolute; left: 50%; bottom: calc(var(--t) * 0.72); width: calc(var(--t) * 2.4); height: calc(var(--t) * 0.16); transform: translateX(-50%); border-radius: 99px; background: #fff; }
   .stick::after { content: ''; position: absolute; left: 50%; top: 50%; width: calc(var(--t) * 0.12); height: calc(var(--t) * 0.12); border-radius: 50%; background: #d4201b; transform: translate(-50%, -50%); }
   .center__mid { position: absolute; inset: calc(var(--t) * 1.05); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(var(--t) * 0.16); text-align: center; }
   .center__kyoku { font-family: var(--display); font-weight: 800; font-size: max(12px, calc(var(--t) * 0.58)); white-space: nowrap; letter-spacing: -0.02em; }
-  .center__sub { font-size: max(9px, calc(var(--t) * 0.32)); color: #b9cbbf; white-space: nowrap; }
-  .center__dora { display: flex; align-items: center; gap: calc(var(--t) * 0.08); font-size: max(9px, calc(var(--t) * 0.3)); color: #b9cbbf; }
+  .center__sub { font-size: max(9px, calc(var(--t) * 0.32)); color: var(--felt-muted); white-space: nowrap; }
+  .center__dora { display: flex; align-items: center; gap: calc(var(--t) * 0.08); font-size: max(9px, calc(var(--t) * 0.3)); color: var(--felt-muted); }
   .center__dora span { margin-right: calc(var(--t) * 0.08); }
   .center__dora img { width: calc(var(--t) * 0.62); height: auto; }
 
@@ -183,7 +183,7 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
   .legend-scores .r { font-size: 11px; font-weight: 700; color: var(--red); }
   @media (max-width: 560px) {
     .legend-scores { display: grid; }
-    .mt__table { border-radius: 16px; }
+    .mt__table { border-radius: var(--r-lg); }
   }
   /* 테이블이 작으면 가운데에는 자풍·국만 두고, 점수는 아래 점수표로 */
   @container (max-width: 520px) {
