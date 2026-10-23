@@ -54,10 +54,10 @@ const color = (pick: string) => (pick === 'ai' || pick === 'both' ? 'var(--green
             <tbody>
               {data.finals.map((f: any) => (
                 <tr class:list={{ me: f.seat === me }}>
-                  <td class="mono rank">{f.rank}</td>
+                  <td class="digits rank">{f.rank}</td>
                   <td class="who">{withMe(f.seat, me)}</td>
-                  <td class="mono num">{f.score}</td>
-                  <td class:list={['mono num pt', sign(f.pt)]}>{f.pt ?? ''}</td>
+                  <td class="digits num">{f.score}</td>
+                  <td class:list={['digits num pt', sign(f.pt)]}>{f.pt ?? ''}</td>
                 </tr>
               ))}
             </tbody>
@@ -71,7 +71,7 @@ const color = (pick: string) => (pick === 'ai' || pick === 'both' ? 'var(--green
             {metrics.map((x) => (
               <div class="metric">
                 <dt>{x.label}</dt>
-                <dd class:list={['metric__v', { mono: !x.text, warn: x.warn, text: x.text }]}>{x.value}</dd>
+                <dd class:list={['metric__v', { digits: !x.text, warn: x.warn, text: x.text }]}>{x.value}</dd>
               </div>
             ))}
           </dl>
@@ -93,7 +93,7 @@ const color = (pick: string) => (pick === 'ai' || pick === 'both' ? 'var(--green
               {r.note && <span class="round__note">{r.note}</span>}
               {r.key && <span class="round__key">주요 국면</span>}
             </span>
-            <span class:list={['mono round__delta', sign(r.delta)]}>{r.delta}</span>
+            <span class:list={['digits round__delta', sign(r.delta)]}>{r.delta}</span>
           </li>
         ))}
       </ol>
@@ -116,7 +116,7 @@ const color = (pick: string) => (pick === 'ai' || pick === 'both' ? 'var(--green
               <div class="cand">
                 <span class="cand__name">{c.action}{pickTag(c.pick) && <span class:list={['cand__tag', `cand__tag--${c.pick}`]}>({pickTag(c.pick)})</span>}</span>
                 <div class="bar"><div style={`width:${Math.max(0, Math.min(100, c.prob))}%;background:${color(c.pick)}`}></div></div>
-                <span class="mono cand__p">{c.prob}%</span>
+                <span class="digits cand__p">{c.prob}%</span>
               </div>
             ))}
             <div class="legend">
@@ -190,8 +190,6 @@ const color = (pick: string) => (pick === 'ai' || pick === 'both' ? 'var(--green
   .moment__title { margin: 0; font-family: var(--display); font-size: 19px; letter-spacing: -0.02em; }
   .moment__sit { margin: 0; font-size: 14px; color: var(--muted); }
   .stack { display: flex; flex-direction: column; gap: 10px; }
-  .label { font-size: 13px; color: var(--muted); font-weight: 500; }
-  .mat .label { color: var(--felt-muted); }
   .cand { display: grid; grid-template-columns: minmax(120px, 260px) minmax(0, 1fr) 58px; align-items: center; gap: 12px; }
   .cand__name { font-weight: 700; font-size: 14px; }
   .cand__tag { margin-left: 6px; font-size: 12px; font-weight: 600; white-space: nowrap; }

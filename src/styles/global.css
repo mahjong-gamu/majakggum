@@ -1,6 +1,6 @@
 /* 마작치는 마작껌 — 디자인 기준 (스타벅스 디자인 시스템 참고)
    바탕: 따뜻한 크림(#f2f0eb) / 초록 4단계: 제목(#006241)·버튼(#00754A)·짙은 띠(#1E3932)·장식(#2b5148)
-   글꼴: Pretendard 한 가지, 자간 -0.01em / 숫자: IBM Plex Mono
+   글꼴: Pretendard 한 가지 (숫자는 .digits 로 폭 고정), 자간 -0.01em
    버튼은 모두 알약 모양(50px), 누르면 살짝 작아짐(scale .95). 카드는 12px 모서리 + 아주 옅은 그림자 */
 :root {
   --paper: #f2f0eb;
@@ -24,7 +24,6 @@
   --point-tint: #f6e6de;
 
   --felt: var(--house);
-  --felt-2: var(--uplift);
   --felt-ink: #ffffff;
   --felt-muted: rgba(255, 255, 255, 0.7);
 
@@ -33,14 +32,12 @@
   --red: #c82014;
   --red-ink: #a01a10;
   --red-tint: #f9e9e5;
-  --blue: #1f4f96;
-  --gold: #cba258;
   --me: #e0803f;
   --other: #cdc5b2;
 
   --display: 'Pretendard Variable', Pretendard, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   --sans: var(--display);
-  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --mono: ui-monospace, Consolas, monospace; /* 본문 코드에만 (내 컴퓨터 글꼴, 따로 내려받지 않음) */
   --track: -0.01em;
 
   --wrap: 1180px;
@@ -76,7 +73,7 @@ button { font: inherit; }
 @media (max-width: 1023px) { .wrap { padding: 0 24px; } }
 @media (max-width: 640px) { .wrap { padding: 0 16px; } }
 .serif, .display { font-family: var(--display); font-weight: 700; }
-.mono { font-family: var(--mono); letter-spacing: 0; }
+.digits { font-variant-numeric: tabular-nums; } /* 점수·확률처럼 자릿수를 맞춰야 하는 숫자 */
 .muted { color: var(--muted); }
 .skip { position: absolute; left: -9999px; }
 .skip:focus { left: 16px; top: 12px; background: var(--card); padding: 8px 12px; z-index: 10; }
@@ -122,8 +119,6 @@ main { padding-bottom: 104px; }
 .tile { display: block; width: 44px; height: auto; filter: drop-shadow(0 1px 1.5px rgba(20, 30, 25, 0.18)); }
 .tile--draw { transform: translateY(-6px); }
 .tile-gap { width: 12px; }
-.tiles--sm .tile { width: 30px; }
-.tiles--sm .tile--draw { transform: translateY(-4px); }
 .tiles--card { justify-content: center; }
 .tiles--card .tile { width: 22px; }
 .tiles--inline { --tw: 21px; display: inline-flex; flex-wrap: nowrap; vertical-align: -0.45em; margin: 0 3px; gap: 5px; }
@@ -145,9 +140,6 @@ main { padding-bottom: 104px; }
 .tiles--lg { flex-wrap: nowrap; width: 100%; max-width: calc(14 * 46px + 13 * 2px + 12px); }
 .tiles--lg .tile { flex: 1 1 0; min-width: 0; width: auto; max-width: 46px; }
 .tiles--lg .tile-gap { flex: 0 0 auto; width: clamp(5px, 1.4vw, 12px); }
-@media (max-width: 480px) {
-  .tiles--sm .tile { width: 24px; }
-}
 
 /* 카드 — 흰 카드, 12px 모서리, 아주 옅은 겹 그림자 */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 24px; }

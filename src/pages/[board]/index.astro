@@ -16,7 +16,7 @@ const posts = await getBoardPosts(key);
   <div class="wrap list">
     <section class="hero" style={`background:${board.tint}`}>
       <div class="hero__text">
-        <span class="mono count" style={`color:${board.ink}`}>글 {posts.length}개</span>
+        <span class="digits count" style={`color:${board.ink}`}>글 {posts.length}개</span>
         <h1 class="display" style={`color:${board.ink}`}>{board.label}</h1>
         <p>{board.desc}</p>
       </div>

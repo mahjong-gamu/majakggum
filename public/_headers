@@ -1,0 +1,5 @@
+# 브라우저가 패 그림·사진을 저장해 두고 다시 받지 않도록 하는 설정 (Cloudflare 정적 파일 헤더)
+/tiles/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400

@@ -1,7 +1,7 @@
 // 마작패 SVG 이미지를 public/tiles/ 에 만듭니다.
 // 고전 스타일: 흰 앞면 + 검정 테두리, 붓글씨 한자, 남색 통, 마디 있는 대나무 삭.
 // 한자는 LXGW WenKai TC 글꼴에서 윤곽선(path)으로 뽑아 넣기 때문에 어느 컴퓨터에서도 똑같이 보입니다.
-// 다시 만들려면: npm run tiles
+// 다시 만들려면: npm run tiles  (필요한 글꼴·도구를 그때만 내려받아 쓰고, 사이트 빌드에는 넣지 않습니다)
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

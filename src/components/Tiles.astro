@@ -4,7 +4,7 @@ import { parseTiles, tileSrc } from '../lib/tiles.mjs';
 interface Props {
   tiles?: string;
   draw?: string;
-  size?: 'lg' | 'sm' | 'card';
+  size?: 'lg' | 'card';
   label?: string;
 }
 const { tiles = '', draw, size = 'lg', label } = Astro.props;

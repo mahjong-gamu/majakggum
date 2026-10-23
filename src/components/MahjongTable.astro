@@ -131,7 +131,7 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
       <li class:list={{ me: s.me }}>
         <span class:list={['w', { oya: s.wind === '동' }]}>{s.wind}</span>
         <span>{s.seat}{s.me && `(${MY_NAME})`}</span>
-        <span class="mono">{s.score}</span>
+        <span class="digits">{s.score}</span>
         {s.riichi && <span class="r">리치</span>}
       </li>
     ))}
@@ -162,7 +162,7 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
   .plate { position: absolute; left: 0; right: 0; bottom: calc(var(--t) * 0.18); display: flex; align-items: baseline; justify-content: center; gap: calc(var(--t) * 0.18); line-height: 1; }
   .plate__wind { font-family: var(--display); font-weight: 800; font-size: max(10px, calc(var(--t) * 0.5)); }
   .plate__wind.oya { color: #ff6b5e; }
-  .plate__score { font-family: var(--mono); font-weight: 600; font-size: max(10px, calc(var(--t) * 0.46)); }
+  .plate__score { font-variant-numeric: tabular-nums; font-weight: 600; font-size: max(10px, calc(var(--t) * 0.46)); }
   .plate__seat { font-size: max(8px, calc(var(--t) * 0.3)); color: var(--felt-muted); }
   .plate--me .plate__score { color: var(--mint); }
   .stick { position: absolute; left: 50%; bottom: calc(var(--t) * 0.72); width: calc(var(--t) * 2.4); height: calc(var(--t) * 0.16); transform: translateX(-50%); border-radius: 99px; background: #fff; }
@@ -179,7 +179,7 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
   .legend-scores li.me { background: var(--green-tint); font-weight: 700; }
   .legend-scores .w { font-family: var(--display); font-weight: 800; }
   .legend-scores .w.oya { color: var(--red); }
-  .legend-scores .mono { margin-left: auto; font-weight: 600; }
+  .legend-scores .digits { margin-left: auto; font-weight: 600; }
   .legend-scores .r { font-size: 11px; font-weight: 700; color: var(--red); }
   @media (max-width: 560px) {
     .legend-scores { display: grid; }

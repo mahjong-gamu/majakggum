@@ -9,8 +9,10 @@ src/content/reviews/   패보 복기 글 (.md)
 src/content/study/    마작 공부 글
 src/content/visits/    마장 탐방 글
 src/content/news/      마작 뉴스 글
-public/images/         사진 (글에서는 /images/... 로 씀)
+public/images/         사진 (글에서는 /images/... 로 씀, 마장 탐방 사진은 images/visits/)
 public/tiles/          마작패 그림 (SVG)
+public/_headers        패 그림·사진을 브라우저가 1주일 저장해 두게 하는 설정
+public/_redirects      예전 주소를 새 주소로 넘기는 설정 (/theory → /study)
 scripts/gen-tiles.mjs  마작패 그림을 만드는 스크립트
 templates/             새 글 쓸 때 복사할 양식
 src/lib/boards.ts      게시판 이름·소개·색상
@@ -33,6 +35,7 @@ src/styles/global.css  전체 색상·글꼴
 
 패 그림은 `public/tiles/` 의 SVG 파일(`1m.svg` … `7z.svg`, `0m/0p/0s.svg` = 적5, `back.svg` = 뒷면)입니다.
 `scripts/gen-tiles.mjs` 로 만든 것이라, 색이나 모양을 바꾸려면 그 파일을 고친 뒤 `npm run tiles` 를 실행하세요.
+이때 필요한 글꼴·도구는 실행할 때만 내려받으므로, 평소 설치와 Cloudflare 빌드에는 들어가지 않습니다.
 
 ### 임시 저장
 

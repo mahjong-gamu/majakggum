@@ -43,7 +43,7 @@ const steps = [
         {featured && moment && (
           <a class="table" href={postUrl('reviews', featured.id)} aria-label={`최근 복기: ${featured.data.title}`}>
             <div class="table__meta">
-              <span class="mono">{kyokuLabel(moment.kyoku, moment.honba)}{moment.turn && ` ${moment.turn}순`} · {moment.title}</span>
+              <span class="digits">{kyokuLabel(moment.kyoku, moment.honba)}{moment.turn && ` ${moment.turn}순`} · {moment.title}</span>
               <span class="table__sub">{featured.data.meta}</span>
             </div>
             <div class="table__hand">
@@ -55,7 +55,7 @@ const steps = [
                   <span class="pick__who">마작껌의 선택</span>
                   <span class="pick__what">{myPick.action}</span>
                   <span class="pick__bar"><i style={`width:${myPick.prob}%`}></i></span>
-                  <span class="mono pick__p">{myPick.prob}%</span>
+                  <span class="digits pick__p">{myPick.prob}%</span>
                 </div>
               )}
               {aiPick && (
@@ -63,7 +63,7 @@ const steps = [
                   <span class="pick__who">Mortal 추천</span>
                   <span class="pick__what">{aiPick.action}</span>
                   <span class="pick__bar"><i style={`width:${aiPick.prob}%`}></i></span>
-                  <span class="mono pick__p">{aiPick.prob}%</span>
+                  <span class="digits pick__p">{aiPick.prob}%</span>
                 </div>
               )}
             </div>
@@ -76,7 +76,7 @@ const steps = [
     <section class="wrap steps" aria-label="복기에서 남기는 것">
       {steps.map((s) => (
         <div class="step">
-          <span class="mono step__no">{s.no}</span>
+          <span class="digits step__no">{s.no}</span>
           <strong class="step__title">{s.title}</strong>
           <p class="step__text">{s.text}</p>
         </div>
@@ -94,7 +94,7 @@ const steps = [
             <img class="board__wind" src={`/tiles/${b.wind}.svg`} alt="" width="60" height="78" />
             <span class="board__name">{b.label}</span>
             <span class="board__short">{b.short}</span>
-            <span class="board__count mono">글 {counts[b.key]}개 →</span>
+            <span class="board__count digits">글 {counts[b.key]}개 →</span>
           </a>
         ))}
       </div>
@@ -135,7 +135,7 @@ const steps = [
   .table:hover { color: #fff; transform: translateY(-2px); }
   .table:active { transform: scale(0.98); box-shadow: 0 0 6px rgba(0, 0, 0, 0.24), 0 8px 12px rgba(0, 0, 0, 0); }
   .table__meta { display: flex; flex-direction: column; gap: 2px; }
-  .table__meta .mono { font-family: var(--sans); font-size: 16px; font-weight: 700; color: #fff; letter-spacing: var(--track); }
+  .table__meta .digits { font-size: 16px; font-weight: 700; color: #fff; }
   .table__sub { font-size: 13px; color: var(--felt-muted); }
   .table__hand { padding-top: 8px; }
   .table__hand :global(.tile) { filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.35)); }

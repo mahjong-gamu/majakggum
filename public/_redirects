@@ -1,2 +1,3 @@
+# 예전 주소를 새 주소로 넘깁니다 (마작 공부 게시판: theory → study)
 /theory /study/ 301
 /theory/* /study/:splat 301
