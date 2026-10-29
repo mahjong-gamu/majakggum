@@ -10,6 +10,7 @@ const base = {
   meta: z.string().optional(), // 날짜 옆에 붙는 짧은 정보 (예: "옥탁 반장전 · 2위")
   cover: z.string().optional(), // 대표 이미지 경로 (예: /images/visits/abc.jpg)
   draft: z.boolean().default(false), // true면 사이트에 안 보임
+  publishAt: z.coerce.date().optional(), // 예약 게시 시각 (예: "2026-11-01T20:00:00+09:00") — 이 시각 전에는 사이트에 안 보임
   claude: z.boolean().default(false), // true면 글 맨 아래에 "Claude의 도움을 받아 작성했습니다" 알림이 붙음
 };
 

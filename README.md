@@ -41,6 +41,12 @@ src/styles/global.css  전체 색상·글꼴
 
 맨 위에 `draft: true` 를 넣으면 사이트에 보이지 않습니다.
 
+### 예약 게시
+
+맨 위에 `publishAt: "2026-11-01T20:00:00+09:00"` 처럼 공개할 시각(한국 시간은 `+09:00`)을 넣고 올리면, 그 시각 전까지는 사이트에 보이지 않습니다.
+GitHub Actions(`.github/workflows/scheduled-publish.yml`)가 15분마다 확인해서, 시각이 지난 글의 `publishAt` 줄을 지우고 커밋합니다. 그 커밋으로 Cloudflare가 다시 빌드해 글이 나타납니다.
+저장소가 공개라서, 예약해 둔 글의 내용은 GitHub에서는 미리 보일 수 있습니다.
+
 ## 내 컴퓨터에서 미리 보기
 
 [Node.js](https://nodejs.org) 22.22 이상이 필요합니다.
