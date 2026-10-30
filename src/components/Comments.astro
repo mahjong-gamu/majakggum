@@ -1,0 +1,279 @@
+---
+// 글 아래 댓글. 목록·쓰기·답글·고치기·지우기는 브라우저에서 /api/comments (worker/index.js) 로 처리합니다.
+// 닉네임에 '마작껌'을 적으면 비밀번호 칸이 관리자 비밀번호로 바뀌고, 한 번 맞추면 그 브라우저는 마작껌으로 기억합니다.
+interface Props {
+  board: string;
+  slug: string;
+}
+const { board, slug } = Astro.props;
+const TURNSTILE_SITEKEY = '0x4AAAAAAFsCFhV4DQVYx-fA';
+---
+<section class="comments" id="comments" data-board={board} data-slug={slug} data-sitekey={TURNSTILE_SITEKEY} aria-labelledby="comments-title">
+  <h2 id="comments-title" class="comments__title">댓글 <span class="comments__count digits" data-count></span></h2>
+
+  <form class="cform" data-form novalidate>
+    <p class="cform__reply" data-replying hidden><span></span> <button type="button" class="linkbtn" data-cancel-reply>취소</button></p>
+    <div class="cform__who" data-guest>
+      <label><span>닉네임</span><input name="name" maxlength="20" autocomplete="nickname" required /></label>
+      <label><span data-pw-label>비밀번호</span><input name="password" type="password" maxlength="64" autocomplete="new-password" required /></label>
+    </div>
+    <p class="cform__me" data-me hidden><span class="badge">마작껌</span>으로 쓰는 중 · <button type="button" class="linkbtn" data-logout>로그아웃</button></p>
+    <label class="cform__body"><span class="sr">댓글 내용</span>
+      <textarea name="body" rows="4" maxlength="1000" placeholder="댓글을 남겨 주세요. 패는 `123m456p` 처럼 백틱으로 감싸면 그림으로 보여요." required></textarea>
+    </label>
+    <div class="cform__foot">
+      <div class="cform__ts" data-turnstile></div>
+      <span class="cform__hint" data-hint>비밀번호는 나중에 고치거나 지울 때 써요.</span>
+      <button class="btn btn--dark btn--small" type="submit" data-submit>등록</button>
+    </div>
+    <p class="cform__msg" data-msg role="status"></p>
+  </form>
+
+  <ol class="clist" data-list aria-live="polite"><li class="clist__empty">댓글을 불러오는 중…</li></ol>
+</section>
+
+<script>
+  import { parseTiles, TILE_PATTERN } from '../lib/tiles.mjs';
+
+  const root = document.getElementById('comments');
+  if (root) init(root);
+
+  function init(root) {
+    const { board, slug, sitekey } = root.dataset;
+    const $ = (s, el = root) => el.querySelector(s);
+    const form = $('[data-form]'), list = $('[data-list]'), msg = $('[data-msg]');
+    const ADMIN_KEY = 'mjg-admin-token', NAME_KEY = 'mjg-comment-name';
+    const RESERVED = ['마작껌', 'majakggum', 'mahjonggamu', 'gamu', '관리자', '운영자', 'admin'];
+    const store = {
+      get: (k) => { try { return localStorage.getItem(k) || ''; } catch { return ''; } },
+      set: (k, v) => { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} },
+    };
+    let token = store.get(ADMIN_KEY), comments = [], replyTo = null, tsWidget = null, tsToken = '';
+    const isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+
+    const normName = (s) => s.normalize('NFKC').toLowerCase().replace(/[\s\p{P}\p{S}​-‏ㅤᅟᅠ]/gu, '');
+    const reserved = (s) => RESERVED.some((r) => normName(s).includes(r));
+
+    async function api(path, opts = {}) {
+      const headers = { 'content-type': 'application/json' };
+      if (token) headers.authorization = `Bearer ${token}`;
+      const r = await fetch(path, { ...opts, headers });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) throw Object.assign(new Error(d.error || '문제가 생겼습니다. 잠시 뒤 다시 해 주세요.'), { status: r.status });
+      return d;
+    }
+
+    // ---------- 그리기 ----------
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+    function tilesHTML(code) {
+      const ts = parseTiles(code);
+      return `<span class="tiles tiles--inline" role="img" aria-label="패 ${esc(ts.map((t) => t.name).join(' '))}"><span class="tile-grp">${ts.map((t) => `<img class="tile" src="/tiles/${t.code}.svg" alt="" width="60" height="78">`).join('')}</span></span>`;
+    }
+    // 글자는 모두 이스케이프한 뒤, `패 표기` 는 패 그림, 주소는 링크, 줄바꿈은 <br>
+    function bodyHTML(text) {
+      return text.split(/(`[^`\n]{1,60}`)/).map((part) => {
+        const m = part.match(/^`(.+)`$/);
+        if (m && TILE_PATTERN.test(m[1].trim())) return tilesHTML(m[1].trim());
+        return esc(part).replace(/https?:\/\/[^\s<]+/g, (u) => `<a href="${u}" target="_blank" rel="nofollow ugc noopener">${u}</a>`);
+      }).join('').replace(/\n/g, '<br>');
+    }
+    const when = (t) => new Date(t).toLocaleString('ko-KR', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+
+    function itemHTML(c, isReply) {
+      if (c.deleted) return `<li class="citem citem--deleted" id="comment-${c.id}"><p>삭제된 댓글입니다.</p>${repliesHTML(c)}</li>`;
+      const canTouch = token || !c.admin;
+      return `<li class="citem${c.admin ? ' citem--admin' : ''}" id="comment-${c.id}" data-id="${c.id}">
+        <div class="citem__head"><b class="citem__name">${esc(c.name)}</b>${c.admin ? '<span class="badge">글쓴이</span>' : ''}
+          <time class="citem__time" datetime="${new Date(c.createdAt).toISOString()}">${when(c.createdAt)}${c.updatedAt ? ' · 고침' : ''}</time></div>
+        <div class="citem__body">${bodyHTML(c.body)}</div>
+        <div class="citem__acts">${isReply ? '' : '<button type="button" class="linkbtn" data-act="reply">답글</button>'}${canTouch ? '<button type="button" class="linkbtn" data-act="edit">고치기</button><button type="button" class="linkbtn" data-act="delete">지우기</button>' : ''}</div>
+        <div class="citem__panel" data-panel></div>
+        ${isReply ? '' : repliesHTML(c)}
+      </li>`;
+    }
+    function repliesHTML(c) {
+      const rs = comments.filter((r) => r.parentId === c.id);
+      return rs.length ? `<ol class="clist clist--replies">${rs.map((r) => itemHTML(r, true)).join('')}</ol>` : '';
+    }
+    function render() {
+      if (form.parentNode !== root) { root.insertBefore(form, list); replyTo = null; $('[data-replying]').hidden = true; }
+      const tops = comments.filter((c) => !c.parentId);
+      const n = comments.filter((c) => !c.deleted).length;
+      $('[data-count]').textContent = n ? String(n) : '';
+      list.innerHTML = tops.length ? tops.map((c) => itemHTML(c, false)).join('') : '<li class="clist__empty">아직 댓글이 없어요. 첫 댓글을 남겨 주세요.</li>';
+      if (location.hash.startsWith('#comment-')) document.querySelector(location.hash)?.classList.add('citem--focus');
+    }
+    async function load() {
+      try { comments = (await api(`/api/comments?board=${board}&slug=${encodeURIComponent(slug)}`)).comments; render(); }
+      catch (e) { list.innerHTML = `<li class="clist__empty">${esc(e.message)}</li>`; }
+    }
+
+    // ---------- 쓰는 사람 (방문자 / 마작껌) ----------
+    function showWho() {
+      $('[data-guest]').hidden = !!token;
+      $('[data-me]').hidden = !token;
+      $('[data-turnstile]').hidden = !!token;
+      $('[data-hint]').textContent = token ? '' : '비밀번호는 나중에 고치거나 지울 때 써요.';
+      if (!token) form.elements.name.value = store.get(NAME_KEY);
+      checkName();
+    }
+    function checkName() {
+      const admin = !token && reserved(form.elements.name.value);
+      $('[data-pw-label]').textContent = admin ? '관리자 비밀번호' : '비밀번호';
+      form.elements.password.autocomplete = admin ? 'current-password' : 'new-password';
+      if (!token) $('[data-hint]').textContent = admin ? '마작껌 이름은 관리자 비밀번호를 넣어야 쓸 수 있어요.' : '비밀번호는 나중에 고치거나 지울 때 써요.';
+    }
+    form.elements.name.addEventListener('input', checkName);
+    $('[data-logout]').addEventListener('click', () => { token = ''; store.set(ADMIN_KEY, ''); showWho(); render(); });
+
+    // 스팸 방지 확인은 댓글 칸을 처음 누를 때 불러옵니다 (안 쓰는 사람은 받지 않음)
+    function loadTurnstile() {
+      if (token || tsWidget !== null || isLocal) return;
+      tsWidget = 0;
+      window.onTurnstileReady = () => {
+        tsWidget = window.turnstile.render($('[data-turnstile]'), {
+          sitekey, language: 'ko', size: 'flexible',
+          callback: (t) => { tsToken = t; }, 'expired-callback': () => { tsToken = ''; }, 'error-callback': () => { tsToken = ''; },
+        });
+      };
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileReady';
+      s.async = true;
+      document.head.append(s);
+    }
+    form.addEventListener('focusin', loadTurnstile);
+    const resetTurnstile = () => { tsToken = ''; if (tsWidget) window.turnstile?.reset(tsWidget); };
+
+    // ---------- 쓰기 ----------
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.textContent = '';
+      const body = form.elements.body.value.trim();
+      if (!body) return say('댓글 내용을 적어 주세요.');
+      const btn = $('[data-submit]');
+      btn.disabled = true;
+      try {
+        if (!token) {
+          const name = form.elements.name.value.trim(), password = form.elements.password.value;
+          if (!name) return say('닉네임을 적어 주세요.');
+          if (reserved(name)) {
+            // 마작껌: 관리자 비밀번호로 로그인한 뒤 그대로 등록
+            const r = await api('/api/admin/login', { method: 'POST', body: JSON.stringify({ password }) });
+            token = r.token; store.set(ADMIN_KEY, token); form.elements.password.value = ''; showWho();
+          } else {
+            if (password.length < 4) return say('비밀번호는 4자 이상으로 정해 주세요.');
+            if (!tsToken && !isLocal) return say('스팸 방지 확인이 끝날 때까지 잠깐 기다려 주세요.');
+            store.set(NAME_KEY, name);
+          }
+        }
+        const payload = { board, slug, parentId: replyTo, body, name: form.elements.name.value.trim(), password: form.elements.password.value, turnstile: tsToken };
+        const { comment } = await api('/api/comments', { method: 'POST', body: JSON.stringify(payload) });
+        comments.push(comment);
+        form.elements.body.value = ''; form.elements.password.value = '';
+        setReply(null); render(); resetTurnstile();
+        document.getElementById(`comment-${comment.id}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      } catch (err) {
+        if (err.status === 403 && token && /관리자/.test(err.message)) { token = ''; store.set(ADMIN_KEY, ''); showWho(); }
+        say(err.message); resetTurnstile();
+      } finally { btn.disabled = false; }
+    });
+    const say = (t) => { msg.textContent = t; };
+
+    // ---------- 답글 · 고치기 · 지우기 ----------
+    function setReply(id) {
+      replyTo = id;
+      const r = $('[data-replying]');
+      if (!id) { r.hidden = true; root.insertBefore(form, list); return; }
+      const c = comments.find((x) => x.id === id);
+      r.hidden = false; r.querySelector('span').textContent = `${c.name} 님께 답글`;
+      document.getElementById(`comment-${id}`).querySelector('[data-panel]').after(form);
+      form.elements.body.focus();
+    }
+    $('[data-cancel-reply]').addEventListener('click', () => setReply(null));
+
+    list.addEventListener('click', async (e) => {
+      const b = e.target.closest('button[data-act]');
+      if (!b) return;
+      const li = b.closest('[data-id]'), id = Number(li.dataset.id), c = comments.find((x) => x.id === id);
+      const panel = li.querySelector('[data-panel]');
+      if (b.dataset.act === 'reply') return setReply(id);
+      const pwField = token ? '' : '<input type="password" name="pw" placeholder="댓글 비밀번호" maxlength="64" autocomplete="current-password" required>';
+      if (b.dataset.act === 'edit') {
+        panel.innerHTML = `<form class="cpanel"><textarea name="body" rows="3" maxlength="1000" required>${esc(c.body)}</textarea>${pwField}<div class="cpanel__row"><button class="btn btn--dark btn--small">고치기</button><button type="button" class="linkbtn" data-close>취소</button></div><p class="cform__msg"></p></form>`;
+      } else {
+        panel.innerHTML = `<form class="cpanel cpanel--del">${pwField}<div class="cpanel__row"><button class="btn btn--light btn--small">이 댓글 지우기</button><button type="button" class="linkbtn" data-close>취소</button></div><p class="cform__msg"></p></form>`;
+      }
+      const f = panel.querySelector('form');
+      f.querySelector('[data-close]').addEventListener('click', () => (panel.innerHTML = ''));
+      f.querySelector('textarea, input, button')?.focus();
+      f.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const out = f.querySelector('.cform__msg');
+        try {
+          if (b.dataset.act === 'edit') {
+            const { comment } = await api(`/api/comments/${id}`, { method: 'PATCH', body: JSON.stringify({ body: f.elements.body.value, password: f.elements.pw?.value }) });
+            Object.assign(c, comment);
+          } else {
+            await api(`/api/comments/${id}`, { method: 'DELETE', body: JSON.stringify({ password: f.elements.pw?.value }) });
+            await load();
+            return;
+          }
+          render();
+        } catch (err) { out.textContent = err.message; }
+      });
+    });
+
+    showWho();
+    load();
+  }
+</script>
+
+<style is:global>
+  /* 댓글 목록은 스크립트로 그리므로 전역 스타일로 두고, 모두 .comments 아래로 한정합니다 */
+  .comments { max-width: 740px; display: flex; flex-direction: column; gap: 20px; padding-top: 36px; border-top: 1px solid var(--line); }
+  .comments__title { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.02em; display: flex; align-items: baseline; gap: 8px; }
+  .comments__count { color: var(--accent); }
+  .comments [hidden] { display: none !important; }
+  .comments .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .comments .badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 50px; background: var(--mint); color: var(--brand); }
+  .comments .linkbtn { border: 0; background: none; padding: 4px 2px; color: var(--muted); font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .comments .linkbtn:hover { color: var(--ink); }
+
+  .cform { display: flex; flex-direction: column; gap: 12px; background: var(--card); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 18px; }
+  .cform__who { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cform label { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .cform label > span:not(.sr) { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+  .cform input, .cform textarea, .cpanel input, .cpanel textarea {
+    width: 100%; font: inherit; font-size: 15px; padding: 10px 12px; border: 1px solid var(--line-2); border-radius: var(--r-sm); background: #fff; color: var(--ink); }
+  .cform textarea, .cpanel textarea { resize: vertical; line-height: 1.6; }
+  .cform input:focus, .cform textarea:focus, .cpanel input:focus, .cpanel textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--mint); }
+  .cform__me, .cform__reply { margin: 0; font-size: 14px; color: var(--ink-2); }
+  .cform__reply { color: var(--accent); font-weight: 600; }
+  .cform__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .cform__ts:empty { display: none; }
+  .cform__hint { flex: 1; font-size: 13px; color: var(--muted); }
+  .cform__msg { margin: 0; font-size: 14px; color: var(--red-ink); min-height: 0; }
+  .cform__msg:empty { display: none; }
+
+  .clist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+  .clist__empty { color: var(--muted); font-size: 15px; padding: 8px 0; }
+  .citem { padding: 14px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 90px; }
+  .citem:last-child { border-bottom: 0; }
+  .citem--focus > .citem__body { background: var(--point-tint); border-radius: var(--r-sm); }
+  .citem--deleted > p { margin: 0; color: var(--muted); font-size: 14px; }
+  .citem__head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+  .citem__name { font-size: 15px; }
+  .citem--admin > .citem__head .citem__name { color: var(--brand); }
+  .citem__time { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .citem__body { margin-top: 6px; font-size: 15.5px; line-height: 1.75; color: var(--ink-2); overflow-wrap: anywhere; }
+  .citem__body a { color: var(--accent); }
+  .citem__acts { display: flex; gap: 10px; margin-top: 4px; }
+  .clist--replies { margin: 8px 0 0 18px; padding-left: 14px; border-left: 2px solid var(--line); }
+  .clist--replies .citem { padding: 10px 0; }
+  .clist--replies + .cform, .citem > .cform { margin-top: 10px; }
+  .cpanel { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .cpanel__row { display: flex; align-items: center; gap: 10px; }
+  .cpanel--del { flex-direction: row; flex-wrap: wrap; align-items: center; }
+  .cpanel--del input { max-width: 220px; }
+  @media (max-width: 640px) { .cform__who { grid-template-columns: 1fr; } .clist--replies { margin-left: 6px; } }
+</style>

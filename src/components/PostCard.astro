@@ -27,8 +27,25 @@ const hand: string | undefined = d.hand;
     <div class="post-card__top">
       {showBoard && <span class="chip" style={`background:${b.tint};color:${b.ink}`}>{b.label}</span>}
       <span class="date">{formatDate(d.date)}{d.meta && ` · ${d.meta}`}</span>
+      <span class="post-card__cmt digits" data-cc={`${board}/${entry.id}`} hidden></span>
     </div>
     <span class="post-card__title">{d.title}</span>
     <span class="post-card__excerpt">{d.excerpt}</span>
   </div>
 </a>
+
+<script>
+  // 카드마다 댓글 수 붙이기 (페이지에 카드가 여러 장이어도 요청은 한 번)
+  const cards = document.querySelectorAll<HTMLElement>('[data-cc]');
+  if (cards.length) {
+    fetch('/api/comments/counts')
+      .then((r) => (r.ok ? r.json() : {}))
+      .then((counts: Record<string, number>) => {
+        cards.forEach((el) => {
+          const n = counts[el.dataset.cc || ''];
+          if (n) { el.textContent = `댓글 ${n}`; el.hidden = false; }
+        });
+      })
+      .catch(() => {});
+  }
+</script>

@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import ReviewDetail from '../../components/ReviewDetail.astro';
+import Comments from '../../components/Comments.astro';
 import { BOARDS, getBoard, formatDate } from '../../lib/boards';
 import { getBoardPosts } from '../../lib/posts';
 
@@ -56,6 +57,8 @@ const hasBody = Boolean(entry.body && entry.body.trim());
         <p>이 글은 <strong>Claude</strong>(Anthropic의 AI)의 도움을 받아 작성했습니다.</p>
       </aside>
     )}
+
+    <Comments board={key} slug={entry.id} />
   </article>
 </Base>
 

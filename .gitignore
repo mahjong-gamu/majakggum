@@ -3,3 +3,7 @@ dist/
 .astro/
 .DS_Store
 .env
+
+# Cloudflare 로컬 실행용
+.wrangler/
+.dev.vars

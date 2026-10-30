@@ -156,6 +156,7 @@ main { padding-bottom: 104px; }
 .post-card__excerpt { font-size: 14px; line-height: 1.65; color: var(--muted); }
 .chip { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 50px; }
 .date { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.post-card__cmt { margin-left: auto; font-size: 13px; font-weight: 600; color: var(--accent); }
 
 .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .section-title { margin: 0; font-size: clamp(24px, 3vw, 28px); font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }

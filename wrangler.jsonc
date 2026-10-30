@@ -1,0 +1,21 @@
+// Cloudflare Worker 설정. 사이트 파일(dist)은 그대로 내보내고, /api/* 만 worker/index.js 가 처리합니다 (댓글).
+{
+  "name": "majakggum",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "majakggum-comments", "database_id": "07c40fc7-9ea2-40a4-a383-c40591c81c01" }
+  ],
+  // 비밀값(대시보드 → majakggum → Settings → Variables and Secrets 에서 넣음):
+  //   ADMIN_PASSWORD      마작껌 이름으로 댓글을 쓰고 아무 댓글이나 지울 때 쓰는 비밀번호
+  //   TURNSTILE_SECRET    스팸 방지 확인(Turnstile) 비밀 키
+  //   TELEGRAM_BOT_TOKEN  새 댓글 알림을 보낼 텔레그램 봇 토큰 (없으면 알림 안 보냄)
+  //   TELEGRAM_CHAT_ID    알림 받을 텔레그램 대화 번호
+  "observability": { "enabled": true }
+}
