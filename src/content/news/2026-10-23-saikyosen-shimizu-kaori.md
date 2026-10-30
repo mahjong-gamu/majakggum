@@ -5,6 +5,8 @@ excerpt: 10월 18일 열린 마작최강전 2026 단체 대항 스페셜 승부�
 meta: 마작최강전 · 타이틀전 결과
 source: https://mahjong-news.com/news/61017/
 claude: true
+cover: /images/news/2026-10-23-saikyosen-shimizu-kaori.jpg
+instagram: https://www.instagram.com/p/De0N9HWFEr4/
 ---
 
 일본프로마작연맹(日本プロ麻雀連盟) 소속 **시미즈 가오리(清水香織)** 프로가 10월 18일(일) 열린 **마작최강전(麻雀最強戦) 2026 단체 대항 스페셜 승부(団体対抗スペシャル合戦)**에서 우승했다. 2년 연속, 통산 두 번째 파이널 진출이다. 마작최강전은 프로와 아마추어가 부문별 예선을 치르고 각 부문 우승자가 12월 파이널에 모이는 일본의 큰 대회로, 이번 대회는 여러 단체의 챔피언이 모인 특별판이다.

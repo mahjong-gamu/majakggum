@@ -7,6 +7,8 @@ interface Props {
   title?: string;
   description?: string;
   current?: string;
+  image?: string; // 링크 미리보기 이미지 (없으면 /og.png)
+  type?: 'website' | 'article';
 }
 const SITE_NAME = '마작치는 마작껌';
 const CONTACT_EMAIL = 'mahjong.iris@gmail.com';
@@ -15,8 +17,13 @@ const INSTAGRAM_URL = 'https://www.instagram.com/mahjong.gamu/';
 // Cloudflare Web Analytics 사이트 토큰. 비어 있으면 방문 분석 코드를 넣지 않습니다.
 // (쿠키를 쓰지 않는 집계 방식이고, 토큰은 공개돼도 되는 사이트 구분값입니다)
 const ANALYTICS_TOKEN = 'ab5317686b924745acbbe7e864f6c131';
-const { title, description = '작혼 패보를 Mortal과 함께 다시 보는 마작 블로그. 패보 복기, 마작 공부, 마장 탐방, 마작 뉴스.', current } = Astro.props;
+// 검색엔진 소유 확인 코드 (네이버 서치어드바이저·구글 서치 콘솔에서 받은 content 값). 비어 있으면 넣지 않습니다.
+const NAVER_VERIFY = '';
+const GOOGLE_VERIFY = '';
+const { title, description = '작혼 패보를 Mortal과 함께 다시 보는 마작 블로그. 패보 복기, 마작 공부, 마장 탐방, 마작 뉴스.', current, image = '/og.png', type = 'website' } = Astro.props;
 const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(image, Astro.site).href;
 ---
 <!doctype html>
 <html lang="ko">
@@ -27,7 +34,17 @@ const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
     <meta name="description" content={description} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title={SITE_NAME} href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap.xml" />
+    {NAVER_VERIFY && <meta name="naver-site-verification" content={NAVER_VERIFY} />}
+    {GOOGLE_VERIFY && <meta name="google-site-verification" content={GOOGLE_VERIFY} />}
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="/tiles/7z.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
@@ -47,6 +64,10 @@ const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
           {BOARDS.map((b) => (
             <a href={`/${b.key}/`} aria-current={current === b.key ? 'page' : undefined}>{b.label}</a>
           ))}
+          <a class="nav__search" href="/search/" aria-current={current === 'search' ? 'page' : undefined} aria-label="검색">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4.5 4.5" /></svg>
+            <span>검색</span>
+          </a>
         </nav>
       </div>
     </header>

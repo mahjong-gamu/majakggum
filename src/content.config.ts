@@ -104,6 +104,7 @@ const simple = (dir: string) =>
       ...base,
       source: z.string().optional(), // 뉴스 원문 링크
       place: z.string().optional(), // 마장 주소·위치
+      instagram: z.string().optional(), // 같은 내용의 인스타 카드뉴스 게시물 링크 (마작 뉴스)
     }),
   });
 

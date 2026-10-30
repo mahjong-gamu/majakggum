@@ -5,6 +5,8 @@ excerpt: 일본 프로 단체 마장연합의 프로·아마 혼합전 'MUSOU' �
 meta: 마장연합 · 저변·미디어
 source: https://mahjong-news.com/news/61073/
 claude: true
+cover: /images/news/2026-10-28-musou-pro-am-final.jpg
+instagram: https://www.instagram.com/p/DfBF4YuGU0b/
 ---
 
 일본 프로 마작 단체 **마장연합(麻将連合)** 의 프로·아마 혼합전 **'무쌍(MUSOU)' 결승**에서 투어선수 **니시자카 아키토시(西坂昭利)** 가 우승했다. 마작 뉴스 사이트 마작뉴스닷컴(麻雀ニュース.com)은 10월 22일(목) 이 결과를 전하며 "최종전에 국사무쌍을 화료해 우승한 니시자카"라고 소개했다. 마장연합은 1997년 4월 이데 요스케(井出洋介)가 만든 일본 프로 단체다.

@@ -92,11 +92,16 @@ button { font: inherit; }
 .nav a { position: relative; flex: 0 0 auto; text-decoration: none; color: var(--ink-2); font-size: 15px; font-weight: 600; padding: 10px 14px; min-height: 44px; display: inline-flex; align-items: center; border-radius: 50px; transition: background 0.2s ease, color 0.2s ease; }
 .nav a:hover { color: var(--brand); background: var(--paper); }
 .nav a[aria-current='page'] { color: var(--brand); font-weight: 700; }
+.nav__search { gap: 6px; }
+.nav__search svg { width: 17px; height: 17px; flex: none; }
 .nav a[aria-current='page']::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 3px; height: 3px; border-radius: 3px; background: var(--point); }
 @media (max-width: 640px) {
   .site-header .wrap { padding-left: 0; padding-right: 0; min-height: 64px; }
   .logo { padding: 0 16px; }
   .nav { width: 100%; padding: 0 8px; }
+  .nav a { padding: 10px; }
+  .nav a[aria-current='page']::after { left: 10px; right: 10px; }
+  .nav__search span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 }
 
 main { padding-bottom: 104px; }
@@ -149,6 +154,9 @@ main { padding-bottom: 104px; }
 .post-card__thumb { position: relative; height: 140px; display: flex; align-items: center; justify-content: center; padding: 16px; color: var(--ink-2); font-size: 14px; }
 .post-card__thumb--img img { width: 100%; height: 100%; object-fit: cover; }
 .post-card__thumb--img { padding: 0; }
+/* 마작 뉴스: 카드뉴스 표지(세로 4:5)를 잘리지 않게 통째로 */
+.post-card__thumb--card { padding: 12px 0; }
+.post-card__thumb--card img { width: auto; height: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18); transform: rotate(-2deg); }
 .post-card__wind { width: 44px; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.15)); transform: rotate(-4deg); }
 .post-card__body { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
 .post-card__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }

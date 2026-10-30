@@ -1,0 +1,112 @@
+---
+import Base from '../layouts/Base.astro';
+import { BOARDS } from '../lib/boards';
+
+// 게시판 이름·색은 화면 쪽 스크립트에서 씁니다
+const boards = Object.fromEntries(BOARDS.map((b) => [b.key, { label: b.label, tint: b.tint, ink: b.ink }]));
+---
+<Base title="검색" description="마작껌 홈페이지의 패보 복기·마작 공부·마장 탐방·마작 뉴스 글을 찾아봅니다." current="search">
+  <div class="wrap search">
+    <form class="sbox" role="search" action="/search/" method="get">
+      <label class="sbox__label" for="q">글 검색</label>
+      <div class="sbox__row">
+        <input id="q" name="q" type="search" placeholder="예: 리치, M리그, 신바시" autocomplete="off" />
+        <button class="sbox__btn" type="submit">검색</button>
+      </div>
+      <p class="sbox__hint" data-status aria-live="polite">제목·요약·본문에서 찾아요. 여러 낱말을 띄어 쓰면 모두 들어간 글만 보여요.</p>
+    </form>
+    <ol class="results" data-results></ol>
+  </div>
+</Base>
+
+<script is:inline define:vars={{ boards }}>
+  const input = document.getElementById('q');
+  const list = document.querySelector('[data-results]');
+  const status = document.querySelector('[data-status]');
+  const hint = status.textContent;
+  let index = null;
+
+  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  // 찾은 낱말 둘레의 본문 한 토막
+  const snippet = (text, word) => {
+    const i = text.toLowerCase().indexOf(word);
+    if (i < 0) return '';
+    const s = Math.max(0, i - 40);
+    return (s > 0 ? '… ' : '') + text.slice(s, i + word.length + 60) + ' …';
+  };
+  const mark = (html, words) => words.reduce((h, w) => h.replace(new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), (m) => `<mark>${m}</mark>`), html);
+
+  function show(q) {
+    const words = q.toLowerCase().split(/\s+/).filter(Boolean);
+    if (!words.length) { list.innerHTML = ''; status.textContent = hint; return; }
+    const hits = index
+      .map((p) => {
+        const head = `${p.t} ${p.e} ${p.m}`.toLowerCase(), body = p.x.toLowerCase();
+        if (!words.every((w) => head.includes(w) || body.includes(w))) return null;
+        const score = words.reduce((n, w) => n + (p.t.toLowerCase().includes(w) ? 3 : 0) + (head.includes(w) ? 1 : 0), 0);
+        return { p, score, snip: words.map((w) => (head.includes(w) ? '' : snippet(p.x, w))).find(Boolean) || '' };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.score - a.score);
+    status.textContent = hits.length ? `'${q}' 검색 결과 ${hits.length}개` : `'${q}'에 맞는 글이 없어요. 다른 낱말로 찾아보세요.`;
+    list.innerHTML = hits
+      .map(({ p, snip }) => {
+        const b = boards[p.b];
+        return `<li><a class="hit" href="${p.u}">
+          <span class="hit__top"><span class="chip" style="background:${b.tint};color:${b.ink}">${b.label}</span><span class="date">${p.d}${p.m ? ' · ' + esc(p.m) : ''}</span></span>
+          <span class="hit__title">${mark(esc(p.t), words)}</span>
+          <span class="hit__text">${mark(esc(snip || p.e), words)}</span>
+        </a></li>`;
+      })
+      .join('');
+  }
+
+  async function run(q) {
+    if (!index) {
+      status.textContent = '찾는 중…';
+      try { index = await (await fetch('/search.json')).json(); }
+      catch (e) { status.textContent = '검색 목록을 불러오지 못했어요. 잠시 뒤 다시 해 주세요.'; return; }
+    }
+    show(q.trim());
+  }
+
+  const start = new URLSearchParams(location.search).get('q') || '';
+  input.value = start;
+  if (start) run(start);
+  else input.focus();
+
+  let timer;
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      const q = input.value;
+      history.replaceState(null, '', q.trim() ? `?q=${encodeURIComponent(q.trim())}` : location.pathname);
+      run(q);
+    }, 200);
+  });
+  input.form.addEventListener('submit', (e) => { e.preventDefault(); run(input.value); });
+</script>
+
+<style>
+  .search { display: flex; flex-direction: column; gap: 28px; padding-top: 40px; max-width: 860px; }
+  .sbox { display: flex; flex-direction: column; gap: 12px; }
+  .sbox__label { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -0.035em; color: var(--ink); }
+  .sbox__row { display: flex; gap: 8px; }
+  .sbox input { flex: 1; min-width: 0; min-height: 52px; padding: 0 18px; border: 1px solid var(--line-2); border-radius: 50px; background: var(--card); font: inherit; font-size: 17px; color: var(--ink); }
+  .sbox input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--mint); }
+  .sbox__btn { flex: none; min-height: 52px; padding: 0 24px; border: 0; border-radius: 50px; background: var(--accent); color: #fff; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform 0.15s ease; }
+  .sbox__btn:hover { background: var(--brand); }
+  .sbox__btn:active { transform: scale(0.95); }
+  .sbox__hint { margin: 0; font-size: 14px; color: var(--muted); }
+  .results { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .results :global(.hit) { display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: var(--r-lg); background: var(--card); box-shadow: var(--shadow); color: var(--ink); text-decoration: none; transition: box-shadow 0.2s ease; }
+  .results :global(.hit:hover) { box-shadow: var(--shadow-up); color: var(--ink); }
+  .results :global(.hit__top) { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .results :global(.hit__title) { font-size: 18px; font-weight: 700; line-height: 1.45; letter-spacing: -0.02em; }
+  .results :global(.hit__text) { font-size: 14px; line-height: 1.65; color: var(--muted); }
+  .results :global(mark) { background: var(--point-tint); color: var(--ink); padding: 0 2px; border-radius: 3px; }
+  @media (max-width: 640px) {
+    .search { padding-top: 20px; }
+    .results :global(.hit) { padding: 16px; }
+  }
+</style>

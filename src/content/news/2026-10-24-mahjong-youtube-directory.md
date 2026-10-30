@@ -5,6 +5,8 @@ excerpt: 일본 마작 소식 사이트 마작뉴스닷컴이 10월 19일 마작
 meta: 마작뉴스닷컴 · 저변·미디어
 source: https://mahjong-news.com/news/61025/
 claude: true
+cover: /images/news/2026-10-24-mahjong-youtube-directory.jpg
+instagram: https://www.instagram.com/p/De2yhSWF2pY/
 ---
 
 일본 마작 소식 사이트 **마작뉴스닷컴(麻雀ニュース.com)**이 2026년 10월 19일(월) 마작 관련 유튜브 채널을 분류별로 모은 「마작 유튜브 채널 목록(麻雀YouTubeチャンネル一覧)」 베타판을 공개했다. 계속 채널을 추가하는 중이라고 밝혔다. 목록은 순서 없이 실렸고, 이름의 경칭은 생략했다.

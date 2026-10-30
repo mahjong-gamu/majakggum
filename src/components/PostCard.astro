@@ -14,7 +14,7 @@ const d = entry.data;
 const hand: string | undefined = d.hand;
 ---
 <a class="post-card" href={postUrl(board, entry.id)}>
-  <div class:list={['post-card__thumb', { 'post-card__thumb--img': d.cover }]} style={`background:${b.tint}`}>
+  <div class:list={['post-card__thumb', { 'post-card__thumb--img': d.cover, 'post-card__thumb--card': d.cover && board === 'news' }]} style={`background:${b.tint}`}>
     {d.cover ? (
       <img src={d.cover} alt="" loading="lazy" />
     ) : hand ? (

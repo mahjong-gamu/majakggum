@@ -3,26 +3,37 @@ import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import ReviewDetail from '../../components/ReviewDetail.astro';
 import Comments from '../../components/Comments.astro';
+import PostCard from '../../components/PostCard.astro';
 import { BOARDS, getBoard, formatDate } from '../../lib/boards';
 import { getBoardPosts } from '../../lib/posts';
 
 export async function getStaticPaths() {
   const paths = [];
   for (const b of BOARDS) {
-    const posts = await getBoardPosts(b.key);
-    for (const { entry } of posts) paths.push({ params: { board: b.key, slug: entry.id }, props: { entry } });
+    const posts = await getBoardPosts(b.key); // 최신순
+    posts.forEach(({ entry }, i) => {
+      // 이전 글 = 더 오래된 글, 다음 글 = 더 최근 글
+      const older = posts[i + 1]?.entry, newer = posts[i - 1]?.entry;
+      // 함께 볼 글: 같은 분류(뉴스는 meta 의 마지막 칸)를 먼저, 모자라면 같은 게시판의 가까운 글로 3개
+      const cat = (e: any) => (e.data.meta || '').split('·').pop().trim();
+      const others = posts.filter(({ entry: e }) => e !== entry && e !== older && e !== newer).map((p) => p.entry);
+      const same = cat(entry) ? others.filter((e) => cat(e) === cat(entry)) : [];
+      const near = others.slice().sort((a, b) => Math.abs(a.data.date - entry.data.date) - Math.abs(b.data.date - entry.data.date));
+      const related = [...new Set([...same, ...near])].slice(0, 3);
+      paths.push({ params: { board: b.key, slug: entry.id }, props: { entry, older, newer, related } });
+    });
   }
   return paths;
 }
 
-const { entry } = Astro.props as any;
+const { entry, older, newer, related } = Astro.props as any;
 const key = Astro.params.board as string;
 const board = getBoard(key);
 const d = entry.data;
 const { Content } = await render(entry);
 const hasBody = Boolean(entry.body && entry.body.trim());
 ---
-<Base title={d.title} description={d.excerpt} current={key}>
+<Base title={d.title} description={d.excerpt} current={key} image={d.cover} type="article">
   <article class="wrap post">
     <header class="head">
       <a class="back" href={`/${key}/`}>← {board.label} 목록</a>
@@ -40,7 +51,7 @@ const hasBody = Boolean(entry.body && entry.body.trim());
       )}
     </header>
 
-    {key !== 'reviews' && d.cover && <img class="cover" src={d.cover} alt="" />}
+    {key !== 'reviews' && key !== 'news' && d.cover && <img class="cover" src={d.cover} alt="" />}
 
     {key === 'reviews' && <ReviewDetail data={d} />}
 
@@ -51,6 +62,17 @@ const hasBody = Boolean(entry.body && entry.body.trim());
       </section>
     )}
 
+    {key === 'news' && d.instagram && (
+      <a class="insta" href={d.instagram} target="_blank" rel="noopener">
+        {d.cover && <img class="insta__cover" src={d.cover} alt="" width="120" height="150" loading="lazy" />}
+        <span class="insta__text">
+          <span class="insta__eyebrow">인스타그램 카드뉴스</span>
+          <strong>이 소식을 카드 몇 장으로 짧게 볼 수 있어요</strong>
+          <span class="insta__go">@mahjong.gamu 에서 보기 →</span>
+        </span>
+      </a>
+    )}
+
     {d.claude && (
       <aside class="ai-note" aria-label="작성 도움 안내">
         <span class="ai-note__mark" aria-hidden="true">✦</span>
@@ -58,7 +80,27 @@ const hasBody = Boolean(entry.body && entry.body.trim());
       </aside>
     )}
 
+    {(older || newer) && (
+      <nav class="pn" aria-label="이전 글·다음 글">
+        {older ? (
+          <a class="pn__a" href={`/${key}/${older.id}/`}><span class="pn__dir">← 이전 글</span><span class="pn__title">{older.data.title}</span></a>
+        ) : <span />}
+        {newer && (
+          <a class="pn__a pn__a--next" href={`/${key}/${newer.id}/`}><span class="pn__dir">다음 글 →</span><span class="pn__title">{newer.data.title}</span></a>
+        )}
+      </nav>
+    )}
+
     <Comments board={key} slug={entry.id} />
+
+    {related.length > 0 && (
+      <section class="related" aria-labelledby="related-title">
+        <h2 id="related-title" class="section-title">{board.label} 더 보기</h2>
+        <div class="related__grid">
+          {related.map((e: any) => <PostCard board={key} entry={e} showBoard={false} />)}
+        </div>
+      </section>
+    )}
   </article>
 </Base>
 
@@ -79,5 +121,27 @@ const hasBody = Boolean(entry.body && entry.body.trim());
   .ai-note p { margin: 0; line-height: 1.6; }
   .ai-note strong { color: var(--ink-2); }
   .ai-note__mark { color: var(--accent); font-size: 13px; }
+  .insta { max-width: 740px; display: flex; align-items: center; gap: 18px; padding: 14px; border-radius: var(--r-lg); background: var(--card); box-shadow: var(--shadow); color: var(--ink); text-decoration: none; transition: box-shadow 0.2s ease; }
+  .insta:hover { box-shadow: var(--shadow-up); color: var(--ink); }
+  .insta__cover { flex: none; width: 96px; height: 120px; object-fit: cover; border-radius: var(--r-sm); }
+  .insta__text { display: flex; flex-direction: column; gap: 4px; }
+  .insta__eyebrow { font-size: 13px; font-weight: 700; color: #c13584; }
+  .insta strong { font-size: 17px; line-height: 1.5; letter-spacing: -0.02em; }
+  .insta__go { font-size: 14px; font-weight: 600; color: var(--accent); }
+  .pn { max-width: 860px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pn__a { display: flex; flex-direction: column; gap: 6px; padding: 16px 20px; border-radius: var(--r-lg); background: var(--card); box-shadow: var(--shadow); color: var(--ink); text-decoration: none; transition: box-shadow 0.2s ease; }
+  .pn__a:hover { box-shadow: var(--shadow-up); color: var(--ink); }
+  .pn__a--next { text-align: right; grid-column: 2; }
+  .pn__dir { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .pn__title { font-size: 15px; font-weight: 700; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .related { display: flex; flex-direction: column; gap: 20px; }
+  .related__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  @media (max-width: 640px) {
+    .pn { grid-template-columns: 1fr; }
+    .pn__a--next { grid-column: 1; }
+    .insta { gap: 14px; }
+    .insta__cover { width: 72px; height: 90px; }
+    .insta strong { font-size: 15px; }
+  }
   @media (max-width: 640px) { .post { padding-top: 20px; gap: 36px; } .excerpt { font-size: 16px; } }
 </style>

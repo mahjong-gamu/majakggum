@@ -1,0 +1,6 @@
+# 모든 검색엔진이 사이트 전체를 볼 수 있습니다. 댓글 API(/api/)만 제외합니다.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://majakggum.mahjong-iris.workers.dev/sitemap.xml

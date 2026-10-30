@@ -5,6 +5,8 @@ excerpt: 온라인 마작 게임 작혼이 TV 애니메이션 『장송의 프�
 meta: 작혼(Yostar) · 저변·미디어
 source: https://mahjong-news.com/news/61140/
 claude: true
+cover: /images/news/2026-10-30-jantama-frieren-collab.jpg
+instagram: https://www.instagram.com/p/DfGP7I2j90d/
 ---
 
 온라인 마작 게임 **작혼(雀魂-じゃんたま-)** 이 TV 애니메이션 **『장송의 프리렌(葬送のフリーレン)』** 과 콜라보를 연다. 작혼을 운영하는 Yostar는 10월 29일(목) 콜라보 개최가 결정됐다고 발표했다. 마작 뉴스 사이트 마작뉴스닷컴(麻雀ニュース.com)도 같은 날 작혼 일본 공식 계정(@MahjongSoul_JP)의 발표를 전했다.

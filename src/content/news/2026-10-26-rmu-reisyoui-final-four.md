@@ -5,6 +5,8 @@ excerpt: RMU 제18기 영소위전(令昭位戦) A1리그 9절 B탁이 끝나 �
 meta: RMU · 타이틀전 결과
 source: https://mahjong-news.com/news/61079/
 claude: true
+cover: /images/news/2026-10-26-rmu-reisyoui-final-four.jpg
+instagram: https://www.instagram.com/p/De772EcDxTH/
 ---
 
 일본의 경기 마작 프로 단체 **RMU**의 **제18기 영소위전(令昭位戦)** A1리그 9절 B탁이 2026년 10월 24일(토) 15시부터 22시 30분까지 ABEMA에서 방송됐고, 이 결과로 결정전(決定戦)에 오를 네 명이 확정됐다. 영소위전은 RMU의 대표 타이틀전이다.

@@ -5,6 +5,8 @@ excerpt: 一般社団法人Mリーグ機構(일반사단법인 M리그 기구)�
 meta: M리그 · 스폰서 소식
 source: https://m-league.jp/news202610191200/
 claude: true
+cover: /images/news/2026-10-21-m-league-japanet-sponsor.jpg
+instagram: https://www.instagram.com/p/Deu0m_ZAX3P/
 ---
 
 일본 프로마작 리그 **Mリーグ(M리그)**를 운영하는 **一般社団法人Mリーグ機構(일반사단법인 M리그 기구)**가 10월 19일 새 스폰서 계약을 공식 발표했다. 상대는 **株式会社ジャパネットブロードキャスティング(재팬넷 브로드캐스팅)**다.

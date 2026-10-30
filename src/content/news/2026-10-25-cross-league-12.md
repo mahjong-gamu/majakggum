@@ -5,6 +5,8 @@ excerpt: 日本プロ麻雀協会(일본프로마작협회)와 RMU가 여는 ク
 meta: 일본프로마작협회·RMU · 단체 제도·조직 변화
 source: https://mahjong-news.com/news/61067/
 claude: true
+cover: /images/news/2026-10-25-cross-league-12.jpg
+instagram: https://www.instagram.com/p/De5WzkSj5kk/
 ---
 
 일본의 프로 단체 **日本プロ麻雀協会(일본프로마작협회)**와 **RMU**가 함께 여는 **クロスリーグ(크로스 리그)**의 12회전 영상이 10월 24일(토) RMU 공식 유튜브 채널에서 프리미어 공개로 소개됐다. 리그는 두 단체의 유튜브 채널을 통해 방송된다.
