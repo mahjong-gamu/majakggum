@@ -17,5 +17,7 @@
   //   TURNSTILE_SECRET    스팸 방지 확인(Turnstile) 비밀 키
   //   TELEGRAM_BOT_TOKEN  새 댓글 알림을 보낼 텔레그램 봇 토큰 (없으면 알림 안 보냄)
   //   TELEGRAM_CHAT_ID    알림 받을 텔레그램 대화 번호
+  // 대시보드에서 넣은 일반 변수(Text)도 배포할 때 지우지 않고 남겨 둡니다
+  "keep_vars": true,
   "observability": { "enabled": true }
 }
