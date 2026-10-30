@@ -9,16 +9,22 @@ const { board, slug } = Astro.props;
 const TURNSTILE_SITEKEY = '0x4AAAAAAFsCFhV4DQVYx-fA';
 ---
 <section class="comments" id="comments" data-board={board} data-slug={slug} data-sitekey={TURNSTILE_SITEKEY} aria-labelledby="comments-title">
-  <h2 id="comments-title" class="comments__title">댓글 <span class="comments__count digits" data-count></span></h2>
+  <header class="comments__top">
+    <h2 id="comments-title" class="comments__title">댓글 <span class="comments__count digits" data-count></span></h2>
+    <span class="comments__sub">오래된 순</span>
+  </header>
+
+  <ol class="clist" data-list aria-live="polite"><li class="clist__empty">댓글을 불러오는 중…</li></ol>
 
   <form class="cform" data-form novalidate>
+    <h3 class="cform__title" data-form-title>댓글 쓰기</h3>
     <p class="cform__reply" data-replying hidden><span></span> <button type="button" class="linkbtn" data-cancel-reply>취소</button></p>
     <div class="cform__who" data-guest>
       <label><span>닉네임</span><input name="name" maxlength="20" autocomplete="nickname" required /></label>
       <label><span data-pw-label>비밀번호</span><input name="password" type="password" maxlength="64" autocomplete="new-password" required /></label>
     </div>
     <p class="cform__me" data-me hidden><span class="badge">마작껌</span>으로 쓰는 중 · <button type="button" class="linkbtn" data-logout>로그아웃</button></p>
-    <label class="cform__body"><span class="sr">댓글 내용</span>
+    <label class="cform__body"><span>댓글</span>
       <textarea name="body" rows="4" maxlength="1000" placeholder="댓글을 남겨 주세요. 패는 `123m456p` 처럼 백틱으로 감싸면 그림으로 보여요." required></textarea>
     </label>
     <div class="cform__foot">
@@ -28,8 +34,6 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAFsCFhV4DQVYx-fA';
     </div>
     <p class="cform__msg" data-msg role="status"></p>
   </form>
-
-  <ol class="clist" data-list aria-live="polite"><li class="clist__empty">댓글을 불러오는 중…</li></ol>
 </section>
 
 <script>
@@ -96,7 +100,7 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAFsCFhV4DQVYx-fA';
       return rs.length ? `<ol class="clist clist--replies">${rs.map((r) => itemHTML(r, true)).join('')}</ol>` : '';
     }
     function render() {
-      if (form.parentNode !== root) { root.insertBefore(form, list); replyTo = null; $('[data-replying]').hidden = true; }
+      if (form.parentNode !== root) setReply(null);
       const tops = comments.filter((c) => !c.parentId);
       const n = comments.filter((c) => !c.deleted).length;
       $('[data-count]').textContent = n ? String(n) : '';
@@ -180,10 +184,12 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAFsCFhV4DQVYx-fA';
     const say = (t) => { msg.textContent = t; };
 
     // ---------- 답글 · 고치기 · 지우기 ----------
+    // 답글을 달 때는 쓰기 칸을 그 댓글 아래로 옮기고, 끝나면 구역 맨 아래로 되돌립니다
     function setReply(id) {
       replyTo = id;
       const r = $('[data-replying]');
-      if (!id) { r.hidden = true; root.insertBefore(form, list); return; }
+      $('[data-form-title]').hidden = !!id;
+      if (!id) { r.hidden = true; root.append(form); return; }
       const c = comments.find((x) => x.id === id);
       r.hidden = false; r.querySelector('span').textContent = `${c.name} 님께 답글`;
       document.getElementById(`comment-${id}`).querySelector('[data-panel]').after(form);
@@ -230,16 +236,20 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAFsCFhV4DQVYx-fA';
 
 <style is:global>
   /* 댓글 목록은 스크립트로 그리므로 전역 스타일로 두고, 모두 .comments 아래로 한정합니다 */
-  .comments { max-width: 740px; display: flex; flex-direction: column; gap: 20px; padding-top: 36px; border-top: 1px solid var(--line); }
-  .comments__title { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.02em; display: flex; align-items: baseline; gap: 8px; }
+  /* 하얀 판 하나: 위 제목 줄 · 가운데 댓글 목록 · 아래 옅은 바탕의 쓰기 칸 */
+  .comments { max-width: 740px; background: var(--card); border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 90px; }
+  .comments__top { display: flex; align-items: baseline; gap: 8px; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+  .comments__title { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; display: flex; align-items: baseline; gap: 8px; }
   .comments__count { color: var(--accent); }
+  .comments__sub { margin-left: auto; font-size: 13px; color: var(--muted); }
   .comments [hidden] { display: none !important; }
   .comments .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .comments .badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 50px; background: var(--mint); color: var(--brand); }
   .comments .linkbtn { border: 0; background: none; padding: 4px 2px; color: var(--muted); font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
   .comments .linkbtn:hover { color: var(--ink); }
 
-  .cform { display: flex; flex-direction: column; gap: 12px; background: var(--card); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 18px; }
+  .cform { display: flex; flex-direction: column; gap: 12px; background: #f8f7f3; border-top: 1px solid var(--line); padding: 20px 24px 24px; }
+  .cform__title { margin: 0; font-size: 16px; font-weight: 700; }
   .cform__who { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .cform label { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
   .cform label > span:not(.sr) { font-size: 13px; font-weight: 600; color: var(--ink-2); }
@@ -249,15 +259,15 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAFsCFhV4DQVYx-fA';
   .cform input:focus, .cform textarea:focus, .cpanel input:focus, .cpanel textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--mint); }
   .cform__me, .cform__reply { margin: 0; font-size: 14px; color: var(--ink-2); }
   .cform__reply { color: var(--accent); font-weight: 600; }
-  .cform__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .cform__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
   .cform__ts:empty { display: none; }
   .cform__hint { flex: 1; font-size: 13px; color: var(--muted); }
   .cform__msg { margin: 0; font-size: 14px; color: var(--red-ink); min-height: 0; }
   .cform__msg:empty { display: none; }
 
-  .clist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
-  .clist__empty { color: var(--muted); font-size: 15px; padding: 8px 0; }
-  .citem { padding: 14px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 90px; }
+  .clist { list-style: none; margin: 0; padding: 4px 24px; display: flex; flex-direction: column; }
+  .clist__empty { color: var(--muted); font-size: 15px; padding: 20px 0; }
+  .citem { padding: 16px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 90px; }
   .citem:last-child { border-bottom: 0; }
   .citem--focus > .citem__body { background: var(--point-tint); border-radius: var(--r-sm); }
   .citem--deleted > p { margin: 0; color: var(--muted); font-size: 14px; }
@@ -268,12 +278,19 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAFsCFhV4DQVYx-fA';
   .citem__body { margin-top: 6px; font-size: 15.5px; line-height: 1.75; color: var(--ink-2); overflow-wrap: anywhere; }
   .citem__body a { color: var(--accent); }
   .citem__acts { display: flex; gap: 10px; margin-top: 4px; }
-  .clist--replies { margin: 8px 0 0 18px; padding-left: 14px; border-left: 2px solid var(--line); }
-  .clist--replies .citem { padding: 10px 0; }
-  .clist--replies + .cform, .citem > .cform { margin-top: 10px; }
+  .clist--replies { margin: 10px 0 0 6px; padding: 0 0 0 16px; border-left: 2px solid var(--mint); }
+  .clist--replies .citem { padding: 10px 0; border-bottom: 0; }
+  /* 답글 쓰기 칸 (댓글 아래로 옮겨 왔을 때) */
+  .citem > .cform { margin-top: 10px; border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px; }
   .cpanel { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
   .cpanel__row { display: flex; align-items: center; gap: 10px; }
   .cpanel--del { flex-direction: row; flex-wrap: wrap; align-items: center; }
   .cpanel--del input { max-width: 220px; }
-  @media (max-width: 640px) { .cform__who { grid-template-columns: 1fr; } .clist--replies { margin-left: 6px; } }
+  @media (max-width: 640px) {
+    .comments__top { padding: 16px; }
+    .clist { padding: 2px 16px; }
+    .cform { padding: 16px 16px 20px; }
+    .cform__who { grid-template-columns: 1fr; }
+    .clist--replies { margin-left: 2px; padding-left: 12px; }
+  }
 </style>
