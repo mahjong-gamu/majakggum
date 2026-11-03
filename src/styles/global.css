@@ -128,7 +128,8 @@ main { padding-bottom: 104px; }
 .tiles--card { flex-wrap: nowrap; width: 100%; }
 .tiles--card .tile { flex: 1 1 0; min-width: 0; width: auto; max-width: 22px; }
 /* 카드 손패 옆 후로: 한 줄에 다 들어가도록 패가 함께 줄어듭니다 */
-.tiles--card .tile-gap--meld { flex: 0 0 auto; width: 5px; }
+.tiles--card .tile-gap { flex: 0 0 auto; width: 5px; }
+.tiles--card .tile--draw { transform: translateY(-3px); }
 .tiles--card .tile-side { flex: 1.3 1 0; min-width: 0; width: auto; max-width: calc(22px * 1.3); height: auto; aspect-ratio: 78 / 60; }
 .tiles--card .tile-side .tile { width: calc(100% * 60 / 78); max-width: none; }
 .tiles--inline { --tw: 21px; display: inline-flex; flex-wrap: nowrap; vertical-align: -0.45em; margin: 0 3px; gap: 5px; }
