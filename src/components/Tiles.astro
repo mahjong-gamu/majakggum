@@ -4,16 +4,36 @@ import { parseTiles, tileSrc } from '../lib/tiles.mjs';
 interface Props {
   tiles?: string;
   draw?: string;
+  // 후로(울기) 묶음: "456p" 또는 { tiles, called(옆으로 눕힐 패 순서), closed(안깡) } — 손패 오른쪽에 붙습니다
+  melds?: (string | { tiles: string; called?: number; closed?: boolean })[];
   size?: 'lg' | 'card';
   label?: string;
 }
-const { tiles = '', draw, size = 'lg', label } = Astro.props;
+const { tiles = '', draw, melds = [], size = 'lg', label } = Astro.props;
 const list = parseTiles(tiles);
 const drawList = draw ? parseTiles(draw) : [];
+const meldList = melds.map((m) => {
+  const md = typeof m === 'string' ? { tiles: m } : m;
+  const ts = parseTiles(md.tiles);
+  return ts.map((t, i) => ({
+    name: t.name,
+    src: md.closed && (i === 0 || i === ts.length - 1) ? '/tiles/back.svg' : tileSrc(t),
+    side: md.called === i + 1,
+  }));
+});
 const names = (l: { name: string }[]) => l.map((t) => t.name).join(' ');
+const auto = `패 ${names(list)}${drawList.length ? `, 쯔모 ${names(drawList)}` : ''}${meldList.length ? `, 후로 ${meldList.map(names).join(' / ')}` : ''}`;
 ---
-<div class={`tiles tiles--${size}`} role="img" aria-label={label ?? `패 ${names(list)}${drawList.length ? `, 쯔모 ${names(drawList)}` : ''}`}>
+<div class={`tiles tiles--${size}`} role="img" aria-label={label ?? auto}>
   {list.map((t) => <img class="tile" src={tileSrc(t)} alt="" width="60" height="78" />)}
   {drawList.length > 0 && <span class="tile-gap" aria-hidden="true"></span>}
   {drawList.map((t) => <img class="tile tile--draw" src={tileSrc(t)} alt="" width="60" height="78" />)}
+  {meldList.map((m) => (
+    <>
+      <span class="tile-gap tile-gap--meld" aria-hidden="true"></span>
+      {m.map((c) => (c.side
+        ? <span class="tile-side"><img class="tile" src={c.src} alt="" width="60" height="78" /></span>
+        : <img class="tile" src={c.src} alt="" width="60" height="78" />))}
+    </>
+  ))}
 </div>

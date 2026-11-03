@@ -12,13 +12,15 @@ const { board, entry, showBoard = true } = Astro.props;
 const b = getBoard(board);
 const d = entry.data;
 const hand: string | undefined = d.hand;
+// 복기 글: 주요 국면의 내 후로패도 손패 옆에 붙입니다
+const melds = d.moment?.players?.[d.myseat]?.melds ?? [];
 ---
 <a class="post-card" href={postUrl(board, entry.id)}>
   <div class:list={['post-card__thumb', { 'post-card__thumb--img': d.cover, 'post-card__thumb--card': d.cover && board === 'news' }]} style={`background:${b.tint}`}>
     {d.cover ? (
       <img src={d.cover} alt="" loading="lazy" />
     ) : hand ? (
-      <Tiles tiles={hand} size="card" />
+      <Tiles tiles={hand} melds={melds} size="card" />
     ) : (
       <img class="post-card__wind" src={`/tiles/${b.wind}.svg`} alt="" width="60" height="78" />
     )}

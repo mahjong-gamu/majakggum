@@ -47,7 +47,7 @@ const steps = [
               <span class="table__sub">{featured.data.meta}</span>
             </div>
             <div class="table__hand">
-              <Tiles tiles={moment.hand} draw={moment.draw} size="lg" />
+              <Tiles tiles={moment.hand} draw={moment.draw} melds={moment.players?.[featured.data.myseat]?.melds ?? []} size="lg" />
             </div>
             <div class="picks">
               {myPick && (
