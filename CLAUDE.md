@@ -6,7 +6,8 @@
 
 - 사이트: https://majakggum.mahjong-iris.workers.dev
 - 이 저장소(공개): mahjong-gamu/majakggum · 카드뉴스 저장소(비공개): mahjong-gamu/cardnews-bot
-- 전체 운영 설명: PC 폴더 `문서\마작껌 홈페이지\마작껌 운영 정리.pdf`
+- 전체 운영 설명: PC 폴더 `Documents\마작껌 홈페이지\문서\마작껌 운영 정리.pdf` (폴더 구조는 `마작껌 홈페이지\폴더 안내.md`)
+- Claude가 만든 홈페이지 관련 문서(보고서·정리 PDF)는 PC 폴더 `마작껌 홈페이지\문서\` 에, 디자인 시안 이미지는 `자료\시안\<주제>\` 에 저장합니다. `방송화면\`·`대회방송화면\` 은 OBS가 쓰는 경로라 옮기지 않습니다.
 
 ## 구조
 
