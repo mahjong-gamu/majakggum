@@ -14,6 +14,7 @@ const SITE_NAME = '마작치는 마작껌';
 const CONTACT_EMAIL = 'mahjong.iris@gmail.com';
 const YOUTUBE_URL = 'https://www.youtube.com/channel/UCYtiv8O8jPptxft8HTMy42A';
 const INSTAGRAM_URL = 'https://www.instagram.com/mahjong.gamu/';
+const CHZZK_URL = 'https://chzzk.naver.com/474a4387a0771c6ba339a033c0eabf41';
 // Cloudflare Web Analytics 사이트 토큰. 비어 있으면 방문 분석 코드를 넣지 않습니다.
 // (쿠키를 쓰지 않는 집계 방식이고, 토큰은 공개돼도 되는 사이트 구분값입니다)
 const ANALYTICS_TOKEN = 'ab5317686b924745acbbe7e864f6c131';
@@ -89,6 +90,10 @@ const ogImage = new URL(image, Astro.site).href;
           <a class="social social--instagram" href={INSTAGRAM_URL} target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>
             인스타그램
+          </a>
+          <a class="social social--chzzk" href={CHZZK_URL} target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="3" /><path d="M8 3l4 4 4-4" /><circle cx="12" cy="13.5" r="2" fill="currentColor" stroke="none" /></svg>
+            치지직
           </a>
         </nav>
         <div class="footer-bottom">
