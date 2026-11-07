@@ -15,7 +15,8 @@
 - `main` 에 푸시하면 Cloudflare Workers Builds 가 자동으로 빌드·배포합니다(2~3분). 빌드가 실패하면 마지막 성공본이 그대로 남습니다.
 - 게시판: `src/content/reviews`(패보 복기) · `study`(마작 공부) · `visits`(마장 탐방) · `news`(마작 뉴스). 이름·색은 `src/lib/boards.ts`.
 - 글 형식(머리말 항목)은 `src/content.config.ts` 가 기준입니다. 새 글은 `templates/패보복기.md`, `templates/일반글.md` 를 복사해 씁니다.
-- 마작 뉴스 글은 cardnews-bot 자동화가 월·수·금 아침에 올립니다(커밋 작성자 `mahjong-gamu`). 이 저장소에서 뉴스 글을 따로 만들지 않습니다.
+- 마작 뉴스 글은 cardnews-bot 자동화가 월·수·금에 올립니다(게시 시각은 cardnews-bot `schedule.json`, 커밋 작성자 `mahjong-gamu`). 이 저장소에서 뉴스 글을 따로 만들지 않습니다.
+- 토요일 공부 시리즈(10:00)는 `src/content/study/` 의 글을 카드뉴스로 줄이거나, 새 주제면 공부 글도 함께 올립니다. 그래서 공부 글을 새로 쓸 때는 `draft: true` 나 `publishAt` 으로 시작하고, 같은 주제가 이미 있는지 `src/content/study/` 를 먼저 봅니다.
 - 예약 게시: `publishAt: "…+09:00"` → `.github/workflows/scheduled-publish.yml` 이 15분마다 공개.
 - Node 22.22 이상. 확인은 `npm run build`, 화면 확인은 `npm run dev`.
 
