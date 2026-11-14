@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Tiles from '../components/Tiles.astro';
 import { BOARDS } from '../lib/boards';
+import { GLOSSARY, GLOSSARY_VISIBLE } from '../lib/glossary';
 
 interface Props {
   title?: string;
@@ -61,10 +62,21 @@ const ogImage = new URL(image, Astro.site).href;
           <img src="/tiles/7z.svg" alt="" width="60" height="78" />
           <span class="logo-name">{SITE_NAME}</span>
         </a>
-        <nav class="nav" aria-label="게시판">
+        {GLOSSARY_VISIBLE && (
+          <div class="hdr-icons">
+            <a href={GLOSSARY.path} aria-current={current === 'glossary' ? 'page' : undefined} aria-label={GLOSSARY.label}>
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15H5.5c-.8 0-1.5-.7-1.5-1.5z" /><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v15h5.5c.8 0 1.5-.7 1.5-1.5z" /></svg>
+            </a>
+            <a href="/search/" aria-current={current === 'search' ? 'page' : undefined} aria-label="검색">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4.5 4.5" /></svg>
+            </a>
+          </div>
+        )}
+        <nav class={GLOSSARY_VISIBLE ? 'nav nav--glossary' : 'nav'} aria-label="게시판">
           {BOARDS.map((b) => (
             <a href={`/${b.key}/`} aria-current={current === b.key ? 'page' : undefined}>{b.label}</a>
           ))}
+          {GLOSSARY_VISIBLE && <a class="nav__gloss" href={GLOSSARY.path} aria-current={current === 'glossary' ? 'page' : undefined}>{GLOSSARY.label}</a>}
           <a class="nav__search" href="/search/" aria-current={current === 'search' ? 'page' : undefined} aria-label="검색">
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4.5 4.5" /></svg>
             <span>검색</span>

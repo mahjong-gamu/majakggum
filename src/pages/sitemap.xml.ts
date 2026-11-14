@@ -2,6 +2,7 @@
 import type { APIRoute } from 'astro';
 import { BOARDS } from '../lib/boards';
 import { getAllPosts, postUrl } from '../lib/posts';
+import { GLOSSARY, GLOSSARY_PUBLIC, glossaryUrl, loadGlossary } from '../lib/glossary';
 
 export const GET: APIRoute = async ({ site }) => {
   const posts = await getAllPosts();
@@ -12,6 +13,11 @@ export const GET: APIRoute = async ({ site }) => {
     ...BOARDS.map((b) => ({ loc: `/${b.key}/`, lastmod: posts.find((p) => p.board === b.key) && day(posts.find((p) => p.board === b.key)!.entry.data.date) })),
     ...posts.map(({ board, entry }) => ({ loc: postUrl(board, entry.id), lastmod: day(entry.data.date) })),
   ];
+  // 용어 사전은 공개 스위치가 켜졌을 때만
+  if (GLOSSARY_PUBLIC) {
+    urls.push({ loc: GLOSSARY.path, lastmod: undefined });
+    for (const e of (await loadGlossary()).entries) urls.push({ loc: glossaryUrl(e.id), lastmod: undefined });
+  }
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((u) => `  <url><loc>${new URL(u.loc, site).href}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}</url>`).join('\n')}

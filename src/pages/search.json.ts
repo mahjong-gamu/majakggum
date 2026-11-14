@@ -2,6 +2,7 @@
 import type { APIRoute } from 'astro';
 import { formatDate } from '../lib/boards';
 import { getAllPosts, postUrl } from '../lib/posts';
+import { GLOSSARY_PUBLIC, glossaryUrl, loadGlossary } from '../lib/glossary';
 
 const plain = (md = '') =>
   md
@@ -19,5 +20,10 @@ export const GET: APIRoute = async () => {
     const d = entry.data;
     return { b: board, u: postUrl(board, entry.id), t: d.title, e: d.excerpt, m: d.meta ?? '', d: formatDate(d.date), x: plain(entry.body) };
   });
+  // 용어 사전은 공개 스위치가 켜졌을 때만 색인에 넣습니다 (k = 일본어·다른 이름: 찾는 데만 쓰고 화면에는 안 보임)
+  if (GLOSSARY_PUBLIC) {
+    const { entries } = await loadGlossary();
+    for (const e of entries) items.push({ b: 'glossary', u: glossaryUrl(e.id), t: e.term, e: e.short, m: e.category, d: '', x: plain(e.detail), k: [e.ja, ...e.aka].join(' ') } as any);
+  }
   return new Response(JSON.stringify(items), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
 };

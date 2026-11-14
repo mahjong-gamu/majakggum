@@ -104,6 +104,18 @@ button { font: inherit; }
   .nav__search span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 }
 
+/* 용어 사전 메뉴(공개 스위치가 켜졌을 때만 마크업이 나옵니다): 휴대폰은 시안 ② — 로고 줄 오른쪽에 아이콘 2개, 메뉴 줄은 게시판 4개만 */
+.hdr-icons { display: none; }
+@media (max-width: 640px) {
+  .site-header .wrap { flex-wrap: wrap; }
+  .logo:has(+ .hdr-icons) { flex: 1 1 auto; }
+  .hdr-icons { display: flex; gap: 2px; margin-right: 8px; }
+  .hdr-icons a { display: inline-flex; width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: 50px; color: var(--ink-2); }
+  .hdr-icons a[aria-current='page'] { color: var(--brand); background: var(--mint); }
+  .hdr-icons svg { width: 19px; height: 19px; }
+  .nav--glossary .nav__gloss, .nav--glossary .nav__search { display: none; }
+}
+
 main { padding-bottom: 104px; }
 
 /* 버튼 — 모두 알약 모양, 누르면 살짝 작아짐 */

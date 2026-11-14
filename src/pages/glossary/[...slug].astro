@@ -1,0 +1,30 @@
+---
+// 용어 사전: /glossary/ (목록) 과 /glossary/<id>/ (용어 페이지) 를 한 파일에서 만듭니다.
+// GLOSSARY_PUBLIC 이 꺼져 있으면(그리고 개발 서버가 아니면) 빈 목록을 돌려줘서 빌드 결과에 glossary 폴더가 생기지 않습니다.
+import Base from '../../layouts/Base.astro';
+import GlossaryList from '../../components/GlossaryList.astro';
+import GlossaryTerm from '../../components/GlossaryTerm.astro';
+import { GLOSSARY, GLOSSARY_VISIBLE, loadGlossary } from '../../lib/glossary';
+
+export async function getStaticPaths() {
+  const { entries } = await loadGlossary(); // 스위치와 상관없이 항상 형식·id 검사
+  if (!GLOSSARY_VISIBLE) return [];
+  return [
+    { params: { slug: undefined }, props: { id: null } },
+    ...entries.map((e) => ({ params: { slug: e.id }, props: { id: e.id } })),
+  ];
+}
+
+const { id } = Astro.props as { id: string | null };
+const { entries, pending } = await loadGlossary();
+const entry = id ? entries.find((e) => e.id === id)! : null;
+---
+{entry ? (
+  <Base title={`${entry.term} — ${GLOSSARY.label}`} description={entry.short} current="glossary">
+    <GlossaryTerm entry={entry} entries={entries} pending={pending} />
+  </Base>
+) : (
+  <Base title={GLOSSARY.label} description={GLOSSARY.intro} current="glossary">
+    <GlossaryList entries={entries} />
+  </Base>
+)}

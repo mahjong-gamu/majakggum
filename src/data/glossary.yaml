@@ -1,0 +1,1599 @@
+# 마작 용어 사전 묶음 1 — 90개 (2026-11-14 확정)
+# 원본: 프로젝트 문서 「용어 사전 묶음 1 초안」 E절 74개 + I절 16개. 내용은 고치지 말고 `src/data/glossary.yaml` 로 그대로 복사합니다.
+# check: true 인 4개(타쯔·쿳츠키·쯔모기리/테다시·량칸)는 출처 보강 중이라는 뜻입니다.
+
+# ───────── 진행·기본 ─────────
+- id: oya-ko
+  term: 친 / 자
+  ja: 親 / 子
+  aka: [오야, 코, 친가, 자가]
+  category: 진행·기본
+  short: 그 국에서 친을 맡은 한 사람과, 나머지 세 사람.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    국마다 네 사람 중 한 명이 **친**, 나머지 세 명이 **자**가 됩니다. 친은 동가에 앉고, 친이 바뀌면 자리 바람(자풍)도 함께 한 칸씩 옮겨 갑니다.
+    친은 화료하면 자보다 **1.5배** 점수를 받고, 쯔모를 당하면 자보다 두 배를 냅니다. 그래서 친일 때 공격적으로 치는 경우가 많습니다.
+    친이 화료하거나 유국 때 텐파이면 친을 그대로 이어 가고(연장), 그렇지 않으면 오른쪽 사람(하가)에게 친이 넘어갑니다.
+  related: [jikaze, renchan, kyoku]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-2/
+  check: false
+
+- id: jikaze
+  term: 자풍
+  ja: 自風
+  aka: [자풍패, 문풍]
+  category: 진행·기본
+  short: 내 자리의 바람. 친이 동, 그다음 차례가 남·서·북입니다.
+  tiles: "1234z"
+  han: null
+  rule_note: null
+  detail: |
+    친이 **동**, 친의 오른쪽(다음 차례)이 **남**, 그다음이 **서**, 친의 왼쪽이 **북**입니다. 친이 바뀌면 모두의 자풍도 바뀝니다.
+    자풍과 같은 풍패 3장(커쯔)을 모으면 **역패**로 1판이 됩니다. 자풍이 장풍과 같으면(예: 동장의 친에게 동) 두 번 세어 2판인 **연풍패**가 됩니다.
+  related: [bakaze, kazehai, yakuhai, renpuhai, oya-ko]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+  check: false
+
+- id: bakaze
+  term: 장풍
+  ja: 場風
+  aka: [장풍패]
+  category: 진행·기본
+  short: 그 판의 바람. 동장이면 동, 남장이면 남입니다.
+  tiles: "12z"
+  han: null
+  rule_note: null
+  detail: |
+    반장전은 **동장**(동1국~동4국)과 **남장**(남1국~남4국)으로 나뉩니다. 동장에서는 동 `1z`, 남장에서는 남 `2z` 가 장풍입니다. 네 사람 모두 같은 장풍을 씁니다.
+    장풍 커쯔는 **역패** 1판입니다.
+  related: [jikaze, kyoku, tonpusen-hanchan, yakuhai]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+  check: false
+
+- id: tonpusen-hanchan
+  term: 동풍전 / 반장전
+  ja: 東風戦 / 半荘戦
+  aka: [동풍, 반장, 한장]
+  category: 진행·기본
+  short: 동장 4국만 치는 짧은 대국 / 동장·남장 8국을 치는 대국.
+  tiles: null
+  han: null
+  rule_note: 작혼은 반장이 끝났을 때 1위가 30,000점에 못 미치면 서장으로 이어 가는 서입이 있습니다(동풍전은 남입).
+  detail: |
+    **동풍전**은 동1국~동4국, **반장전**은 동1국~남4국까지 칩니다(연장이 나오면 더 길어짐). M리그와 대부분의 프로 대회는 반장전입니다.
+    M리그 공식전은 동장·남장 두 바람의 반장을 한 경기로 하고, 마지막 국이 끝나면 대국이 끝납니다(1장 1조).
+  related: [kyoku, orasu, bakaze]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: kyoku
+  term: 국
+  ja: 局
+  aka: [판]
+  category: 진행·기본
+  short: 패를 받아 누군가 화료하거나 유국할 때까지의 한 판. 동1국, 남3국처럼 부릅니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    한 국은 배패 → 쯔모와 버리기 반복 → 화료나 유국으로 끝납니다. 이름은 「장풍 + 몇 번째 친」으로, 동장의 세 번째 친이면 **동3국**입니다.
+    친이 연장하면 국 번호는 그대로이고 본장만 늘어납니다(예: 동3국 1본장).
+  related: [oya-ko, honba, renchan, ryukyoku, agari]
+  sources:
+    - /study/riichi-101-2/
+    - https://m-league.jp/about/
+  check: false
+
+- id: orasu
+  term: 오라스
+  ja: オーラス
+  aka: [올라스트, 마지막 국]
+  category: 진행·기본
+  short: 대국의 마지막 국. 반장전이면 남4국입니다.
+  tiles: null
+  han: null
+  rule_note: 작혼은 오라스에 1위인 친이 화료·텐파이하면 연장하지 않고 끝낼 수 있습니다(M리그는 그대로 연장).
+  detail: |
+    영어 all last에서 온 말입니다. 순위가 정해지는 국이라 「몇 점이 필요한가」를 계산해서 치는 경우가 많습니다. 예를 들어 3위가 2위를 넘으려면 만관이 필요하다면, 낮은 점수의 빠른 화료는 의미가 없을 수 있습니다.
+    M리그는 오라스에 1위인 친이 화료하거나 텐파이해도 끝나지 않고 연장합니다.
+  related: [tonpusen-hanchan, kyoku, renchan]
+  sources:
+    - /study/rules-mahjongsoul-vs-pro/
+    - https://m-league.jp/about/
+  check: false
+
+- id: honba
+  term: 본장
+  ja: 本場
+  aka: [연장봉, 쓰미보, 백점봉]
+  category: 진행·기본
+  short: 친의 연장이나 유국 때마다 하나씩 쌓이는 막대. 1본장마다 화료 점수에 300점이 붙습니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    친이 연장하거나 유국이 나오면 본장이 1개 늘어납니다. 그 뒤 누가 화료하면 **본장 1개당 300점**을 더 받습니다. 론이면 방총한 사람이 300점, 쯔모면 세 사람이 100점씩 냅니다.
+    M리그는 자가 화료하면 본장이 없어지고 0으로 돌아갑니다(3장 13조). 자 화료로 친이 넘어가면 다음 국은 0본장부터 시작합니다.
+  related: [renchan, kyotaku, ryukyoku]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-2/
+  check: false
+
+- id: renchan
+  term: 연장
+  ja: 連荘
+  aka: [렌짱]
+  category: 진행·기본
+  short: 친이 화료하거나 유국 때 텐파이여서, 다음 국도 같은 사람이 친을 하는 것.
+  tiles: null
+  han: null
+  rule_note: 작혼은 오라스에 1위 친이 연장하지 않고 끝낼 수 있습니다.
+  detail: |
+    M리그는 **친이 화료하거나, 유국 때 친이 텐파이면** 연장합니다. 친이 노텐이면 다음 사람에게 친이 넘어갑니다(3장 12조).
+    연장하면 국 번호는 그대로 두고 본장을 1개 올립니다(예: 동1국 → 동1국 1본장).
+  related: [oya-ko, honba, orasu, tenpai]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-2/
+  check: false
+
+- id: kyotaku
+  term: 공탁
+  ja: 供託
+  aka: [공탁봉]
+  category: 진행·기본
+  short: 리치 때 낸 1,000점 막대가 주인 없이 탁자에 남아 있는 것. 다음에 화료한 사람이 가져갑니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    리치한 사람이 화료하지 못하고 유국이 되면 리치봉은 탁자에 그대로 남습니다. 이것이 공탁이고, 다음 국 이후 **처음 화료한 사람**이 모두 가져갑니다.
+    반장이 유국으로 끝나 공탁이 남으면 M리그와 작혼은 **1위**가 가져갑니다(M리그 9장 8조 5·6장 2조 5). 프로 단체 중에는 없애는 곳도 있습니다.
+  related: [riichibo, honba, ryukyoku]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: riichibo
+  term: 리치봉
+  ja: 立直棒
+  aka: [점봉, 천점봉, 1000점봉]
+  category: 진행·기본
+  short: 리치를 걸 때 탁자에 내는 1,000점짜리 점수 막대.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    리치를 선언하고 패를 버린 뒤, 그 패로 아무도 론하지 않으면 1,000점 막대를 내놓습니다(M리그 9장 8조 2). 리치한 사람이 화료하면 돌려받고, 다른 사람이 화료하면 그 사람이 가져갑니다. 아무도 화료하지 않으면 **공탁**으로 남습니다.
+  related: [kyotaku, riichi]
+  sources:
+    - https://m-league.jp/about/
+  check: false
+
+- id: haipai
+  term: 배패
+  ja: 配牌
+  aka: [처음 패]
+  category: 진행·기본
+  short: 국을 시작할 때 각자 받는 13장의 패.
+  tiles: "1479m258p36s1257z"
+  han: null
+  rule_note: null
+  detail: |
+    각자 13장을 받고, 친이 먼저 한 장을 쯔모해 14장에서 한 장을 버리며 국이 시작됩니다. 위 예처럼 몸통이 하나도 없는 배패도 흔합니다.
+    배패가 나쁘면(블록이 적고 자패가 많으면) 처음부터 수비를 생각하거나, 작혼이라면 구종구패를 고를 수 있습니다.
+  related: [yama, kyushu-kyuhai, burokku]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+  check: false
+
+- id: yama
+  term: 패산
+  ja: 山
+  aka: [산, 패벽]
+  category: 진행·기본
+  short: 136장을 2단으로 쌓아 둔 패 더미. 여기서 차례대로 쯔모합니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    네 사람 앞에 17장씩 2단으로 쌓아 모두 136장입니다. 배패를 나눈 뒤 남은 패를 차례로 쯔모하고, 끝의 14장(왕패)은 쯔모하지 않습니다.
+    패산의 마지막 한 장을 쯔모해 화료하면 **해저로월**, 그 마지막 버림패로 론하면 **하저로어**입니다.
+  related: [wanpai, haipai, haitei]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-2/
+  check: false
+
+- id: wanpai
+  term: 왕패
+  ja: 王牌
+  aka: [왕패 14장]
+  category: 진행·기본
+  short: 패산 끝에 남겨 두는 14장. 도라 표시패와 영상패가 여기 있습니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    왕패 14장은 쯔모하지 않습니다. 이 안에 **도라 표시패**(처음 1장, 깡마다 1장씩 더)와 **영상패**(깡 뒤 보충패 4장)가 있습니다.
+    깡으로 영상패를 한 장 가져가면 왕패가 14장을 유지하도록 패산 끝에서 한 장이 왕패로 넘어갑니다. 그래서 깡이 나오면 쯔모할 수 있는 패가 한 장 줄어듭니다.
+  related: [yama, rinshanpai, dora-hyojihai, kan]
+  sources:
+    - /study/riichi-101-2/
+  check: false
+
+- id: rinshanpai
+  term: 영상패
+  ja: 嶺上牌
+  aka: [린샹패]
+  category: 진행·기본
+  short: 깡을 한 뒤 왕패에서 가져오는 보충패.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    깡을 하면 손패가 한 장 모자라게 되므로 왕패에서 한 장을 보충합니다. 이 패가 영상패이고, 깡을 선언한 뒤에 가져옵니다(M리그 2장 5조).
+    영상패로 화료하면 **영상개화**(1판)가 붙습니다.
+  related: [kan, wanpai, rinshan-kaiho]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: dora-hyojihai
+  term: 도라 표시패
+  ja: ドラ表示牌
+  aka: [도라표시패]
+  category: 진행·기본
+  short: 왕패에서 뒤집어 놓은 패. 이 패의 다음 차례 패가 도라입니다.
+  tiles: "4m"
+  han: null
+  rule_note: null
+  detail: |
+    도라 표시패가 `4m` 이면 도라는 `5m` 입니다. 순서는 이렇게 돕니다.
+    - 수패: 1→2→…→9→1 (표시패 `9p` 면 도라 `1p`)
+    - 풍패: 동→남→서→북→동 (표시패 `4z` 면 도라 `1z`)
+    - 삼원패: 백→발→중→백 (표시패 `7z` 면 도라 `5z`)
+    깡을 할 때마다 옆 패를 한 장 더 뒤집어 깡도라가 늘어납니다. M리그는 깡이 확인되면 바로 뒤집습니다(4장 5조).
+  related: [dora, kandora, wanpai]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: junme
+  term: 순
+  ja: 巡目
+  aka: [순목, 바퀴]
+  category: 진행·기본
+  short: 네 사람이 한 번씩 쯔모하고 버리는 한 바퀴. 「5순째 리치」처럼 씁니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    내 버림패가 몇 장인지 세면 지금이 몇 순째인지 알 수 있습니다. 보통 6순까지를 초반, 12순 무렵부터를 종반으로 봅니다.
+    「같은 순」은 내가 한 번 버린 뒤 다음 쯔모 전까지를 말합니다. 이때 화료패를 못 본 체하면 일시 후리텐이 됩니다.
+  related: [sutehai, kawa, furiten]
+  sources:
+    - https://m-league.jp/about/
+    - /study/discard-terminals-vs-honors/
+  check: false
+
+- id: sutehai
+  term: 버림패
+  ja: 捨て牌
+  aka: [사패, 버린 패]
+  category: 진행·기본
+  short: 쯔모한 뒤 손에서 내놓은 패.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    버림패는 강에 순서대로 놓이고, 다른 사람이 그 패로 론·치·퐁·깡을 할 수 있습니다. 리치를 선언한 패는 옆으로 눕혀 둡니다.
+    상대의 버림패를 보면 그 사람이 무엇을 모으는지, 어떤 패가 안전한지 짐작할 수 있습니다.
+  related: [kawa, tsumogiri-tedashi, hoju]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+  check: false
+
+- id: kawa
+  term: 강
+  ja: 河
+  aka: [하천, 버림패 자리]
+  category: 진행·기본
+  short: 각자 자기 앞에 버림패를 늘어놓는 자리.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    보통 한 줄에 6장씩 놓아서, 줄 수로 몇 순째인지 바로 알 수 있습니다. 치·퐁·깡으로 가져간 패는 강에서 빠집니다.
+    「강이 노두패뿐이다」, 「강이 강하다(정리가 빠르다)」처럼 상대의 버림패 전체를 가리킬 때도 씁니다.
+  related: [sutehai, junme]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+  check: false
+
+- id: shupai
+  term: 수패
+  ja: 数牌
+  aka: [숫자패]
+  category: 진행·기본
+  short: 1~9 숫자가 있는 패. 만수·통수·삭수 세 종류가 있습니다.
+  tiles: "123456789m"
+  han: null
+  rule_note: null
+  detail: |
+    세 종류 × 9가지 × 4장 = 108장입니다. 같은 종류의 연속 숫자 3장은 슌쯔가 됩니다. 각 종류의 5에는 빨간 **적도라**가 1장씩 섞여 있습니다(패 표기에서는 숫자 0).
+    작혼 마작 교실은 「숫자패」라고도 씁니다.
+  related: [manzu-pinzu-sozu, jihai, shuntsu, akadora]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-1/
+  check: false
+
+- id: jihai
+  term: 자패
+  ja: 字牌
+  aka: [글자패]
+  category: 진행·기본
+  short: 동·남·서·북·백·발·중 7가지 글자 패.
+  tiles: "1234567z"
+  han: null
+  rule_note: null
+  detail: |
+    풍패(동남서북) 4가지와 삼원패(백발중) 3가지, 모두 7가지 × 4장 = 28장입니다. 숫자가 없어 슌쯔를 만들 수 없고, 커쯔·또이쯔로만 씁니다.
+    역패가 되는 자패는 3장 모으면 1판이라 소중하지만, 쓸모없는 자패(객풍패)는 초반에 먼저 버리는 경우가 많습니다.
+  related: [kazehai, sangenpai, shupai, yakuhai]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-1/
+  check: false
+
+- id: kazehai
+  term: 풍패
+  ja: 風牌
+  aka: [바람패]
+  category: 진행·기본
+  short: 동·남·서·북 네 가지 바람 패.
+  tiles: "1234z"
+  han: null
+  rule_note: null
+  detail: |
+    내 자풍이나 그 판의 장풍과 같은 풍패는 3장 모으면 **역패**입니다. 둘 다 아닌 풍패는 역이 되지 않습니다.
+    동·남·서·북 넷을 모두 모으는 역만이 **대사희·소사희**입니다.
+  related: [jihai, jikaze, bakaze, yakuhai]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+  check: false
+
+- id: sangenpai
+  term: 삼원패
+  ja: 三元牌
+  aka: [백발중]
+  category: 진행·기본
+  short: 백·발·중 세 가지 패. 3장 모으면 누구나 역패입니다.
+  tiles: "567z"
+  han: null
+  rule_note: null
+  detail: |
+    삼원패는 자리와 상관없이 누구에게나 **역패**(1판)입니다. 세 가지를 모두 커쯔로 모으면 역만 **대삼원**, 둘은 커쯔·하나는 머리면 **소삼원**입니다.
+    M리그는 대삼원이 확정되는 세 번째 삼원패를 퐁·깡하게 해 준 사람에게 **책임지불**을 적용합니다(8장).
+  related: [jihai, yakuhai, daisangen, shosangen]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: yaochuhai
+  term: 요구패
+  ja: 幺九牌
+  aka: [야오추패, 1·9·자패]
+  category: 진행·기본
+  short: 1과 9 수패, 그리고 자패를 합친 13종.
+  tiles: "19m19p19s1234567z"
+  han: null
+  rule_note: null
+  detail: |
+    작혼 마작 교실은 「요구패(1, 9 숫자패와 자패)」로 설명합니다. 요구패를 하나도 쓰지 않으면 **탕야오**, 몸통과 머리 모두에 요구패가 들어가면 **찬타**, 13종을 모두 모으면 **국사무쌍**입니다.
+    요구패는 슌쯔를 만들 수 있는 방법이 적어(1은 123만) 초반에 먼저 버리는 경우가 많습니다.
+  related: [rotohai-chunchanpai, jihai, tanyao, chanta, kokushi-muso, nagashi-mangan]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-1/
+  check: false
+
+- id: rotohai-chunchanpai
+  term: 노두패 / 중장패
+  ja: 老頭牌 / 中張牌
+  aka: [노두, 중장]
+  category: 진행·기본
+  short: 1·9 수패 / 2~8 수패.
+  tiles: "19m 2345678m"
+  han: null
+  rule_note: null
+  detail: |
+    **노두패**는 수패의 1과 9(6종), **중장패**는 2~8 수패입니다. 요구패 = 노두패 + 자패입니다.
+    노두패만으로 화료하면 역만 **청노두**, 노두패와 자패만이면 **혼노두**입니다. 중장패만으로 화료하면 **탕야오**입니다.
+  related: [yaochuhai, tanyao, chinroto, honroto]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-1/
+  check: false
+
+- id: manzu-pinzu-sozu
+  term: 만수 · 통수 · 삭수
+  ja: 萬子 · 筒子 · 索子
+  aka: [만즈, 핀즈, 소즈, 만, 통, 삭]
+  category: 진행·기본
+  short: 수패의 세 종류. 패 표기로는 m(만)·p(통)·s(삭)입니다.
+  tiles: "5m 5p 5s"
+  han: null
+  rule_note: null
+  detail: |
+    **만수**는 한자 萬과 숫자, **통수**는 동그라미, **삭수**는 대나무 막대 그림입니다. 삭수의 1은 새 그림입니다.
+    이 사이트의 패 표기는 `5m` 만, `5p` 통, `5s` 삭, `5z` 자패로 씁니다. 작혼 마작 교실도 「만수·삭수·통수」로 씁니다.
+  related: [shupai, chinitsu, honitsu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+  check: false
+
+# ───────── 손패 모양 ─────────
+- id: mentsu
+  term: 몸통
+  ja: 面子
+  aka: [멘쯔, 면자]
+  category: 손패 모양
+  short: 슌쯔·커쯔·깡쯔처럼 3장(깡쯔는 4장)으로 된 덩어리. 화료형에는 4개가 필요합니다.
+  tiles: "234m 777p"
+  han: null
+  rule_note: null
+  detail: |
+    기본 화료형은 **몸통 4개 + 머리 1개**입니다(작혼 「4몸통 1머리」). 몸통은 연속 숫자 3장(슌쯔), 같은 패 3장(커쯔), 깡으로 만든 4장(깡쯔) 중 하나입니다.
+    예외로 치또이쯔(또이쯔 7개)와 국사무쌍은 몸통 없이 화료합니다.
+  related: [janto, shuntsu, kotsu, kantsu, agari]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-3/
+  check: false
+
+- id: janto
+  term: 머리
+  ja: 雀頭
+  aka: [작두, 장두]
+  category: 손패 모양
+  short: 화료형에 하나 필요한 같은 패 2장.
+  tiles: "55s"
+  han: null
+  rule_note: null
+  detail: |
+    화료형의 「1머리」입니다. 어떤 패든 같은 패 2장이면 머리가 됩니다. 다만 핑후는 역패 머리면 안 됩니다.
+    역패(삼원패·자풍·장풍)를 머리로 쓰면 부가 2부 붙습니다. 머리가 없으면 모양이 아무리 좋아도 화료할 수 없어서, 「머리 만들기」는 패효율에서 중요한 판단입니다.
+  related: [mentsu, toitsu, tanki, pinfu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-3/
+  check: false
+
+- id: shuntsu
+  term: 슌쯔
+  ja: 順子
+  aka: [순자]
+  category: 손패 모양
+  short: 같은 종류 수패의 연속 숫자 3장으로 된 몸통.
+  tiles: "345p"
+  han: null
+  rule_note: null
+  detail: |
+    `345p` 처럼 같은 종류에서 숫자가 이어진 3장입니다. 종류가 섞이거나(`3m4p5s`), 9 다음 1로 넘어가는 것(`891m`)은 슌쯔가 아닙니다. 자패로는 만들 수 없습니다.
+    바로 앞 사람(상가)의 버림패는 **치**로 가져와 슌쯔를 만들 수 있습니다.
+  related: [mentsu, kotsu, tatsu, chi, pinfu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-3/
+  check: false
+
+- id: kotsu
+  term: 커쯔
+  ja: 刻子
+  aka: [각자, 코쯔]
+  category: 손패 모양
+  short: 같은 패 3장으로 된 몸통.
+  tiles: "888s"
+  han: null
+  rule_note: null
+  detail: |
+    누구의 버림패든 **퐁**으로 가져와 만들 수 있습니다. 손 안에서만 만든 커쯔는 **안커**라고 따로 부르고, 부를 더 많이 받습니다.
+    커쯔로 모으는 역에는 또이또이·산안커·역패·삼색동각 등이 있습니다.
+  related: [mentsu, anko, pon, toitoi]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-3/
+  check: false
+
+- id: toitsu
+  term: 또이쯔
+  ja: 対子
+  aka: [대자, 토이츠]
+  category: 손패 모양
+  short: 같은 패 2장.
+  tiles: "11z"
+  han: null
+  rule_note: null
+  detail: |
+    또이쯔는 머리가 되거나, 한 장 더 와서 커쯔가 될 수 있습니다. 또이쯔 2개로 텐파이하면 **샤보** 대기입니다.
+    서로 다른 또이쯔를 7개 모으면 역 **치또이쯔**로 화료합니다.
+  related: [janto, kotsu, shanpon, chitoitsu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+  check: false
+
+- id: kantsu
+  term: 깡쯔
+  ja: 槓子
+  aka: [깡자]
+  category: 손패 모양
+  short: 깡을 선언해 만든 같은 패 4장의 몸통.
+  tiles: "2222m"
+  han: null
+  rule_note: null
+  detail: |
+    깡쯔는 4장이지만 몸통 1개로 칩니다. 손에 같은 패 4장이 있어도 **깡을 선언하지 않으면 깡쯔가 아닙니다**(작혼 마작 교실).
+    커쯔보다 부를 4배 받고, 깡쯔 3개면 역 **산깡쯔**, 4개면 역만 **스깡쯔**입니다.
+  related: [kan, ankan, daiminkan, kakan, mentsu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-4/
+  check: false
+
+- id: anko
+  term: 안커
+  ja: 暗刻
+  aka: [암각, 안코]
+  category: 손패 모양
+  short: 남의 패를 받지 않고 손 안에서 만든 커쯔.
+  tiles: "666p"
+  han: null
+  rule_note: null
+  detail: |
+    퐁으로 만든 커쯔보다 부를 두 배 받습니다. 안커 3개면 역 **산안커**, 4개면 역만 **스안커**입니다.
+    주의할 점: 샤보 대기에서 **론**으로 완성한 커쯔는 안커로 치지 않습니다. 쯔모로 완성해야 안커입니다.
+  related: [kotsu, ankan, sananko, suanko, shanpon]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+  check: false
+
+- id: burokku
+  term: 블록
+  ja: ブロック
+  aka: [블럭]
+  category: 손패 모양
+  short: 몸통이나 머리가 될 수 있는 패 덩어리. 몸통·타쯔·또이쯔를 하나씩 셉니다.
+  tiles: "23m 456p 55s 79s"
+  han: null
+  rule_note: null
+  detail: |
+    위 예는 타쯔 `23m`, 몸통 `456p`, 또이쯔 `55s`, 타쯔 `79s` 로 블록 4개입니다.
+    화료형은 몸통 4 + 머리 1 = **덩어리 5개**라서, 블록이 6개 이상이면 하나를 버려 줄이고, 4개 이하면 새 블록을 만들 패를 남기는 식으로 판단합니다.
+  related: [tatsu, mentsu, koritsuhai, haikoritsu]
+  sources:
+    - https://gall.dcinside.com/majak/1377914
+    - /study/honitsu-or-not/
+  check: false
+
+- id: tatsu
+  term: 타쯔
+  ja: 塔子
+  aka: [탑쯔, 탓쯔]
+  category: 손패 모양
+  short: 한 장만 더 오면 슌쯔가 되는 2장. 양면·간짱·변짱이 있습니다.
+  tiles: "45s 13m 89p"
+  han: null
+  rule_note: null
+  detail: |
+    위 예는 왼쪽부터 양면(3·6s 대기), 간짱(2m 대기), 변짱(7p 대기)입니다. 받을 수 있는 패가 많은 순서도 양면 > 간짱 = 변짱입니다.
+    또이쯔도 커쯔 후보지만, 보통 타쯔와 따로 셉니다.
+  related: [ryanmen, kanchan, penchan, burokku, gukei]
+  sources: []
+  check: true   # 타쯔 뜻 출처 보강 필요(사이트 글에 아직 설명 없음)
+
+- id: koritsuhai
+  term: 고립패
+  ja: 孤立牌
+  aka: [뜬패, 부유패]
+  category: 손패 모양
+  short: 어느 패와도 이어지지 않은 한 장.
+  tiles: "3z"
+  han: null
+  rule_note: null
+  detail: |
+    고립패는 보통 버릴 후보지만, 다음에 붙을 패(쿳츠키)를 기다리며 남길 수도 있습니다. 같은 고립패라도 쓸모는 다릅니다: 객풍패 < 1·9 < 2·8 < 3~7 순서로 이어질 수 있는 패가 많아집니다.
+  related: [kuttsuki, burokku, haikoritsu]
+  sources:
+    - /study/discard-terminals-vs-honors/
+  check: false
+
+- id: kuttsuki
+  term: 쿳츠키
+  ja: くっつき
+  aka: [쿠츠키]
+  category: 손패 모양
+  short: 고립패에 패가 붙어 타쯔나 또이쯔가 되는 것. 「쿳츠키 1샹텐」처럼 씁니다.
+  tiles: "234m567p789s55z 8m 2p"
+  han: null
+  rule_note: null
+  detail: |
+    위 예는 몸통 3개 + 머리가 이미 있고, 따로 떨어진 `8m` 과 `2p` 가 남은 **쿳츠키 1샹텐**입니다. 6~9m이나 1~4p처럼 어느 쪽이든 붙는 패가 오면 텐파이가 됩니다.
+    받을 수 있는 패 종류가 많아 넓은 1샹텐이지만, 텐파이 때 대기가 나빠질 수 있다는 점은 생각해야 합니다.
+  related: [koritsuhai, shanten, yukohai]
+  sources: []
+  check: true   # 쿳츠키 출처 보강 필요
+
+- id: gukei
+  term: 우형
+  ja: 愚形
+  aka: [나쁜 모양]
+  category: 손패 모양
+  short: 양면이 아닌 나쁜 타쯔나 대기. 간짱·변짱·샤보·단기 등.
+  tiles: "24m 12p 33s"
+  han: null
+  rule_note: null
+  detail: |
+    양면은 2종 8장을 기다리지만, 간짱·변짱은 1종 4장, 샤보는 2종 4장뿐입니다. 그래서 우형 텐파이로 리치할지, 다마텐으로 더 좋은 모양을 기다릴지가 자주 나오는 판단입니다.
+    반대말로는 「좋은 형」 대신 양면처럼 구체적인 모양 이름을 씁니다.
+  related: [ryanmen, kanchan, penchan, shanpon, tanki]
+  sources:
+    - https://gall.dcinside.com/majak/1377914
+  check: false
+
+- id: shanten
+  term: 샹텐
+  ja: 向聴
+  aka: [1샹텐, 2샹텐, 이샹텐, 량샹텐, 향청]
+  category: 손패 모양
+  short: 텐파이까지 남은 단계 수. 1샹텐은 유효패 한 장이면 텐파이입니다.
+  tiles: "23m456p46789s155z"
+  han: null
+  rule_note: null
+  detail: |
+    위 손은 `23m`(1·4m 대기)과 `46s`(5s 대기) 두 타쯔 중 하나만 채우면 텐파이가 되는 **1샹텐**입니다. 두 장이 더 필요하면 2샹텐입니다. 텐파이는 0샹텐이라고도 합니다.
+    이 사이트에서는 숫자로 「1샹텐·2샹텐」이라고 씁니다.
+  related: [tenpai, yukohai, haikoritsu, kuttsuki]
+  sources:
+    - /study/riichi-101-3/
+  check: false
+
+- id: tenpai
+  term: 텐파이
+  ja: 聴牌
+  aka: [청패, 0샹텐]
+  category: 손패 모양
+  short: 한 장만 더 오면 화료할 수 있는 상태.
+  tiles: "234m567p34789s55z"
+  han: null
+  rule_note: null
+  detail: |
+    위 손은 `2s` 나 `5s` 가 오면 화료하는 양면 텐파이입니다. 작혼 마작 교실도 「앞으로 한 패만 더 있으면 화료할 수 있는 상태」로 설명합니다.
+    멘젠 텐파이면 리치할 수 있습니다. 유국 때 텐파이면 노텐 벌점을 받고, 친이면 연장합니다.
+  related: [noten, shanten, riichi, keishiki-tenpai, renchan]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-3/
+  check: false
+
+- id: noten
+  term: 노텐
+  ja: 不聴 / ノーテン
+  aka: [불청]
+  category: 손패 모양
+  short: 텐파이가 아닌 상태.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    유국 때 노텐이면 텐파이한 사람에게 **노텐 벌점**을 냅니다. 친이 노텐이면 친이 다음 사람에게 넘어갑니다.
+    그래서 종반에는 노텐 벌점을 피하려고 후로해서라도 텐파이를 만드는 경우가 있습니다(형식 텐파이).
+  related: [tenpai, noten-bappu, ryukyoku]
+  sources:
+    - https://m-league.jp/about/
+  check: false
+
+- id: yukohai
+  term: 유효패
+  ja: 有効牌
+  aka: [우케이레, 받는 패]
+  category: 손패 모양
+  short: 들어오면 샹텐 수가 줄어드는 패. 「4종 14장」처럼 종류와 장수로 셉니다.
+  tiles: "23m456p46789s155z"
+  han: null
+  rule_note: null
+  detail: |
+    위 1샹텐의 유효패는 `1m`·`4m`(타쯔 `23m`)과 `5s`(타쯔 `46s`)입니다. 장수는 내 손과 보이는 패를 빼고 셉니다.
+    같은 샹텐이라도 유효패가 많은 쪽을 남기는 것이 **패효율**의 기본입니다.
+  related: [shanten, haikoritsu, tenpai]
+  sources:
+    - /study/discard-terminals-vs-honors/
+  check: false
+
+- id: haikoritsu
+  term: 패효율
+  ja: 牌効率
+  aka: [효율]
+  category: 손패 모양
+  short: 텐파이까지 빨리 가도록 유효패가 많이 남는 패를 고르는 방법.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    고립패는 이어질 패가 적은 것부터, 블록은 6개 이상이면 약한 것부터 정리하는 식으로 판단합니다. 다만 실제로는 점수(역·도라), 수비(안전패 남기기), 대기 모양까지 함께 생각해서 고릅니다.
+    이 사이트의 공부 글 「1·9패와 자패, 무엇을 먼저 버릴까」가 패효율의 기초를 다룹니다.
+  related: [yukohai, burokku, koritsuhai, shanten]
+  sources:
+    - /study/discard-terminals-vs-honors/
+  check: false
+
+# ───────── 대기 ─────────
+- id: ryanmen
+  term: 양면
+  ja: 両面
+  aka: [량멘, 양면 대기, 양면대기]
+  category: 대기
+  short: 연속된 2장으로 양쪽 끝을 기다리는 대기. 2종 최대 8장.
+  tiles: "34s"
+  han: null
+  rule_note: null
+  detail: |
+    `34s` 는 `2s` 와 `5s` 를 기다립니다. 받는 패가 가장 많은 기본 좋은 모양입니다. 12와 89는 한쪽이 없어서 양면이 아니라 변짱입니다.
+    마지막 대기가 양면이어야 **핑후**가 됩니다.
+  related: [tatsu, kanchan, penchan, gukei, pinfu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+  check: false
+
+- id: kanchan
+  term: 간짱
+  ja: 嵌張
+  aka: [칸짱, 감장]
+  category: 대기
+  short: 한 칸 빈 2장으로 가운데 한 종류를 기다리는 대기.
+  tiles: "46p"
+  han: null
+  rule_note: null
+  detail: |
+    `46p` 는 `5p` 만 기다립니다. 최대 4장이라 우형으로 봅니다. 간짱으로 화료하면 부가 2부 붙습니다.
+    `4p` 나 `7p` 가 붙어 `456p`/`467p` 처럼 양면으로 바뀔 수 있는지도 함께 봅니다.
+  related: [tatsu, ryanmen, penchan, gukei]
+  sources:
+    - /study/riichi-101-7/
+    - /study/discard-terminals-vs-honors/
+  check: false
+
+- id: penchan
+  term: 변짱
+  ja: 辺張
+  aka: [펜짱]
+  category: 대기
+  short: 12에서 3, 89에서 7을 기다리는 대기.
+  tiles: "12m 89m"
+  han: null
+  rule_note: null
+  detail: |
+    `12m` 은 `3m`, `89m` 은 `7m` 한 종류만 기다립니다. 1·9 쪽이 막혀서 양면이 될 수 없는 모양이라 간짱보다도 바뀌기 어렵습니다. 변짱으로 화료하면 부가 2부 붙습니다.
+  related: [tatsu, kanchan, ryanmen, gukei]
+  sources:
+    - /study/riichi-101-7/
+    - /study/honitsu-or-not/
+  check: false
+
+- id: shanpon
+  term: 샤보
+  ja: 双碰
+  aka: [샤봉, 쌍퐁]
+  category: 대기
+  short: 또이쯔 2개 중 어느 쪽이든 커쯔가 되면 화료하는 대기.
+  tiles: "55m 77z"
+  han: null
+  rule_note: null
+  detail: |
+    `55m` 과 `77z` 로 텐파이하면 `5m` 이나 `7z` 를 기다립니다. 2종이지만 각 2장씩 최대 4장입니다.
+    론으로 화료하면 완성된 커쯔는 안커가 아니라 퐁한 커쯔처럼 칩니다(부 계산·산안커에 영향). 역패나 자패 또이쯔가 섞이면 점수가 오르거나 남이 버리기 쉬워 일부러 고르기도 합니다.
+  related: [toitsu, anko, gukei, tanki]
+  sources:
+    - /study/discard-terminals-vs-honors/
+  check: false
+
+- id: tanki
+  term: 단기
+  ja: 単騎
+  aka: [단기 대기, 탄키]
+  category: 대기
+  short: 머리가 될 한 장을 기다리는 대기.
+  tiles: "234m567p123789s 5z"
+  han: null
+  rule_note: null
+  detail: |
+    몸통 4개가 다 되고 한 장 남은 상태입니다. 위 예는 `5z`(백) 단기로, 남은 3장만 기다립니다. 단기로 화료하면 부가 2부 붙습니다.
+    기다릴 패를 자유롭게 바꿀 수 있어서, 이미 남이 버린 패나 자패처럼 나오기 쉬운 패로 옮겨 가는 작전을 씁니다. 스안커를 단기로 화료하면 **스안커 단기**입니다.
+  related: [janto, nobetan, shanpon, suanko-tanki]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-7/
+  check: false
+
+- id: nobetan
+  term: 노베탄
+  ja: 延べ単
+  aka: [노베단]
+  category: 대기
+  short: 연속 4장으로 양 끝 두 종류를 단기로 기다리는 대기.
+  tiles: "3456m"
+  han: null
+  rule_note: null
+  detail: |
+    `3456m` 은 `3m` 이 오면 `33m 456m`, `6m` 이 오면 `345m 66m` 으로 화료합니다. 2종 최대 6장으로, 단기 하나보다 넓습니다.
+    부 계산에서는 단기 대기로 칩니다.
+  related: [tanki, ryanmen]
+  sources:
+    - https://gall.dcinside.com/majak/558071
+  check: false
+
+- id: furiten
+  term: 후리텐
+  ja: 振聴
+  aka: [후리텐 대기]
+  category: 대기
+  short: 화료패를 스스로 버렸거나 못 본 체해서, 론은 못 하고 쯔모로만 화료할 수 있는 텐파이.
+  tiles: "234m567p34789s55z"
+  han: null
+  rule_note: null
+  detail: |
+    위 손(2·5s 대기)에서 내가 이미 `5s` 를 버렸다면, `2s` 로도 론할 수 없습니다. 대기 중 한 종류라도 내 버림패에 있으면 전체가 후리텐입니다. 세 가지가 있습니다.
+    - **버림패 후리텐**: 내 버림패에 화료패가 있음. 대기를 바꾸면 풀림.
+    - **일시 후리텐**: 같은 순에 화료패를 못 본 체함. 내가 다음에 쯔모하고 버리면 풀림.
+    - **리치 후리텐**: 리치 뒤 화료패를 못 본 체함. 그 국 끝까지 풀리지 않음.
+    M리그 규칙도 같습니다(5장 5조).
+  related: [tenpai, ron, tsumo, riichi]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-6/
+  check: false
+
+# ───────── 행동 ─────────
+- id: tsumo
+  term: 쯔모
+  ja: ツモ / 自摸
+  aka: [자모, 쯔모 화료]
+  category: 행동
+  short: 패산에서 패를 한 장 가져오는 것. 그 패로 화료하는 것도 쯔모라고 합니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    자기 차례마다 한 장 쯔모하고 한 장 버립니다. 쯔모한 패로 손이 완성되면 「쯔모」를 선언하고 화료하며, 세 사람이 나눠서 점수를 냅니다(친이 쯔모하면 자 셋이 같게, 자가 쯔모하면 친이 두 배).
+    멘젠으로 쯔모 화료하면 역 **멘젠쯔모**(1판)가 붙습니다.
+  related: [ron, agari, menzen-tsumo, tsumogiri-tedashi]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-2/
+  check: false
+
+- id: ron
+  term: 론
+  ja: ロン / 栄和
+  aka: [영화, 론 화료]
+  category: 행동
+  short: 다른 사람이 버린 패로 화료하는 것.
+  tiles: null
+  han: null
+  rule_note: 작혼은 한 패로 두 사람이 동시에 론할 수 있습니다(더블론). M리그는 버린 사람 다음 차례에 가까운 한 사람만 화료합니다.
+  detail: |
+    누구의 버림패든 내 화료패면 론할 수 있습니다. 점수는 버린 사람(방총한 사람)이 혼자 냅니다. 후리텐이면 론할 수 없습니다.
+    M리그는 한 패에 여러 명이 론하면 버린 사람의 하가 → 대면 → 상가 순서로 한 사람만 화료합니다(5장 1조).
+  related: [tsumo, agari, hoju, furiten, daburon]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-6/
+  check: false
+
+- id: agari
+  term: 화료
+  ja: 和了
+  aka: [아가리, 화료하다]
+  category: 행동
+  short: 손을 완성해서 그 국을 이기는 것. 쯔모와 론 두 가지가 있습니다.
+  tiles: "234m567p345789s55z"
+  han: null
+  rule_note: null
+  detail: |
+    몸통 4개 + 머리 1개(또는 치또이쯔·국사무쌍) 모양에 **역이 1판 이상** 있어야 화료할 수 있습니다. 도라만으로는 화료할 수 없습니다(M리그 1장 3조, 작혼 마작 교실).
+    위 예는 완성된 14장입니다. 이 모양에 역(예: 리치, 멘젠쯔모, 역패 `55z`)이 있으면 화료합니다.
+  related: [tsumo, ron, mentsu, janto, yaku]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: chi
+  term: 치
+  ja: チー
+  aka: [吃]
+  category: 행동
+  short: 바로 앞 사람(상가)이 버린 패로 슌쯔를 만드는 후로.
+  tiles: "4^23m"
+  han: null
+  rule_note: null
+  detail: |
+    내 손의 `23m` 에 상가가 버린 `4m` 를 가져와 `234m` 를 공개하는 식입니다. 가져온 패는 옆으로 눕혀 놓습니다(위 그림의 눕힌 패).
+    상가의 패로만 할 수 있고, 같은 패에 퐁·론이 겹치면 그쪽이 먼저입니다. 치를 하면 멘젠이 아니게 되어 리치를 걸 수 없습니다.
+  related: [pon, furo, shuntsu, menzen]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-4/
+  check: false
+
+- id: pon
+  term: 퐁
+  ja: ポン
+  aka: [碰]
+  category: 행동
+  short: 누가 버린 패든 가져와 커쯔를 만드는 후로.
+  tiles: "22^2z"
+  han: null
+  rule_note: null
+  detail: |
+    내 손의 또이쯔에 다른 사람의 버림패를 더해 커쯔를 공개합니다. 어느 자리의 패든 할 수 있고, 치보다 먼저입니다. 눕힌 패의 위치로 누구에게서 가져왔는지 보입니다(왼쪽=상가, 가운데=대면, 오른쪽=하가).
+    역패를 퐁하면 바로 역이 생겨서, 빠르게 화료하는 방법으로 많이 씁니다.
+  related: [chi, furo, kotsu, kakan, yakuhai]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-4/
+  check: false
+
+- id: kan
+  term: 깡
+  ja: カン / 槓
+  aka: [杠]
+  category: 행동
+  short: 같은 패 4장을 모아 깡쯔를 만드는 것. 안깡·대명깡·가깡 세 가지가 있습니다.
+  tiles: "#33#z 4444^s 66^^6z"
+  han: null
+  rule_note: null
+  detail: |
+    위 그림은 왼쪽부터 안깡, 대명깡, 가깡입니다. 대명깡과 가깡을 묶어 **밍깡**이라고도 합니다.
+    깡을 하면 ① 영상패를 한 장 보충하고 ② 도라 표시패를 한 장 더 뒤집어 깡도라가 늘어납니다. 한 국에 깡은 모두 4번까지입니다(M리그 4장 5조). 해저패(패산 마지막 패)를 쯔모한 사람은 깡할 수 없습니다(2장 3조).
+  related: [ankan, daiminkan, kakan, kantsu, rinshanpai, kandora]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-4/
+  check: false
+
+- id: ankan
+  term: 안깡
+  ja: 暗槓
+  aka: [암깡]
+  category: 행동
+  short: 내 손의 같은 패 4장으로 하는 깡. 멘젠이 유지됩니다.
+  tiles: "#33#z"
+  han: null
+  rule_note: 작혼은 리치 뒤 「쯔모한 패가 손의 커쯔와 같을 때」 대기가 바뀌지 않으면 안깡할 수 있고, 손패 구성이 바뀌는 것은 괜찮습니다(작혼 마작 교실).
+  detail: |
+    양 끝 2장을 뒤집어 공개합니다. 남의 패를 받지 않았으므로 **멘젠 그대로**이고, 안깡 뒤에도 리치할 수 있습니다. 부는 깡쯔 중 가장 많이 받습니다.
+    리치한 뒤에도 안깡은 할 수 있지만, 대기가 바뀌는 안깡은 안 됩니다. 세부 조건은 룰마다 조금씩 다릅니다.
+  related: [kan, kantsu, menzen, anko, riichi]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-4/
+  check: false
+
+- id: daiminkan
+  term: 대명깡
+  ja: 大明槓
+  aka: [밍깡, 다이민깡]
+  category: 행동
+  short: 내 손의 커쯔에 다른 사람이 버린 같은 패를 더해서 하는 깡.
+  tiles: "4444^s"
+  han: null
+  rule_note: null
+  detail: |
+    퐁처럼 누구의 패로든 할 수 있고, 후로이므로 멘젠이 깨집니다. 대명깡을 하면 깡도라가 늘어 다른 사람의 점수도 올라갈 수 있어서, 수비하는 입장에서는 위험이 커지기도 합니다.
+  related: [kan, kakan, furo, kandora]
+  sources:
+    - /study/riichi-101-4/
+  check: false
+
+- id: kakan
+  term: 가깡
+  ja: 加槓
+  aka: [소명깡, 밍깡]
+  category: 행동
+  short: 퐁으로 만든 커쯔에 같은 패 한 장을 더 붙이는 깡.
+  tiles: "66^^6z"
+  han: null
+  rule_note: null
+  detail: |
+    퐁한 커쯔의 눕힌 패 위에 한 장을 겹쳐 놓습니다(패 표기 ^^). 내 차례에 쯔모하거나 손에 있던 패로 합니다.
+    다른 사람이 그 패로 텐파이하고 있으면 가깡한 패로 론할 수 있는데, 이것이 역 **창깡**입니다.
+  related: [kan, pon, daiminkan, chankan]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-4/
+  check: false
+
+- id: furo
+  term: 후로
+  ja: 副露 / 鳴き
+  aka: [울기, 나키, 부로]
+  category: 행동
+  short: 치·퐁·깡으로 다른 사람의 패를 가져와 공개하는 것.
+  tiles: "4^23m"
+  han: null
+  rule_note: null
+  detail: |
+    후로하면 멘젠이 아니게 되어 **리치를 걸 수 없고**, 멘젠에서만 되는 역(핑후·이페코 등)은 없어지며, 일부 역은 판수가 1판 줄어듭니다(일기통관·삼색동순·찬타·혼일색 등). 안깡은 후로로 치지 않습니다.
+    대신 빠르게 텐파이할 수 있어서, 역패나 탕야오(쿠이탕)처럼 후로해도 되는 역이 있을 때 씁니다.
+  related: [chi, pon, kan, menzen, kuitan]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-4/
+  check: false
+
+- id: menzen
+  term: 멘젠
+  ja: 門前
+  aka: [문전, 멘젠 상태]
+  category: 행동
+  short: 치·퐁·깡(안깡 빼고)을 하지 않은 상태.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    작혼 마작 교실은 「후로(치, 퐁, 깡)를 전혀 하지 않은 상태」로 설명합니다. 안깡만은 해도 멘젠입니다.
+    리치는 멘젠에서만 걸 수 있고, 멘젠쯔모·핑후·이페코처럼 멘젠에서만 되는 역이 있습니다. 멘젠으로 론하면 부가 10부 붙습니다.
+  related: [furo, ankan, riichi, menzen-tsumo, pinfu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: damaten
+  term: 다마텐
+  ja: 黙聴 / ダマテン
+  aka: [다마, 묵텐, 묵청]
+  category: 행동
+  short: 멘젠 텐파이인데 리치를 걸지 않고 숨겨 두는 것.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    역이 이미 있어 리치 없이도 화료할 수 있을 때 씁니다. 리치를 걸지 않으면 다른 사람이 경계하지 않아 화료패가 잘 나오고, 나중에 더 좋은 대기로 바꾸거나 위험한 패를 안 버릴 수 있습니다.
+    대신 리치·일발·뒷도라만큼 점수가 낮아집니다. 이미 점수가 충분할 때(예: 다마텐으로 만관) 많이 고릅니다.
+  related: [riichi, tenpai, menzen]
+  sources:
+    - https://gall.dcinside.com/majak/1377914
+  check: false
+
+- id: tsumogiri-tedashi
+  term: 쯔모기리 / 테다시
+  ja: ツモ切り / 手出し
+  aka: [쯔모 기리, 데다시]
+  category: 행동
+  short: 쯔모한 패를 그대로 버림 / 손에 있던 패를 골라 버림.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    실제 탁에서는 손 동작(쯔모한 패를 그대로 내는지, 손패에서 꺼내는지)으로 구분합니다. 작혼도 대국 중에는 손 동작으로만 보이고, **복기(패보) 화면에서만** 쯔모기리한 패가 어둡게 표시됩니다. 리치한 사람은 계속 쯔모기리만 합니다.
+    상대가 **테다시**를 하면 손 모양이 바뀌었다는 뜻이라, 텐파이가 가까워졌는지 읽는 단서가 됩니다.
+  related: [sutehai, tsumo]
+  sources: []
+  check: true   # 출처 링크 보강 필요(작혼 표시 방식은 마작껌 확인 11/13)
+
+- id: hoju
+  term: 방총
+  ja: 放銃
+  aka: [방총하다]
+  category: 행동
+  short: 내가 버린 패로 다른 사람이 론하는 것. 점수를 혼자 냅니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    방총하면 화료 점수를 혼자 모두 냅니다(본장 점수 포함). 그래서 리치가 걸리면 방총하지 않으려고 안전패를 고르거나 베타오리합니다.
+    방총이 얼마나 적은지(방총률)는 실력을 재는 지표로도 많이 씁니다.
+  related: [ron, anzenhai, betaori]
+  sources:
+    - /study/riichi-101-6/
+  check: false
+
+- id: chokugeki
+  term: 직격
+  ja: 直撃
+  aka: [직격 론]
+  category: 행동
+  short: 특정한 상대에게서 론하는 것. 순위 다툼에서 중요합니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    론하면 점수를 방총한 사람이 혼자 내므로, 다투는 상대에게서 직접 론하면 내 점수가 오르고 상대 점수는 내려가 차이가 두 배로 벌어집니다. 오라스에 「○○에게 직격이면 역전, 쯔모나 다른 사람에게서는 안 됨」 같은 상황이 자주 나옵니다.
+  related: [ron, orasu]
+  sources:
+    - /study/riichi-101-6/
+  check: false
+
+- id: sensei-okkake-riichi
+  term: 선제 리치 / 추격 리치
+  ja: 先制リーチ / 追っかけリーチ
+  aka: [쫓아 리치, 오이카케]
+  category: 행동
+  short: 그 국에서 가장 먼저 건 리치 / 다른 사람의 리치에 맞서 건 리치.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    선제 리치는 다른 사람이 수비로 돌아서게 만드는 힘이 있습니다. 추격 리치는 이미 리치한 사람과 맞붙는 것이라 방총 위험을 안고 겁니다. 대기 모양(양면인지)과 점수를 보고 걸지 판단합니다.
+  related: [riichi, damaten, oshihiki]
+  sources:
+    - https://gall.dcinside.com/majak/1377914
+    - https://gall.dcinside.com/majak/539221
+  check: false
+
+# ───────── 유국 ─────────
+- id: ryukyoku
+  term: 유국
+  ja: 流局
+  aka: [황패 유국, 류쿄쿠]
+  category: 유국
+  short: 아무도 화료하지 못하고 국이 끝나는 것.
+  tiles: null
+  han: null
+  rule_note: 작혼은 구종구패·사풍연타·사깡유국·사가리치로 국을 중간에 끝내는 도중 유국이 있습니다.
+  detail: |
+    보통은 패산을 다 쓸 때까지 화료가 없으면 유국입니다. 이때 각자 텐파이인지 밝히고, 노텐이 텐파이에게 **노텐 벌점**을 냅니다. 친이 텐파이면 연장, 노텐이면 친이 넘어갑니다. 어느 쪽이든 본장이 1개 늘고, 리치봉은 공탁으로 남습니다.
+    M리그는 국을 중간에 끝내는 유국(도중 유국)이 없습니다(3장 11조 1).
+  related: [noten-bappu, tochu-ryukyoku, renchan, honba, kyotaku]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: noten-bappu
+  term: 노텐 벌점
+  ja: ノーテン罰符
+  aka: [텐파이료, 불청벌부]
+  category: 유국
+  short: 유국 때 노텐인 사람이 텐파이한 사람에게 주는 모두 3,000점.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    3,000점을 노텐인 사람이 나눠 내고, 텐파이인 사람이 나눠 받습니다.
+    - 텐파이 1명: 노텐 3명이 1,000점씩 → 텐파이가 3,000점
+    - 텐파이 2명: 노텐 2명이 1,500점씩 → 텐파이가 1,500점씩
+    - 텐파이 3명: 노텐 1명이 3,000점 → 텐파이가 1,000점씩
+    - 4명 모두 텐파이나 모두 노텐: 주고받지 않음
+    M리그도 3,000점입니다(3장 11조 5).
+  related: [ryukyoku, noten, tenpai, keishiki-tenpai]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: keishiki-tenpai
+  term: 형식 텐파이
+  ja: 形式聴牌
+  aka: [형텐, 역 없는 텐파이]
+  category: 유국
+  short: 역이 없어 화료는 못 하지만 모양은 텐파이인 상태. 유국 때 텐파이로 인정됩니다.
+  tiles: "234789m11p56s 9^99p"
+  han: null
+  rule_note: null
+  detail: |
+    종반에 노텐 벌점을 받으려고, 또는 친을 이어 가려고 역이 없어도 치·퐁으로 텐파이 모양만 만드는 것입니다. M리그는 유국 때 텐파이를 판단할 때 **역 유무를 묻지 않습니다**(3장 11조 3).
+    위 예는 `9p` 를 퐁해서 역이 없지만 `4s`·`7s` 를 기다리는 형식 텐파이입니다.
+    단, 화료패 4장을 내가 다 쓰고 있는 대기(예: `1111m` 을 가진 `1m` 단기)는 텐파이로 치지 않습니다(3장 11조 2).
+  related: [tenpai, noten-bappu, ryukyoku, furo]
+  sources:
+    - https://m-league.jp/about/
+  check: false
+
+- id: tochu-ryukyoku
+  term: 도중 유국
+  ja: 途中流局
+  aka: [도중유국]
+  category: 유국
+  short: 패산이 남았는데 특별한 상황으로 국을 중간에 끝내는 유국.
+  tiles: null
+  han: null
+  rule_note: 작혼은 도중 유국이 있습니다(구종구패·사풍연타·사깡유국·사가리치).
+  detail: |
+    구종구패·사풍연타·사깡유국·사가리치 네 가지가 대표적입니다. 작혼에서는 도중 유국이 되면 친이 그대로 연장합니다.
+    M리그를 비롯한 일본 프로 단체 룰은 대부분 도중 유국이 없습니다. 일본프로마작연맹도 2023년 4월에 없앴습니다.
+  related: [kyushu-kyuhai, sufon-renda, sukaikan, sucha-riichi, ryukyoku]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false   # 작혼 친 연장은 마작껌 확인(11/13)
+
+- id: kyushu-kyuhai
+  term: 구종구패
+  ja: 九種九牌
+  aka: [9종 9패]
+  category: 유국
+  short: 첫 쯔모 때 손에 요구패가 9종류 이상이면, 패를 보이고 유국시킬 수 있는 규칙.
+  tiles: "19m19p1s1235z 3m46p78s"
+  han: null
+  rule_note: M리그에는 없습니다. 요구패가 9종류 이상이어도 그대로 쳐야 합니다.
+  detail: |
+    작혼 마작 교실 설명: 친의 배패 또는 자의 첫 쯔모 뒤 손에 요구패가 9종류 이상이면 패를 공개하고 유국시킬 수 있습니다. 단, 그 전에 누군가 후로했다면 할 수 없습니다.
+    위 예(친의 첫 14장)는 요구패가 1m·9m·1p·9p·1s·동·남·서·백으로 9종입니다. 유국 대신 **국사무쌍**을 노릴 수도 있습니다.
+  related: [tochu-ryukyoku, yaochuhai, kokushi-muso]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false   # 「후로했으면 불가」는 작혼 화면에 없지만 마작껌 확인(11/13)
+
+- id: sufon-renda
+  term: 사풍연타
+  ja: 四風連打
+  aka: [사풍자연타]
+  category: 유국
+  short: 첫 순에 네 사람이 모두 같은 풍패를 버리면 유국.
+  tiles: "1z"
+  han: null
+  rule_note: M리그에는 없습니다.
+  detail: |
+    작혼 마작 교실 설명: 모든 플레이어가 첫 타패로 같은 풍패를 버리면 유국됩니다. 첫 순에 누군가 후로하면 성립하지 않습니다.
+  related: [tochu-ryukyoku, kazehai]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: sukaikan
+  term: 사깡유국
+  ja: 四開槓
+  aka: [사깡산라, 사개깡]
+  category: 유국
+  short: 두 사람 이상이 합쳐서 깡을 4번 하면 유국.
+  tiles: null
+  han: null
+  rule_note: M리그에는 도중 유국이 없고, 한 국의 깡은 모두 4번까지입니다.
+  detail: |
+    작혼 마작 교실 설명: 2인 이상의 플레이어가 합계 4번 깡을 하면 유국됩니다. 한 사람이 혼자 4번 깡했다면 역만 **스깡쯔**를 노리는 중이라 유국되지 않습니다.
+  related: [tochu-ryukyoku, kan, sukantsu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: sucha-riichi
+  term: 사가리치
+  ja: 四家立直
+  aka: [4가 리치, 사인리치]
+  category: 유국
+  short: 네 사람이 모두 리치하면 유국.
+  tiles: null
+  han: null
+  rule_note: M리그에는 없습니다. 네 번째 리치가 성립해도 그대로 계속합니다.
+  detail: |
+    작혼 마작 교실 설명: 4명이 모두 리치하면 유국이 됩니다. 네 번째 리치 선언패로 론이 나오면 그 화료가 먼저입니다.
+    이때 리치봉 4개는 공탁으로 남습니다.
+  related: [tochu-ryukyoku, riichi, kyotaku]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: nagashi-mangan
+  term: 유국만관
+  ja: 流し満貫
+  aka: [나가시만관, 나가시 만관]
+  category: 유국
+  short: 유국 때 내 버림패가 모두 요구패이고 아무도 그 패를 가져가지 않았으면 만관을 받는 규칙.
+  tiles: "19m9p1s1234567z"
+  han: null
+  rule_note: M리그에는 없습니다(작혼에는 있음).
+  detail: |
+    작혼 마작 교실 설명: 유국됐을 때 자신이 버린 패가 전부 요구패이고 아무도 그것을 후로하지 않았으면 성립합니다. 만관 점수를 쯔모 화료처럼 받습니다(작혼).
+    역처럼 다루지만 손 모양과 상관없고, 노텐이어도 됩니다. 프로 룰에서는 대부분 쓰지 않습니다.
+  related: [ryukyoku, yaochuhai, mangan]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+# ───────── 11/13 추가 (마작껌 결정) ─────────
+- id: kamicha-shimocha-toimen
+  term: 상가 / 하가 / 대면
+  ja: 上家 / 下家 / 対面
+  aka: [카미차, 시모차, 토이멘, 앞 사람, 다음 사람, 맞은편]
+  category: 진행·기본
+  short: 나를 기준으로 바로 앞 차례 사람(왼쪽), 다음 차례 사람(오른쪽), 맞은편 사람.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    차례는 내 오른쪽 사람(**하가**) → 맞은편(**대면**) → 왼쪽 사람(**상가**) 순서로 돕니다. 내 패를 버리면 다음에 쯔모하는 사람이 하가입니다.
+    **치**는 상가의 버림패로만 할 수 있습니다. 퐁한 패를 눕히는 위치도 상가(왼쪽)·대면(가운데)·하가(오른쪽)로 정해져 있어, 누구에게서 가져왔는지 보입니다.
+    M리그는 한 패에 여러 명이 론하면 버린 사람의 하가 → 대면 → 상가 순서로 한 사람만 화료합니다(5장 1조).
+  related: [chi, pon, ron, oya-ko]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-4/
+  check: false
+
+- id: chicha
+  term: 기가
+  ja: 起家
+  aka: [치차, 첫 친]
+  category: 진행·기본
+  short: 대국에서 맨 처음 친을 맡은 자리(동1국의 친).
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    동1국의 친이 기가이고, 그 뒤 친은 하가 쪽으로 차례로 넘어갑니다. 반장전이면 기가는 남1국에 다시 친이 됩니다.
+    M리그는 3명이 같은 점수일 때 순위점의 끝수를 기가에 가까운 사람이 더 크게 가져갑니다(6장 2조 6).
+  related: [oya-ko, kyoku, kamicha-shimocha-toimen]
+  sources:
+    - https://m-league.jp/about/
+  check: false
+
+- id: otakaze
+  term: 객풍패
+  ja: 客風牌
+  aka: [오타카제, 오타풍, 객풍]
+  category: 진행·기본
+  short: 내 자풍도 그 판의 장풍도 아니어서, 모아도 역이 되지 않는 풍패.
+  tiles: "34z"
+  han: null
+  rule_note: null
+  detail: |
+    예를 들어 동장에서 남가에게는 서 `3z`·북 `4z` 가 객풍패입니다(동은 장풍, 남은 자풍). 커쯔로 모아도 역이 없어서 보통 초반에 먼저 버립니다.
+    다만 다른 사람에게는 자풍일 수 있으므로, 누구에게 역패인지 함께 봅니다.
+  related: [kazehai, jikaze, bakaze, yakuhai, koritsuhai]
+  sources:
+    - /study/discard-terminals-vs-honors/
+    - /study/riichi-101-5/
+  check: false
+
+- id: haiteihai-hoteihai
+  term: 해저패 / 하저패
+  ja: 海底牌 / 河底牌
+  aka: [하이테이패, 호테이패, 마지막 패]
+  category: 진행·기본
+  short: 패산의 마지막 쯔모 패 / 그 마지막 차례에 버린 패.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    **해저패**로 쯔모 화료하면 역 **해저로월**, **하저패**로 론 화료하면 역 **하저로어**(둘 다 1판)입니다.
+    M리그는 해저패를 쯔모한 사람은 깡할 수 없고(2장 3조), 하저패는 치·퐁·깡할 수 없습니다(2장 4조).
+  related: [yama, haitei, hotei, kan]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-8/
+  check: false
+
+- id: minko
+  term: 밍커
+  ja: 明刻
+  aka: [명각, 민코]
+  category: 손패 모양
+  short: 퐁하거나 론으로 완성해서, 남의 패가 들어간 커쯔.
+  tiles: "22^2z"
+  han: null
+  rule_note: null
+  detail: |
+    퐁한 커쯔와, 샤보 대기에서 **론**으로 완성한 커쯔가 밍커입니다. 손 안에서만 만든 **안커**보다 부를 절반만 받습니다.
+    산안커·스안커는 밍커를 세지 않으므로, 샤보를 론으로 화료하면 안커가 하나 줄어드는 점을 조심합니다.
+  related: [anko, kotsu, pon, shanpon]
+  sources:
+    - /study/riichi-101-7/
+  check: false
+
+- id: agarikei
+  term: 화료형
+  ja: 和了形
+  aka: [완성형, 아가리형]
+  category: 손패 모양
+  short: 화료할 수 있는 손 모양. 기본은 몸통 4개 + 머리 1개입니다.
+  tiles: "234m567p345789s55z"
+  han: null
+  rule_note: null
+  detail: |
+    기본 화료형은 몸통 4개와 머리 1개, 모두 14장입니다(깡이 있으면 장수가 늘어남). 예외로 **치또이쯔**(또이쯔 7개)와 **국사무쌍**(요구패 13종 + 1장)도 화료형입니다.
+    모양이 화료형이어도 역이 1판 이상 있어야 화료할 수 있습니다.
+  related: [mentsu, janto, agari, chitoitsu, kokushi-muso]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-3/
+  check: false
+
+- id: nakabukure
+  term: 나카부쿠레
+  ja: 中膨れ
+  aka: [중팽, 나카부쿠레형]
+  category: 손패 모양
+  short: 슌쯔 하나에 가운데 숫자 패가 한 장 더 붙은 4장 모양(예 3445).
+  tiles: "3445m"
+  han: null
+  rule_note: null
+  detail: |
+    `3445m` 은 슌쯔 `345m` + `4m`, 또는 또이쯔 `44m` + 간짱 `35m` 으로 볼 수 있어, 붙는 패가 많은 강한 모양입니다.
+    그래서 1샹텐에서 고립패보다 나카부쿠레를 남기는 경우가 많습니다.
+  related: [shuntsu, kuttsuki, yukohai, haikoritsu, ryankan]
+  sources:
+    - https://kanji.jepang.org/en/kosakata/%E4%B8%AD%E8%86%A8%E3%82%8C
+    - https://news.livedoor.com/article/detail/30054317/
+  check: false
+
+- id: ryankan
+  term: 량칸
+  ja: 両嵌
+  aka: [리앙칸, 양감]
+  category: 손패 모양
+  short: 간짱 두 개가 겹친 3장 모양(예 135). 두 가지 가운데 패를 받습니다.
+  tiles: "135m"
+  han: null
+  rule_note: null
+  detail: |
+    `135m` 은 `2m` 이 오면 `123m`, `4m` 이 오면 `345m` 이 됩니다. 간짱 하나(1종 4장)보다 받는 패가 두 배라 양면과 비슷한 넓이입니다.
+    다만 텐파이 때는 간짱 대기가 남기 쉬우므로, 양면으로 바뀔 수 있는지도 함께 봅니다.
+  related: [kanchan, tatsu, nakabukure, haikoritsu]
+  sources: []
+  check: true   # 량칸 뜻 출처 보강 필요
+
+- id: agarihai-machihai
+  term: 화료패 / 대기패
+  ja: 和了牌 / 待ち牌
+  aka: [오름패, 아가리패, 마치하이]
+  category: 대기
+  short: 그 패가 오면 화료하는 패. 텐파이에서 기다리는 쪽을 말할 땐 대기패라고도 씁니다.
+  tiles: "234m567p34789s55z"
+  han: null
+  rule_note: null
+  detail: |
+    위 손의 대기패는 `2s`·`5s` 이고, 실제로 `5s` 로 화료했다면 화료패는 `5s` 입니다. 이 사전과 사이트 글은 상황에 따라 「화료패」, 「대기패」를 함께 씁니다.
+    작혼 마작 교실은 「오름패」라고 씁니다.
+  related: [tenpai, furiten, agari, ron, tsumo]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-3/
+  check: false
+
+- id: minogashi
+  term: 미노가시
+  ja: 見逃し
+  aka: [못 본 체, 화료 넘기기]
+  category: 행동
+  short: 화료할 수 있는 패가 나왔는데 일부러 화료하지 않고 넘기는 것.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    오라스에 그 점수로는 순위가 오르지 않을 때, 더 높은 점수를 쯔모로 노릴 때 등에 씁니다.
+    미노가시를 하면 **후리텐**이 됩니다. 리치하지 않았다면 내가 다음에 쯔모·버림을 하면 풀리지만, 리치 뒤에 미노가시하면 그 국 끝까지 론할 수 없습니다(M리그 5장 5조).
+  related: [furiten, ron, orasu, riichi]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-6/
+  check: false
+
+- id: kuikae
+  term: 쿠이카에
+  ja: 喰い替え
+  aka: [쿠이가에, 식체]
+  category: 행동
+  short: 치·퐁한 바로 그 차례에, 가져온 패와 같은 패나 같은 몸통이 되는 패를 버리는 것.
+  tiles: "4^23m"
+  han: null
+  rule_note: 작혼은 쿠이카에가 되는 패를 아예 버릴 수 없게 막혀 있습니다.
+  detail: |
+    예를 들어 `23m` 으로 `4m` 을 치한 뒤 같은 차례에 `4m`(같은 패)이나 `1m`(`123m` 이 되는 패)을 버리면 쿠이카에입니다. 손 모양은 그대로인 채 버림패만 바꾸는 꼼수라 금지합니다.
+    M리그는 쿠이카에를 하면 그 국의 화료를 포기해야 합니다(7장 2조).
+  related: [chi, pon, furo, chonbo]
+  sources:
+    - https://m-league.jp/about/
+  check: false
+
+- id: chonbo
+  term: 촌보
+  ja: チョンボ
+  aka: [총보, 반칙]
+  category: 행동
+  short: 규칙을 어겨 벌을 받는 것. 잘못된 화료 선언 등이 해당합니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    화료가 아닌데 화료를 선언하거나, 리치 뒤 대기가 바뀌는 깡을 하는 것 등이 촌보입니다. 벌칙(점수를 얼마나 내는지)은 룰마다 다릅니다.
+    M리그에서 국은 화료·유국·촌보 세 가지로 끝납니다(3장 2조 3). 작혼 같은 온라인 게임은 규칙에 어긋난 행동을 대부분 미리 막아 줍니다.
+  related: [kuikae, agari, ankan]
+  sources:
+    - https://m-league.jp/about/
+  check: false
+
+- id: riichi-sengenhai
+  term: 리치 선언패
+  ja: 立直宣言牌
+  aka: [선언패, 리치 패]
+  category: 행동
+  short: 리치를 걸면서 옆으로 눕혀 버리는 패.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    리치를 선언하고 이 패를 옆으로 눕혀 버립니다. 이 패로 아무도 론하지 않아야 리치가 성립하고 리치봉 1,000점을 냅니다(M리그 9장 8조 2). 이 패로 방총하면 리치봉은 내지 않습니다.
+    리치한 사람이 마지막으로 고른 패라서, 대기를 읽는 단서로 자주 씁니다.
+  related: [riichi, riichibo, sutehai, sucha-riichi]
+  sources:
+    - https://m-league.jp/about/
+  check: false
+
+# ───────── 11/14 추가 (마작껌 결정) ─────────
+- id: toncha-nancha-shacha-peicha
+  term: 동가 / 남가 / 서가 / 북가
+  ja: 東家 / 南家 / 西家 / 北家
+  aka: [톤챠, 난챠, 샤챠, 페챠, 동가·남가·서가·북가]
+  category: 진행·기본
+  short: 그 국의 자풍으로 부르는 네 자리. 친이 동가, 그다음 차례가 남가·서가·북가입니다.
+  tiles: "1234z"
+  han: null
+  rule_note: null
+  detail: |
+    친이 **동가**, 친의 하가가 **남가**, 그다음이 **서가**, 친의 상가가 **북가**입니다. 친이 바뀌면 모두의 자리 이름도 한 칸씩 바뀝니다.
+    각 자리의 자풍(동가는 동 `1z`, 남가는 남 `2z` …)을 커쯔로 모으면 역패입니다. 이 사이트의 복기 글도 사람을 이 자리 이름으로 적습니다.
+  related: [oya-ko, jikaze, kamicha-shimocha-toimen, chicha]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-2/
+  check: false
+
+- id: tonba-nanba
+  term: 동장 / 남장
+  ja: 東場 / 南場
+  aka: [동풍장, 남풍장]
+  category: 진행·기본
+  short: 장풍이 동인 앞쪽 4국 / 장풍이 남인 뒤쪽 4국.
+  tiles: "12z"
+  han: null
+  rule_note: 작혼은 반장이 끝났을 때 1위가 30,000점에 못 미치면 서장으로 이어 갑니다(서입).
+  detail: |
+    반장전은 **동장**(동1국~동4국)과 **남장**(남1국~남4국)으로 나뉩니다. 동장의 장풍은 동 `1z`, 남장의 장풍은 남 `2z` 입니다. 동풍전은 동장만 칩니다.
+    연장이 나오면 같은 장 안에서 국 수가 늘어납니다(예: 동2국 1본장).
+  related: [bakaze, kyoku, tonpusen-hanchan, orasu]
+  sources:
+    - /study/riichi-101-2/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: tamenchan-sanmenchan
+  term: 다면 대기 / 삼면 대기
+  ja: 多面張 / 三面張
+  aka: [다면짱, 삼면짱, 3면 대기, 산멘짱]
+  category: 대기
+  short: 세 종류 이상을 기다리는 대기 / 그중 세 종류를 기다리는 대기(예 23456m).
+  tiles: "23456m"
+  han: null
+  rule_note: null
+  detail: |
+    `23456m` 은 `1m`·`4m`·`7m` 을 기다리는 **삼면 대기**입니다(`23m`+`456m` 의 1·4m, `234m`+`56m` 의 4·7m). 양면(2종 최대 8장)보다 넓어 최대 3종 11장(내 손의 `4m` 1장을 뺀 수)입니다.
+    네 종류 이상을 기다리는 모양도 있어 이를 모두 묶어 **다면 대기**라고 합니다. 대기 종류 중 하나라도 내 버림패에 있으면 전체가 후리텐이라, 다면 대기일수록 후리텐을 조심합니다.
+  related: [ryanmen, nobetan, furiten, agarihai-machihai]
+  sources:
+    - /study/discard-terminals-vs-honors/
+    - /study/riichi-101-6/
+  check: false

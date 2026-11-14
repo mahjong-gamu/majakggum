@@ -1,5 +1,7 @@
 import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { glob, file } from 'astro/loaders';
+import { TILE_PATTERN } from './lib/tiles.mjs';
+import { GLOSSARY_CATEGORIES } from './lib/glossary-meta.mjs';
 import { z } from 'astro/zod';
 
 // 모든 게시판 공통 항목
@@ -108,7 +110,30 @@ const simple = (dir: string) =>
     }),
   });
 
+// 용어 사전 (src/data/glossary.yaml). 형식이 틀리면 빌드가 멈춥니다. id 중복·관련 용어 id 확인은 src/lib/glossary.ts 에서 합니다.
+const glossary = defineCollection({
+  loader: file('./src/data/glossary.yaml'),
+  schema: z
+    .object({
+      id: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'id 는 영문 소문자·숫자·가운데 줄(-)만 씁니다'),
+      term: z.string().min(1),
+      ja: z.string(),
+      aka: z.array(z.string()),
+      category: z.enum(GLOSSARY_CATEGORIES as [string, ...string[]]),
+      short: z.string().min(1),
+      tiles: z.string().regex(TILE_PATTERN, '패 표기 형식이 아닙니다').nullable(), // 대표 예시 패 (본문과 같은 표기)
+      han: z.union([z.object({ closed: z.number(), open: z.number().nullable() }).strict(), z.object({ yakuman: z.literal(true) }).strict()]).nullable(),
+      rule_note: z.string().nullable(), // 룰 비교 칸(M리그 기준, 작혼과 다른 점)
+      detail: z.string(), // 마크다운
+      related: z.array(z.string()),
+      sources: z.array(z.string()),
+      check: z.boolean(), // true 면 「확인 필요」 표시
+    })
+    .strict(),
+});
+
 export const collections = {
+  glossary,
   reviews,
   study: simple('study'),
   visits: simple('visits'),
