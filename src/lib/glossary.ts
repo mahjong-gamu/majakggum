@@ -24,7 +24,7 @@ export const GLOSSARY = {
   ink: '#74560A',
   wind: '6z',
   intro: '입문부터 중급까지, 이 사이트 글에 나오는 마작 용어를 모았습니다. 룰은 M리그 기준이고, 작혼과 다르면 따로 적었습니다.',
-  batch: '2026-11 첫 묶음',
+  batch: '2026-11 묶음 1·2',
   path: '/glossary/',
 } as const;
 
@@ -91,6 +91,8 @@ const HOSTS: [RegExp, string][] = [
   [/^https:\/\/m-league\.jp\//, 'M리그 공식 사이트'],
   [/^https:\/\/gall\.dcinside\.com\//, '디시인사이드 마작 갤러리'],
   [/^https:\/\/news\.livedoor\.com\//, '라이브도어 뉴스'],
+  [/^https:\/\/game8\.jp\//, 'Game8(작혼 공략)'],
+  [/^https:\/\/9db\.jp\//, '9db(작혼 룰 정리)'],
 ];
 
 // sources → 이 사이트 글(공개된 것만)과 바깥 링크

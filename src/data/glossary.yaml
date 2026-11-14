@@ -1,4 +1,4 @@
-# 마작 용어 사전 묶음 1 — 90개 (2026-11-14 확정)
+# 마작 용어 사전 — 묶음 1(90개, 2026-11-14) + 묶음 2(62개, 2026-11-14) = 152개
 # 원본: 프로젝트 문서 「용어 사전 묶음 1 초안」 E절 74개 + I절 16개. 내용은 고치지 말고 `src/data/glossary.yaml` 로 그대로 복사합니다.
 # check: true 인 4개(타쯔·쿳츠키·쯔모기리/테다시·량칸)는 출처 보강 중이라는 뜻입니다.
 
@@ -1596,4 +1596,1163 @@
   sources:
     - /study/discard-terminals-vs-honors/
     - /study/riichi-101-6/
+  check: false
+
+# ═════════ 묶음 2 — 역·점수 62개 (2026-11-14 확정, 마작껌 확인) ═════════
+# ───────── 역: 기본 ─────────
+- id: yaku
+  term: 역
+  ja: 役
+  aka: [야쿠, 화료 역]
+  category: 역
+  short: 화료하려면 꼭 하나 이상 있어야 하는 정해진 조건. 역마다 판수가 정해져 있습니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    손이 화료형(몸통 4개 + 머리 1개 등)이어도 **역이 1판 이상** 없으면 화료할 수 없습니다. 도라는 판수를 늘려 주지만 역이 아니라서, 도라만으로는 화료할 수 없습니다(M리그 1장 3조, 작혼 마작 교실).
+    역은 후로했을 때 어떻게 되는지에 따라 셋으로 나뉩니다.
+    - **멘젠 한정**: 후로하면 없어짐(리치·핑후·이페코 등)
+    - **후로하면 1판 줄어듦**: 삼색동순·일기통관·찬타·혼일색·준찬타·청일색
+    - **후로해도 그대로**: 역패·탕야오·또이또이 등
+    여러 역이 겹치면 판수를 모두 더합니다. 역만은 판수를 세지 않고 바로 역만 점수가 됩니다.
+  related: [agari, han, yakuman, dora, menzen, furo]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-5/
+    - /study/riichi-101-8/
+  check: false
+
+- id: yakuman
+  term: 역만
+  ja: 役満
+  aka: [야쿠만]
+  category: 역
+  short: 판수를 세지 않고 한 번에 가장 높은 점수(자 32,000 · 친 48,000)를 받는 역.
+  tiles: null
+  han: null
+  rule_note: 작혼은 스안커 단기·국사무쌍 13면 대기·순정구련보등·대사희를 더블 역만으로 치고, 13판 이상은 헤아림 역만입니다. M리그는 둘 다 없습니다(역만끼리 겹칠 때만 2배·3배).
+  detail: |
+    국사무쌍·스안커·대삼원처럼 아주 만들기 어려운 손에 붙는 역입니다. 역만이 되면 다른 역·도라는 세지 않고 **자 32,000점, 친 48,000점**입니다.
+    M리그는 서로 다른 역만이 2개 겹치면 2배, 3개면 3배로 계산합니다(6장 6조 1). 역만이 아닌 역은 아무리 많이 겹쳐도 **삼배만이 최고**라서, 헤아림 역만은 없습니다(6장 6조 2).
+    M리그의 역만 12가지: 천화, 지화, 국사무쌍, 스안커, 대삼원, 녹일색, 자일색, 소사희, 대사희, 청노두, 스깡쯔, 구련보등(9장 5조).
+  related: [daburu-yakuman, kazoe-yakuman, sanbaiman, kokushi-muso, suanko, daisangen, sekinin-barai]
+  sources:
+    - https://m-league.jp/about/
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-8/
+  check: false
+
+# ───────── 역: 1판 ─────────
+- id: riichi
+  term: 리치
+  ja: 立直 / リーチ
+  aka: [립직]
+  category: 역
+  short: 멘젠 텐파이에서 리치를 선언하고 1,000점을 내면 붙는 역. 대신 손패를 더 바꿀 수 없습니다.
+  tiles: null
+  han: { closed: 1, open: null }
+  rule_note: null
+  detail: |
+    멘젠으로 텐파이하면 「리치」를 선언하고 **리치 선언패**를 옆으로 눕혀 버립니다. 그 패로 아무도 론하지 않으면 리치봉 1,000점을 내고 리치가 성립합니다(M리그 9장 8조 2).
+    리치한 뒤에는 쯔모한 패를 그대로 버리기만 하고(대기가 바뀌지 않는 안깡만 예외), 그대로 화료하면 리치 1판에 **일발**·**뒷도라**가 붙을 수 있습니다.
+    다른 사람은 리치를 보고 수비하기 시작하므로, 대기 모양과 점수를 보고 리치할지 다마텐으로 둘지 고릅니다.
+  related: [riichi-sengenhai, riichibo, ippatsu, uradora, daburu-riichi, damaten, menzen, furiten]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-5/
+  check: false
+
+- id: ippatsu
+  term: 일발
+  ja: 一発
+  aka: [잇파쓰, 잇빠쓰]
+  category: 역
+  short: 리치한 뒤 한 바퀴 안에, 아무도 후로하지 않은 채 화료하면 붙는 1판.
+  tiles: null
+  han: { closed: 1, open: null }
+  rule_note: null
+  detail: |
+    리치 선언패를 버린 다음부터 내 다음 쯔모까지(한 바퀴) 안에 화료하면 붙습니다. 그 사이 누가 치·퐁·깡을 하면 없어집니다.
+    M리그는 일발이 리치에 딸린 것이라 혼자서는 역이 될 수 없다고 정합니다(9장 1조 3). 창깡과도 겹칠 수 있습니다.
+    일본프로마작연맹 룰처럼 일발이 없는 대회도 있습니다.
+  related: [riichi, uradora, chankan]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: menzen-tsumo
+  term: 멘젠쯔모
+  ja: 門前清自摸和
+  aka: [쯔모, 멘젠 쯔모, 멘젠청자모화]
+  category: 역
+  short: 후로하지 않은 손으로 쯔모 화료하면 붙는 1판.
+  tiles: null
+  han: { closed: 1, open: null }
+  rule_note: null
+  detail: |
+    멘젠(안깡은 괜찮음)이면 쯔모로 화료하기만 해도 1판입니다. 그래서 다른 역이 없는 멘젠 텐파이도 쯔모라면 화료할 수 있습니다.
+    핑후와도 겹칩니다. 이때 M리그는 쯔모 2부를 붙이지 않고 20부로 계산합니다(9장 1조).
+  related: [tsumo, menzen, pinfu, riichi]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-5/
+  check: false
+
+- id: yakuhai
+  term: 역패
+  ja: 役牌
+  aka: [야쿠하이, 판패]
+  category: 역
+  short: 삼원패나, 내 자풍·그 판의 장풍과 같은 풍패를 커쯔(깡쯔)로 모으면 붙는 1판.
+  tiles: "777z"
+  han: { closed: 1, open: 1 }
+  rule_note: null
+  detail: |
+    작혼 마작 교실은 자풍패·장풍패·삼원패 세 가지로 나눠 설명합니다. 백 `5z`·발 `6z`·중 `7z` 는 누구에게나 역패이고, 풍패는 내 자풍이나 장풍일 때만 역패입니다.
+    후로해도 1판 그대로라서, 역패 또이쯔를 퐁해 빠르게 화료하는 경우가 많습니다. 자풍과 장풍이 같으면 두 번 세어 **연풍패**(2판)입니다.
+    역패를 머리로 쓰면 역은 아니지만 부가 2부 붙습니다.
+  related: [sangenpai, jikaze, bakaze, renpuhai, otakaze, kotsu, pon]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-5/
+  check: false
+
+- id: pinfu
+  term: 핑후
+  ja: 平和
+  aka: [평화, 핑호]
+  category: 역
+  short: 몸통이 모두 슌쯔, 머리는 역패가 아니고, 양면 대기로 화료하면 붙는 1판.
+  tiles: "23m 456p 234678s 99p"
+  han: { closed: 1, open: null }
+  rule_note: null
+  detail: |
+    조건은 세 가지입니다. ① 몸통 4개가 모두 슌쯔 ② 머리가 역패가 아님 ③ 마지막 대기가 **양면**. 위 예는 `1m`·`4m` 양면 대기라 핑후입니다.
+    같은 손이라도 `13m` 간짱처럼 받으면 핑후가 아닙니다. 멘젠에서만 됩니다.
+    핑후는 부가 붙지 않는 손이라 론이면 30부, 쯔모면 20부입니다(M리그 9장 1조).
+  related: [ryanmen, shuntsu, janto, menzen-tsumo, fu, tanyao]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-5/
+  check: false
+
+- id: tanyao
+  term: 탕야오
+  ja: 断么九
+  aka: [단요구, 탄야오]
+  category: 역
+  short: 2~8 수패(중장패)만으로 화료하면 붙는 1판. 후로해도 됩니다.
+  tiles: "234m 567p 345s 666s 88p"
+  han: { closed: 1, open: 1 }
+  rule_note: null
+  detail: |
+    1·9 수패와 자패(요구패)를 하나도 쓰지 않으면 성립합니다. 가장 자주 나오는 역 가운데 하나입니다.
+    M리그와 작혼 모두 후로한 탕야오(**쿠이탕**)를 인정합니다. 프로 룰 중에는 쿠이탕을 안 되게 하는 곳도 있습니다.
+  related: [kuitan, rotohai-chunchanpai, yaochuhai, pinfu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-5/
+  check: false
+
+- id: kuitan
+  term: 쿠이탕
+  ja: 喰いタン
+  aka: [후로 탕야오, 울기 탕야오]
+  category: 역
+  short: 후로해서 만든 탕야오. 1판 그대로 인정됩니다.
+  tiles: "3^45m 567p234s 66s88p"
+  han: null
+  rule_note: null
+  detail: |
+    위 예는 `3m` 을 치해서 `345m` 를 만들고, 나머지도 2~8로만 텐파이한 손입니다(`6s`·`8s` 샤보 대기). 역이 탕야오뿐이라 1,000점처럼 낮지만 빠르게 화료할 수 있습니다.
+    M리그 룰은 탕야오를 멘젠 한정으로 정하지 않아 쿠이탕이 됩니다(9장). 작혼도 됩니다.
+  related: [tanyao, furo, chi, pon]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-8/
+  check: false
+
+- id: iipeko
+  term: 이페코
+  ja: 一盃口
+  aka: [일배구, 이빼꼬]
+  category: 역
+  short: 똑같은 슌쯔 2개를 멘젠으로 가지면 붙는 1판.
+  tiles: "223344m"
+  han: { closed: 1, open: null }
+  rule_note: null
+  detail: |
+    `223344m` 처럼 같은 종류·같은 숫자의 슌쯔 `234m` 가 2개면 성립합니다. 멘젠에서만 됩니다.
+    이페코가 2개면 **량페코**(3판)입니다.
+  related: [ryanpeko, shuntsu, menzen, chitoitsu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-8/
+  check: false
+
+- id: haitei
+  term: 해저로월
+  ja: 海底摸月
+  aka: [해저, 하이테이]
+  category: 역
+  short: 패산의 마지막 패(해저패)를 쯔모해 화료하면 붙는 1판.
+  tiles: null
+  han: { closed: 1, open: 1 }
+  rule_note: null
+  detail: |
+    그 국에서 마지막으로 쯔모하는 사람이 그 패로 화료하면 붙습니다. 후로했어도 됩니다.
+    M리그는 해저패를 쯔모한 사람이 깡할 수 없습니다(2장 3조).
+  related: [haiteihai-hoteihai, hotei, yama, tsumo]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: hotei
+  term: 하저로어
+  ja: 河底撈魚
+  aka: [하저, 호테이]
+  category: 역
+  short: 그 국의 마지막 버림패(하저패)로 론 화료하면 붙는 1판.
+  tiles: null
+  han: { closed: 1, open: 1 }
+  rule_note: null
+  detail: |
+    해저패를 쯔모한 사람이 버린 마지막 패로 론하면 붙습니다. M리그는 하저패를 치·퐁·깡할 수 없습니다(2장 4조).
+  related: [haiteihai-hoteihai, haitei, ron]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: chankan
+  term: 창깡
+  ja: 搶槓
+  aka: [찬깡]
+  category: 역
+  short: 다른 사람이 가깡하려는 패로 론 화료하면 붙는 1판.
+  tiles: "66^^6z"
+  han: { closed: 1, open: 1 }
+  rule_note: 작혼은 국사무쌍 텐파이일 때만 안깡하는 패로도 창깡할 수 있습니다.
+  detail: |
+    가깡은 퐁한 커쯔에 한 장을 더 붙이는 것인데, 그 패가 내 화료패라면 깡을 막고 론할 수 있습니다. 대명깡·안깡에는 보통 창깡할 수 없습니다.
+    M리그는 창깡이 일발과 겹칠 수 있고, 이때 그 깡의 깡도라는 붙지 않습니다(9장 1조 3).
+  related: [kakan, ron, ippatsu, kokushi-muso]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: rinshan-kaiho
+  term: 영상개화
+  ja: 嶺上開花
+  aka: [린샹카이호, 린샨]
+  category: 역
+  short: 깡을 한 뒤 가져온 영상패로 쯔모 화료하면 붙는 1판.
+  tiles: null
+  han: { closed: 1, open: 1 }
+  rule_note: null
+  detail: |
+    안깡·대명깡·가깡 어느 것이든 깡 뒤에 보충한 영상패로 화료하면 됩니다. 쯔모 화료이므로 멘젠이라면 멘젠쯔모도 겹칩니다.
+  related: [rinshanpai, kan, tsumo]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+# ───────── 역: 2판 ─────────
+- id: daburu-riichi
+  term: 더블 리치
+  ja: ダブル立直
+  aka: [더블리치, 다부리, W리치]
+  category: 역
+  short: 아무도 후로하지 않은 첫 순, 내 첫 버림패로 리치하면 붙는 2판(리치 1판 대신).
+  tiles: null
+  han: { closed: 2, open: null }
+  rule_note: null
+  detail: |
+    배패와 첫 쯔모만으로 텐파이해서, 첫 버림패로 리치를 선언하면 리치 대신 2판입니다. 내 첫 차례 전에 누가 치·퐁·깡을 했으면 보통 리치(1판)가 됩니다.
+    일발·뒷도라는 보통 리치와 똑같이 붙습니다.
+  related: [riichi, ippatsu, haipai]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: renpuhai
+  term: 연풍패
+  ja: 連風牌
+  aka: [더블 역패, 더블 동, 더블 남]
+  category: 역
+  short: 자풍과 장풍이 같은 풍패를 커쯔로 모아 역패가 두 번 붙는 2판. 예 동장 동가의 동.
+  tiles: "111z"
+  han: { closed: 2, open: 2 }
+  rule_note: 연풍패를 머리로 쓰면 M리그는 2부, 작혼은 4부입니다.
+  detail: |
+    동장의 동가(친)에게 동 `1z` 는 자풍이면서 장풍이라, 커쯔로 모으면 역패가 2번 붙어 2판입니다. 남장의 남가에게 남 `2z` 도 같습니다.
+    M리그 역 목록은 연풍패를 2판 역으로 따로 적습니다(9장 2조). 연풍패를 머리로 쓸 때의 부는 M리그가 2부로 정했습니다(3장 3조).
+  related: [yakuhai, jikaze, bakaze, fu]
+  sources:
+    - https://m-league.jp/about/
+    - https://9db.jp/dqwalk/data/7636?p=3
+  check: false
+
+- id: toitoi
+  term: 또이또이
+  ja: 対々和
+  aka: [대대화, 토이토이]
+  category: 역
+  short: 몸통 4개가 모두 커쯔(깡쯔)인 손. 2판, 후로해도 됩니다.
+  tiles: "222m 777p 333s 666z 99m"
+  han: { closed: 2, open: 2 }
+  rule_note: null
+  detail: |
+    슌쯔 없이 커쯔·깡쯔 4개와 머리로 화료하면 성립합니다. 퐁을 많이 해서 만드는 경우가 많습니다.
+    멘젠으로 안커 4개를 만들면 역만 **스안커**, 혼노두나 역패와 겹치면 점수가 크게 오릅니다.
+  related: [kotsu, pon, sananko, suanko, honroto]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-8/
+  check: false
+
+- id: sananko
+  term: 산안커
+  ja: 三暗刻
+  aka: [삼암각, 산안코]
+  category: 역
+  short: 안커 3개를 가진 손. 2판, 다른 몸통은 후로해도 됩니다.
+  tiles: "222m 444p 888s 567s 33z"
+  han: { closed: 2, open: 2 }
+  rule_note: null
+  detail: |
+    손 안에서 만든 커쯔(안커, 안깡 포함)가 3개면 성립합니다. 나머지 몸통 하나는 퐁이나 치를 해도 됩니다.
+    샤보 대기를 **론**으로 화료하면 그 커쯔는 안커가 아니라 밍커가 되므로, 안커가 2개로 줄어 산안커가 안 될 수 있습니다.
+  related: [anko, minko, suanko, toitoi, shanpon]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-8/
+  check: false
+
+- id: sanshoku-doko
+  term: 삼색동각
+  ja: 三色同刻
+  aka: [삼색 동각, 산쇼쿠도코]
+  category: 역
+  short: 만수·통수·삭수로 같은 숫자의 커쯔를 하나씩 모은 손. 2판.
+  tiles: "555m555p555s"
+  han: { closed: 2, open: 2 }
+  rule_note: null
+  detail: |
+    `555m` `555p` `555s` 처럼 세 종류에서 같은 숫자 커쯔(깡쯔)를 만들면 성립합니다. 후로해도 2판 그대로입니다. 잘 나오지 않는 역입니다.
+  related: [sanshoku-dojun, kotsu, toitoi, manzu-pinzu-sozu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-8/
+  check: false
+
+- id: sankantsu
+  term: 산깡쯔
+  ja: 三槓子
+  aka: [삼깡자, 산칸쯔]
+  category: 역
+  short: 깡쯔 3개를 가진 손. 2판, 안깡·대명깡·가깡 어느 것이든 됩니다.
+  tiles: "#22#m 5555^p 77^^7s"
+  han: { closed: 2, open: 2 }
+  rule_note: null
+  detail: |
+    깡을 3번 해서 깡쯔가 3개면 성립합니다. 위 그림은 안깡·대명깡·가깡을 하나씩 한 모양입니다. 깡쯔는 커쯔이기도 해서 또이또이·산안커와 함께 붙기 쉽습니다.
+    깡쯔 4개면 역만 **스깡쯔**입니다.
+  related: [kantsu, kan, sukantsu, toitoi]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-8/
+  check: false
+
+- id: shosangen
+  term: 소삼원
+  ja: 小三元
+  aka: [쇼산겐]
+  category: 역
+  short: 삼원패 셋 중 둘은 커쯔, 하나는 머리로 가진 손. 2판(역패 2개와 합쳐 보통 4판).
+  tiles: "555z666z77z"
+  han: { closed: 2, open: 2 }
+  rule_note: null
+  detail: |
+    백·발·중 가운데 두 가지를 커쯔(깡쯔), 나머지 하나를 머리로 쓰면 성립합니다. 커쯔 두 개가 각각 **역패** 1판이므로, 실제로는 소삼원 2판 + 역패 2판 = 적어도 4판이 됩니다.
+    세 가지를 모두 커쯔로 만들면 역만 **대삼원**입니다.
+  related: [sangenpai, yakuhai, daisangen]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-8/
+  check: false
+
+- id: honroto
+  term: 혼노두
+  ja: 混老頭
+  aka: [혼로토, 혼로두]
+  category: 역
+  short: 노두패(1·9)와 자패만으로 화료한 손. 2판.
+  tiles: "111m 999p 999s 222z 77z"
+  han: { closed: 2, open: 2 }
+  rule_note: null
+  detail: |
+    1·9 수패와 자패만 쓰면 슌쯔를 만들 수 없어서, 혼노두는 늘 **또이또이**(2판)나 **치또이쯔**(2판)와 함께 나옵니다. 그래서 실제로는 적어도 4판입니다.
+    자패 없이 1·9만이면 역만 **청노두**입니다.
+  related: [rotohai-chunchanpai, yaochuhai, toitoi, chitoitsu, chinroto, chanta]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-8/
+  check: false
+
+- id: sanshoku-dojun
+  term: 삼색동순
+  ja: 三色同順
+  aka: [삼색, 산쇼쿠]
+  category: 역
+  short: 만수·통수·삭수로 같은 숫자의 슌쯔를 하나씩 모은 손. 멘젠 2판, 후로 1판.
+  tiles: "345m345p345s"
+  han: { closed: 2, open: 1 }
+  rule_note: null
+  detail: |
+    `345m` `345p` `345s` 처럼 세 종류에서 같은 숫자의 슌쯔를 만들면 성립합니다. 흔히 「삼색」이라고 줄여 부릅니다.
+    후로하면 1판으로 줄어듭니다(M리그 9장 2조). 핑후·탕야오와 함께 붙기 좋아서 멘젠으로 만들면 점수가 잘 오릅니다.
+  related: [sanshoku-doko, ikkitsukan, shuntsu, pinfu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-8/
+  check: false
+
+- id: ikkitsukan
+  term: 일기통관
+  ja: 一気通貫
+  aka: [일통, 잇쓰, 잇츠]
+  category: 역
+  short: 한 종류 수패로 123·456·789 슌쯔를 모두 모은 손. 멘젠 2판, 후로 1판.
+  tiles: "123456789p"
+  han: { closed: 2, open: 1 }
+  rule_note: null
+  detail: |
+    같은 종류에서 `123` `456` `789` 세 슌쯔를 만들면 성립합니다. 후로하면 1판으로 줄어듭니다(M리그 9장 2조).
+    한 종류가 9장이나 들어가서 혼일색·청일색과 함께 노리기도 합니다.
+  related: [sanshoku-dojun, shuntsu, honitsu, chinitsu]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-8/
+  check: false
+
+- id: chanta
+  term: 찬타
+  ja: 混全帯么九
+  aka: [혼전대요구, 챤타]
+  category: 역
+  short: 몸통 4개와 머리 모두에 요구패(1·9·자패)가 들어간 손. 멘젠 2판, 후로 1판.
+  tiles: "123m 789p 999s 111z 99m"
+  han: { closed: 2, open: 1 }
+  rule_note: null
+  detail: |
+    `123`·`789` 슌쯔나 1·9·자패 커쯔, 1·9·자패 머리만으로 손을 만들면 성립합니다. 자패 없이 1·9만으로 만들면 **준찬타**(3판)입니다.
+    후로하면 1판으로 줄어듭니다(M리그 9장 2조).
+  related: [junchan, yaochuhai, honroto]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-8/
+  check: false
+
+- id: chitoitsu
+  term: 치또이쯔
+  ja: 七対子
+  aka: [치또이, 치토이츠, 칠대자]
+  category: 역
+  short: 서로 다른 또이쯔 7개로 화료하는 특별한 모양. 멘젠 2판, 25부.
+  tiles: "113355m 2266p 7799s"
+  han: { closed: 2, open: null }
+  rule_note: null
+  detail: |
+    몸통 없이 또이쯔 7개로 화료합니다. 같은 패 4장을 또이쯔 2개로 쓸 수는 없습니다. 대기는 늘 단기라서, 남이 버리기 쉬운 패로 기다리는 작전을 씁니다.
+    부는 계산하지 않고 늘 **25부**입니다. 그래서 치또이쯔만이면 자 1,600점, 친 2,400점입니다(M리그 9장 2조).
+  related: [toitsu, tanki, agarikei, honroto, ryanpeko]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-3/
+  check: false
+
+# ───────── 역: 3판·6판 ─────────
+- id: ryanpeko
+  term: 량페코
+  ja: 二盃口
+  aka: [양페코, 이배구, 랑페코]
+  category: 역
+  short: 이페코를 2개 가진 손. 멘젠 3판.
+  tiles: "223344m 667788p"
+  han: { closed: 3, open: null }
+  rule_note: null
+  detail: |
+    똑같은 슌쯔 2개가 두 벌이면 성립합니다(이페코 1판과 따로 세지 않음). 멘젠에서만 됩니다.
+    모양이 또이쯔 7개로도 보이지만, 량페코로 계산하는 쪽이 점수가 높아서 량페코로 칩니다.
+    작혼 마작 교실은 「량페코」로 씁니다(이 사이트 「역 일람」 글은 양페코로 적었음).
+  related: [iipeko, chitoitsu, menzen]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - /study/riichi-101-8/
+  check: false
+
+- id: honitsu
+  term: 혼일색
+  ja: 混一色
+  aka: [혼이쯔, 혼일]
+  category: 역
+  short: 한 종류 수패와 자패만으로 화료한 손. 멘젠 3판, 후로 2판.
+  tiles: "123345777s 555z 99s"
+  han: { closed: 3, open: 2 }
+  rule_note: null
+  detail: |
+    수패는 만수·통수·삭수 가운데 한 종류만 쓰고, 나머지는 자패로 채우면 성립합니다. 후로해도 2판이라 역패와 함께 빠르게 노리는 경우가 많습니다.
+    한쪽 색이 버림패에 안 나오고 모이면 다른 사람에게 들키기 쉽다는 점도 있습니다. 자패 없이 한 종류만이면 **청일색**입니다. 자세한 판단은 공부 글 「혼일색으로 갈까, 그냥 갈까」에 있습니다.
+  related: [chinitsu, manzu-pinzu-sozu, jihai, yakuhai, ikkitsukan]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/honitsu-or-not/
+  check: false
+
+- id: junchan
+  term: 준찬타
+  ja: 純全帯么九
+  aka: [준전대요구, 쥰찬, 준찬]
+  category: 역
+  short: 몸통 4개와 머리 모두에 1·9 수패가 들어가고 자패는 없는 손. 멘젠 3판, 후로 2판.
+  tiles: "123m 789p 999s 789s 11p"
+  han: { closed: 3, open: 2 }
+  rule_note: null
+  detail: |
+    찬타에서 자패를 뺀 모양입니다. 모든 몸통과 머리에 1이나 9가 하나씩 들어가야 합니다. 찬타와 따로 세지 않고 준찬타만 계산합니다.
+    후로하면 2판으로 줄어듭니다(M리그 9장 2조).
+  related: [chanta, rotohai-chunchanpai, chinroto]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-8/
+  check: false
+
+- id: chinitsu
+  term: 청일색
+  ja: 清一色
+  aka: [친이쯔, 청일]
+  category: 역
+  short: 한 종류 수패만으로 화료한 손. 멘젠 6판, 후로 5판.
+  tiles: "112233p 456p 678p 99p"
+  han: { closed: 6, open: 5 }
+  rule_note: null
+  detail: |
+    자패도 없이 만수·통수·삭수 가운데 한 종류만으로 손을 만들면 성립합니다. 멘젠이면 6판으로 이것만으로도 하네만입니다.
+    한 종류가 많이 모이면 대기가 복잡해져서, 어떤 패를 기다리는지 정확히 아는 것이 중요합니다.
+  related: [honitsu, manzu-pinzu-sozu, ikkitsukan, churen-poto, haneman]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/honitsu-or-not/
+  check: false
+
+# ───────── 역: 역만 ─────────
+- id: tenho
+  term: 천화
+  ja: 天和
+  aka: [텐호]
+  category: 역
+  short: 친이 처음 받은 14장으로 이미 화료한 역만.
+  tiles: null
+  han: { yakuman: true }
+  rule_note: null
+  detail: |
+    친은 배패 14장으로 시작하므로, 그 14장이 화료형이면 버리기 전에 바로 화료합니다. 운만으로 나오는 역만입니다.
+  related: [chiho, haipai, oya-ko, yakuman]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: chiho
+  term: 지화
+  ja: 地和
+  aka: [치호]
+  category: 역
+  short: 자가 아무도 후로하지 않은 첫 순에, 처음 쯔모한 패로 화료한 역만.
+  tiles: null
+  han: { yakuman: true }
+  rule_note: null
+  detail: |
+    배패로 이미 텐파이였던 자가 첫 쯔모로 화료하면 성립합니다. 그 전에 누가 치·퐁·깡을 했으면 성립하지 않습니다(작혼 마작 교실).
+    첫 순에 남의 버림패로 론하는 「인화」는 M리그와 작혼 모두 역으로 치지 않습니다.
+  related: [tenho, haipai, yakuman]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - https://9db.jp/dqwalk/data/7636?p=3
+  check: false
+
+- id: kokushi-muso
+  term: 국사무쌍
+  ja: 国士無双
+  aka: [국사, 코쿠시]
+  category: 역
+  short: 요구패 13종을 한 장씩 모으고, 그중 하나를 한 장 더 가진 역만.
+  tiles: "19m19p19s1234567z 1z"
+  han: { yakuman: true }
+  rule_note: 작혼은 13종을 다 가진 채 13면 대기로 화료하면 「국사무쌍 13면 대기」로 더블 역만입니다. 작혼은 국사무쌍일 때만 안깡하는 패로도 창깡할 수 있습니다.
+  detail: |
+    몸통·머리 모양과 상관없는 특별한 화료형입니다. 위 예는 13종에 `1z`(동)를 하나 더 가져 완성한 모양입니다(한 칸 띄운 맨 오른쪽 패가 쯔모패).
+    13종을 모두 1장씩 가진 채 기다리면 13종 어느 패로든 화료할 수 있어 **13면 대기**라고 합니다. M리그는 13면 대기도 보통 역만 1개입니다.
+    배패에 요구패가 많으면 구종구패 대신 국사무쌍을 노릴 수 있습니다.
+  related: [yaochuhai, kyushu-kyuhai, chankan, daburu-yakuman, yakuman]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - https://game8.jp/jantama/666319
+  check: false
+
+- id: suanko
+  term: 스안커
+  ja: 四暗刻
+  aka: [사암각, 스앙코]
+  category: 역
+  short: 안커 4개를 멘젠으로 모은 역만.
+  tiles: "111m 444p 777s 22z33z"
+  han: { yakuman: true }
+  rule_note: 작혼은 단기 대기로 화료하면 「스안커 단기」로 더블 역만입니다.
+  detail: |
+    위 예는 안커 3개와 또이쯔 2개의 샤보 대기입니다. `2z` 나 `3z` 를 **쯔모**하면 안커 4개가 되어 스안커입니다.
+    같은 손에서 **론**으로 화료하면 마지막 커쯔가 밍커가 되어 스안커가 아니라 산안커 + 또이또이가 됩니다. 그래서 스안커 텐파이에서는 쯔모를 기다리기도 합니다.
+  related: [suanko-tanki, anko, sananko, toitoi, shanpon]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: suanko-tanki
+  term: 스안커 단기
+  ja: 四暗刻単騎
+  aka: [스안커 단기 대기]
+  category: 역
+  short: 안커 4개를 이미 만들고 머리 한 장을 단기로 기다려 화료한 스안커.
+  tiles: "111m444p777s222z 3z"
+  han: { yakuman: true }
+  rule_note: M리그는 보통 스안커와 같은 역만 1개, 작혼은 더블 역만입니다.
+  detail: |
+    안커 4개가 다 된 상태에서 남은 한 장(위 예는 `3z`)으로 머리를 기다립니다. 이 경우는 론으로 화료해도 안커가 그대로라 스안커가 됩니다.
+  related: [suanko, tanki, daburu-yakuman]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://game8.jp/jantama/666119
+  check: false
+
+- id: daisangen
+  term: 대삼원
+  ja: 大三元
+  aka: [다이산겐]
+  category: 역
+  short: 백·발·중 세 가지를 모두 커쯔(깡쯔)로 모은 역만.
+  tiles: "555z 666z 777z"
+  han: { yakuman: true }
+  rule_note: null
+  detail: |
+    삼원패 3종을 모두 커쯔·깡쯔로 만들면 성립합니다. 후로해도 됩니다.
+    이미 삼원패 2종을 후로·안깡으로 드러낸 사람에게 세 번째 삼원패를 퐁·깡하게 해 주면, 그 사람이 점수를 책임지는 **책임지불**이 됩니다(M리그 8장, 작혼도 있음).
+  related: [sangenpai, shosangen, sekinin-barai, yakuman]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: ryuiso
+  term: 녹일색
+  ja: 緑一色
+  aka: [류이소, 올그린]
+  category: 역
+  short: 2·3·4·6·8삭과 발만으로 화료한 역만.
+  tiles: "234s 666s 888s 666z 22s"
+  han: { yakuman: true }
+  rule_note: null
+  detail: |
+    초록색으로만 그려진 패(`2s` `3s` `4s` `6s` `8s` 와 발 `6z`)만으로 손을 만들면 성립합니다.
+    M리그는 발이 하나도 없어도 녹일색으로 인정합니다(9장 5조).
+  related: [manzu-pinzu-sozu, sangenpai, yakuman]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: tsuiso
+  term: 자일색
+  ja: 字一色
+  aka: [쯔이소]
+  category: 역
+  short: 자패만으로 화료한 역만.
+  tiles: "111z 333z 555z 777z 22z"
+  han: { yakuman: true }
+  rule_note: null
+  detail: |
+    동남서북백발중만으로 커쯔·머리를 만들거나, 자패 또이쯔 7개(치또이쯔 모양)로 화료하면 성립합니다. 대삼원·소사희 같은 다른 역만과 겹치기도 합니다.
+  related: [jihai, chitoitsu, daisangen, shosushi-daisushi, yakuman]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: shosushi-daisushi
+  term: 소사희 / 대사희
+  ja: 小四喜 / 大四喜
+  aka: [사희화, 쇼스시, 다이스시]
+  category: 역
+  short: 풍패 4종 가운데 3종은 커쯔·1종은 머리 / 4종 모두 커쯔인 역만.
+  tiles: "111z 222z 333z 44z"
+  han: { yakuman: true }
+  rule_note: 작혼은 대사희를 더블 역만으로 칩니다. M리그는 소사희·대사희 모두 역만 1개입니다.
+  detail: |
+    위 예는 동·남·서 커쯔와 북 머리라 **소사희**입니다. 북까지 커쯔로 만들면 **대사희**입니다.
+    대사희는 풍패 3종을 드러낸 사람에게 네 번째 풍패를 퐁·깡하게 해 주면 **책임지불**이 됩니다(M리그 8장, 작혼도 있음).
+  related: [kazehai, sekinin-barai, daburu-yakuman, tsuiso, yakuman]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - https://game8.jp/jantama/614720
+  check: false
+
+- id: chinroto
+  term: 청노두
+  ja: 清老頭
+  aka: [친로토, 청로두]
+  category: 역
+  short: 1·9 수패만으로 화료한 역만.
+  tiles: "111m 999m 111p 999s 11s"
+  han: { yakuman: true }
+  rule_note: null
+  detail: |
+    노두패 6종(`1m` `9m` `1p` `9p` `1s` `9s`)만으로 커쯔 4개와 머리를 만들면 성립합니다. 자패가 섞이면 **혼노두**(2판)입니다.
+  related: [rotohai-chunchanpai, honroto, junchan, yakuman]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: sukantsu
+  term: 스깡쯔
+  ja: 四槓子
+  aka: [사깡자, 스칸쯔]
+  category: 역
+  short: 혼자 깡을 4번 해서 깡쯔 4개를 만든 역만.
+  tiles: null
+  han: { yakuman: true }
+  rule_note: 작혼에서는 두 사람 이상이 합쳐 깡 4번이면 사깡유국이 되지만, 한 사람이 4번이면 계속합니다.
+  detail: |
+    깡쯔 4개와 머리 1장 단기로 화료하면 성립합니다. 가장 드문 역만 가운데 하나입니다.
+    M리그는 깡쯔 3개를 드러낸 사람에게 네 번째 깡(대명깡)을 하게 해 주면 **책임지불**이 됩니다(8장 1조).
+  related: [sankantsu, kantsu, sukaikan, sekinin-barai, yakuman]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: churen-poto
+  term: 구련보등
+  ja: 九蓮宝燈
+  aka: [츄렌, 츄렌포토, 구련]
+  category: 역
+  short: 한 종류 수패로 1112345678999에 같은 종류 한 장을 더한 모양의 역만.
+  tiles: "1112345678999m 5m"
+  han: { yakuman: true }
+  rule_note: 작혼은 1112345678999 모양에서 9종 어느 패로든 화료하는 「순정구련보등」을 더블 역만으로 칩니다. M리그는 역만 1개입니다.
+  detail: |
+    멘젠으로 `1112345678999` 를 만들면 같은 종류 1~9 어느 패가 와도 화료하는 **9면 대기**가 됩니다(순정구련보등). 다른 모양에서 마지막 한 장이 와서 이 모양이 되어도 구련보등입니다. 위 예는 `5m` 를 쯔모해 완성한 모양입니다.
+  related: [chinitsu, tamenchan-sanmenchan, daburu-yakuman, yakuman]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - https://game8.jp/jantama/666322
+  check: false
+# ───────── 점수: 도라 ─────────
+- id: dora
+  term: 도라
+  ja: ドラ
+  aka: [보너스패]
+  category: 점수
+  short: 화료했을 때 손에 있으면 한 장마다 1판을 더해 주는 패. 역은 아닙니다.
+  tiles: "4m 5m"
+  han: null
+  rule_note: null
+  detail: |
+    도라 표시패의 다음 패가 도라입니다. 위 예처럼 표시패가 `4m` 이면 `5m` 이 도라이고, `5m` 을 2장 가지고 화료하면 2판이 더해집니다.
+    도라는 **역이 아니라서** 도라만으로는 화료할 수 없습니다. 판수만 늘려 줍니다.
+    종류: 처음 뒤집은 표시패의 도라, 깡마다 늘어나는 **깡도라**, 리치 화료 때 보는 **뒷도라**, 빨간 5인 **적도라**.
+  related: [dora-hyojihai, akadora, uradora, kandora, han, yaku]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/riichi-101-5/
+  check: false
+
+- id: akadora
+  term: 적도라
+  ja: 赤ドラ
+  aka: [아카도라, 빨간 5, 적5]
+  category: 점수
+  short: 빨갛게 칠한 5. 가지고 화료하면 한 장마다 1판이 더해집니다.
+  tiles: "0m0p0s"
+  han: null
+  rule_note: 작혼에는 5통 적도라가 하나 더 있는 「4적 룰」도 있습니다.
+  detail: |
+    M리그와 작혼(보통 3적 룰)은 5만·5통·5삭에 1장씩, 모두 3장이 빨간 패입니다(M리그 1장 2조 2). 이 사이트의 패 표기에서는 숫자 `0` 으로 씁니다.
+    적5가 도라 표시패의 다음 패이기도 하면 두 번 세어 2판입니다. 일본 프로 단체 중에는 적도라가 없는 곳도 많습니다.
+  related: [dora, shupai]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: uradora
+  term: 뒷도라
+  ja: 裏ドラ
+  aka: [우라도라, 우라]
+  category: 점수
+  short: 리치한 사람이 화료했을 때만, 도라 표시패 아래 패를 뒤집어 보는 도라.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    리치로 화료하면 도라 표시패 바로 아래 패를 뒤집고, 그 다음 패가 뒷도라가 됩니다. 손에 있으면 한 장마다 1판입니다. 깡도라 표시패 아래도 함께 봅니다(M리그 2장 6조 3).
+    리치하지 않은 화료에는 붙지 않습니다. 그래서 「리치를 걸면 뒷도라로 점수가 오를 수 있다」는 것이 다마텐과 비교할 때의 장점입니다.
+  related: [riichi, dora, kandora, dora-hyojihai, damaten]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+- id: kandora
+  term: 깡도라
+  ja: カンドラ
+  aka: [칸도라]
+  category: 점수
+  short: 깡을 할 때마다 표시패를 한 장 더 뒤집어 늘어나는 도라.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    깡을 하면 처음 표시패 옆의 패를 한 장 더 뒤집습니다. 그 다음 패가 깡도라이고, **누가 화료하든** 손에 있으면 한 장마다 1판입니다. M리그는 깡이 확인되면 바로 뒤집습니다(4장 5조).
+    그래서 깡은 내 점수뿐 아니라 다른 사람의 점수도 올릴 수 있습니다. 창깡으로 화료하면 그 깡의 깡도라는 붙지 않습니다(M리그 9장 1조 3).
+  related: [kan, dora, dora-hyojihai, uradora]
+  sources:
+    - https://mahjongsoul.yo-star.com/kr/classroom
+    - https://m-league.jp/about/
+  check: false
+
+# ───────── 점수: 판·부·점수 구간 ─────────
+- id: han
+  term: 판
+  ja: 翻
+  aka: [판수, 한, 翻]
+  category: 점수
+  short: 역과 도라로 세는 점수 단위. 판이 많을수록 점수가 높습니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    역마다 정해진 판수와 도라 수를 더한 것이 그 화료의 판수입니다. 예: 리치 1 + 탕야오 1 + 도라 2 = 4판.
+    판수와 **부**로 점수를 구합니다. 5판부터는 부와 상관없이 만관 이상으로 정해집니다.
+    - 5판 **만관** · 6~7판 **하네만** · 8~10판 **배만** · 11~12판 **삼배만** · 13판 이상은 룰에 따라 헤아림 역만(작혼) 또는 삼배만(M리그)
+    이 사이트는 단위를 「판」, 개수를 말할 때 「판수」라고 씁니다.
+  related: [fu, yaku, dora, mangan, haneman]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-7/
+  check: false
+
+- id: fu
+  term: 부
+  ja: 符
+  aka: [부수, 후]
+  category: 점수
+  short: 손 모양·대기·화료 방법으로 세는 또 하나의 점수 단위. 판수와 함께 점수를 정합니다.
+  tiles: null
+  han: null
+  rule_note: 연풍패 머리는 M리그 2부, 작혼 4부입니다.
+  detail: |
+    기본 20부에 아래를 더하고, 마지막에 1의 자리를 올려 10부 단위로 맞춥니다(M리그 3장 3조).
+    - 멘젠 론 10부 · 쯔모 2부(핑후 쯔모는 붙이지 않음)
+    - 간짱·변짱·단기 대기 2부 · 역패 머리 2부
+    - 커쯔: 2~8 밍커 2부·안커 4부, 1·9·자패는 두 배(밍커 4부·안커 8부). 깡쯔는 커쯔의 4배
+    예외: 치또이쯔는 늘 25부, 핑후 쯔모는 20부, 후로한 손을 핑후 모양으로 론하면 30부입니다.
+    점수는 대략 「부 × 2를 (판수 + 2)번 곱한 값」의 4배(자)·6배(친)를 100점 단위로 올린 것입니다. 이 사이트는 단위를 「부」, 개수를 「부수」라고 씁니다.
+  related: [han, pinfu, chitoitsu, anko, minko, kantsu, janto]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-7/
+    - https://9db.jp/dqwalk/data/7636?p=3
+  check: false
+
+- id: mangan
+  term: 만관
+  ja: 満貫
+  aka: [만간, 망간]
+  category: 점수
+  short: 자 8,000점 · 친 12,000점. 보통 5판이면 만관입니다.
+  tiles: null
+  han: null
+  rule_note: 30부 4판·60부 3판을 만관으로 올려 주는 절상만관이 M리그에는 있고, 작혼에는 없습니다.
+  detail: |
+    판수와 부로 계산한 점수가 커지면 위를 잘라 만관으로 맞춥니다. 만관이 되는 경우는 **5판**, **4판 40부 이상**, **3판 70부 이상**입니다.
+    쯔모면 자가 화료했을 때 친이 4,000점·다른 자가 2,000점씩 내고, 친이 화료했을 때 자 셋이 4,000점씩 냅니다.
+    이보다 높은 구간은 하네만(1.5배) · 배만(2배) · 삼배만(3배) · 역만(4배)입니다.
+  related: [haneman, baiman, kiriage-mangan, han, nagashi-mangan]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-7/
+  check: false
+
+- id: haneman
+  term: 하네만
+  ja: 跳満
+  aka: [하네, 도약만관]
+  category: 점수
+  short: 6~7판. 자 12,000점 · 친 18,000점.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    만관의 1.5배입니다. 예를 들어 멘젠 청일색(6판)은 그것만으로 하네만입니다. 쯔모면 자 화료는 친 6,000점·자 3,000점씩, 친 화료는 자 셋이 6,000점씩 냅니다.
+  related: [mangan, baiman, han, chinitsu]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-7/
+  check: false
+
+- id: baiman
+  term: 배만
+  ja: 倍満
+  aka: [바이만]
+  category: 점수
+  short: 8~10판. 자 16,000점 · 친 24,000점.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    만관의 2배입니다. 쯔모면 자 화료는 친 8,000점·자 4,000점씩, 친 화료는 자 셋이 8,000점씩 냅니다.
+  related: [haneman, sanbaiman, mangan, han]
+  sources:
+    - https://m-league.jp/about/
+    - /study/riichi-101-7/
+  check: false
+
+- id: sanbaiman
+  term: 삼배만
+  ja: 三倍満
+  aka: [산바이만]
+  category: 점수
+  short: 11~12판. 자 24,000점 · 친 36,000점. M리그는 13판 이상도 삼배만입니다.
+  tiles: null
+  han: null
+  rule_note: 작혼은 13판 이상이면 헤아림 역만, M리그는 삼배만이 최고입니다.
+  detail: |
+    만관의 3배입니다. M리그는 역만이 아닌 역이 겹친 화료는 **삼배만이 상한**이라(6장 6조 2), 판수가 13판을 넘어도 삼배만입니다.
+  related: [baiman, kazoe-yakuman, yakuman, han]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: kazoe-yakuman
+  term: 헤아림 역만
+  ja: 数え役満
+  aka: [카조에 역만, 카조에]
+  category: 점수
+  short: 역만이 아닌 역과 도라를 더해 13판 이상이 되면 역만으로 쳐 주는 규칙.
+  tiles: null
+  han: null
+  rule_note: M리그에는 없습니다(13판 이상도 삼배만). 작혼에는 있습니다.
+  detail: |
+    예를 들어 리치·멘젠쯔모·청일색·도라를 합쳐 13판이 넘으면, 작혼에서는 역만 점수(자 32,000 · 친 48,000)를 받습니다.
+    일본 프로 단체는 대부분 쓰지 않지만, 일본프로마작연맹은 2025년부터 인정하도록 바꿨습니다(이 사이트 「작혼 룰 vs 프로 룰」).
+  related: [sanbaiman, yakuman, han]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: kiriage-mangan
+  term: 절상만관
+  ja: 切り上げ満貫
+  aka: [키리아게 만관, 절상 만관, 키리아게]
+  category: 점수
+  short: 30부 4판(7,700점)과 60부 3판을 만관(8,000점)으로 올려 주는 규칙.
+  tiles: null
+  han: null
+  rule_note: M리그에는 있고, 작혼에는 없습니다.
+  detail: |
+    30부 4판과 60부 3판은 원래 자 7,700점 · 친 11,600점인데, 이것을 만관(자 8,000 · 친 12,000)으로 올려 줍니다.
+    M리그 룰은 판수에 기본 2판(場ゾロ)을 넣어 세므로 원문에는 「30符6翻은 절상만관」으로 적혀 있습니다(6장 4조 2). 이 사이트 표기로는 30부 4판입니다.
+  related: [mangan, fu, han]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: daburu-yakuman
+  term: 더블 역만
+  ja: ダブル役満
+  aka: [더블역만, 이배 역만]
+  category: 점수
+  short: 역만 점수의 2배(자 64,000 · 친 96,000)를 받는 화료.
+  tiles: null
+  han: null
+  rule_note: M리그는 서로 다른 역만이 겹칠 때만 2배입니다. 작혼은 겹칠 때와 함께, 스안커 단기·국사무쌍 13면 대기·순정구련보등·대사희를 그 자체로 더블 역만으로 칩니다.
+  detail: |
+    예를 들어 대삼원과 자일색이 동시에 되면 역만 2개라 2배입니다. M리그는 2개면 2배, 3개면 3배로 계산합니다(6장 6조 1).
+    작혼은 특히 어려운 역만 네 가지(스안커 단기·국사무쌍 13면 대기·순정구련보등·대사희)도 하나만으로 더블 역만입니다.
+  related: [yakuman, suanko-tanki, kokushi-muso, churen-poto, shosushi-daisushi]
+  sources:
+    - https://m-league.jp/about/
+    - https://game8.jp/jantama/614720
+    - https://9db.jp/dqwalk/data/7636?p=3
+  check: false
+
+# ───────── 점수: 순위·종료 ─────────
+- id: genten-kaeshi
+  term: 시작 점수 / 반환 점수
+  ja: 配給原点 / 返し
+  aka: [원점, 배급원점, 반환점, 카에시, 기준 점수]
+  category: 점수
+  short: 반장을 시작할 때 나눠 받는 점수 / 끝난 뒤 성적을 셀 때 빼는 점수. 「2만 5천 점 시작, 3만 점 반환」처럼 부릅니다.
+  tiles: null
+  han: null
+  rule_note: 작혼 단위전은 시작 점수와 반환 점수가 둘 다 25,000점입니다. 1위가 30,000점에 못 미치면 서입하는 30,000점은 반환 점수가 아닙니다.
+  detail: |
+    M리그는 25,000점으로 시작하고, 끝난 점수에서 30,000점을 빼서 성적을 셉니다(6장 1조). 여기에 **순위점**을 더한 것이 포인트입니다. 예를 들어 42,000점으로 1위면 (42,000 − 30,000) ÷ 1,000 + 50 = +62포인트입니다.
+    반환 점수가 시작 점수보다 높으면 그 차이를 네 명분 모은 몫(**오카**)이 1위에게 갑니다. M리그는 (30,000 − 25,000) × 4 = 20,000점입니다.
+    일본어 「원점(原点)」은 룰에 따라 시작 점수를 가리키기도 하고(M리그 원문), 반환 점수를 가리키기도 합니다. 그래서 이 사이트는 「원점」 대신 시작 점수·반환 점수라고 씁니다.
+  related: [juniten, uma, oka]
+  sources:
+    - https://m-league.jp/about/
+    - https://ja.wikipedia.org/wiki/麻雀の点
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: uma
+  term: 우마
+  ja: ウマ
+  aka: [순위 우마]
+  category: 점수
+  short: 순위에 따라 아래 순위가 위 순위에게 주는 점수. 「10-30」처럼 부릅니다.
+  tiles: null
+  han: null
+  rule_note: 작혼 단위전은 5-15(+15 / +5 / −5 / −15)입니다.
+  detail: |
+    「10-30」은 3위가 2위에게 1만 점, 4위가 1위에게 3만 점을 준다는 뜻으로, 순위점으로 +30 / +10 / −10 / −30입니다.
+    M리그는 우마 10-30에 오카 +20을 더해 순위점이 1위 +50 · 2위 +10 · 3위 −10 · 4위 −30입니다(6장 2조).
+  related: [oka, juniten, genten-kaeshi]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: oka
+  term: 오카
+  ja: オカ
+  aka: [톱 상]
+  category: 점수
+  short: 처음 나눠 받는 점수가 정산 때 빼는 점수보다 낮을 때(예 25,000점 시작·30,000점 정산), 그 차이를 모아 1위가 혼자 받는 몫.
+  tiles: null
+  han: null
+  rule_note: 작혼 단위전은 25,000점으로 시작해 25,000점으로 정산해서 오카가 없습니다.
+  detail: |
+    M리그는 (30,000 − 25,000) × 4명 = 20,000점, 곧 **+20포인트**가 1위에게 갑니다. 그래서 1위의 가치가 특히 큽니다.
+    M리그 룰 원문은 오카를 따로 적지 않고 순위점(1위 +50)에 넣어 두었습니다.
+  related: [uma, juniten, genten-kaeshi]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: juniten
+  term: 순위점
+  ja: 順位点
+  aka: [순위 점수, 우마오카]
+  category: 점수
+  short: 반장이 끝난 뒤 순위에 따라 더하고 빼는 점수. 우마와 오카를 합친 것입니다.
+  tiles: null
+  han: null
+  rule_note: 작혼 단위전은 +15 / +5 / −5 / −15입니다(25,000점으로 시작해 25,000점으로 정산해서 오카 없음).
+  detail: |
+    M리그는 1위 +50 · 2위 +10 · 3위 −10 · 4위 −30(1,000점 = 1포인트)입니다(6장 2조). 같은 점수면 순위점을 나눠 갖고, 3명이 같으면 기가에 가까운 사람이 끝수를 더 받습니다.
+    M리그 포인트 = (끝난 점수 − 30,000) ÷ 1,000 + 순위점. 여러 룰을 같은 기준으로 비교한 표는 「작혼 룰 vs 프로 룰」에 있습니다.
+  related: [uma, oka, genten-kaeshi, chicha]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: tobi
+  term: 토비
+  ja: トビ / 飛び
+  aka: [하코, 하코텐, 날기]
+  category: 점수
+  short: 누군가의 점수가 0점 아래로 내려가 반장이 그 자리에서 끝나는 것.
+  tiles: null
+  han: null
+  rule_note: M리그에는 없습니다(0점 아래여도 끝까지 칩니다). 작혼에는 있습니다.
+  detail: |
+    작혼은 누군가의 점수가 0점 아래가 되면 반장이 바로 끝납니다. 그래서 점수가 적은 사람에게서 큰 점수를 론하면 그 자리에서 대국이 끝나기도 합니다.
+    M리그는 점수가 없어져도 마지막 국까지 계속합니다(3장 2조 4).
+  related: [orasu, tonpusen-hanchan]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: daburon
+  term: 더블론
+  ja: ダブロン
+  aka: [두 집 론, 더블 론, 다부론]
+  category: 점수
+  short: 한 패로 두 사람이 동시에 론 화료하는 것.
+  tiles: null
+  han: null
+  rule_note: M리그에는 없습니다. 작혼에는 있습니다.
+  detail: |
+    작혼은 한 사람이 버린 패로 두 사람이 론하면 둘 다 화료하고, 버린 사람이 두 사람 몫을 모두 냅니다.
+    M리그는 한 국의 화료자가 한 명뿐이라, 버린 사람의 하가 → 대면 → 상가 순서로 가까운 한 사람만 화료합니다(5장 1조 3). 일본어로 이것을 「아타마하네(頭ハネ)」라고 합니다.
+  related: [ron, hoju, kamicha-shimocha-toimen]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
+  check: false
+
+- id: sekinin-barai
+  term: 책임지불
+  ja: 責任払い / 包
+  aka: [파오, 책임 지불, 포]
+  category: 점수
+  short: 역만을 확정시키는 패를 퐁·깡하게 해 준 사람이 그 역만 점수를 책임지는 규칙.
+  tiles: null
+  han: null
+  rule_note: 작혼은 대삼원·대사희에 적용합니다(스깡쯔는 아님).
+  detail: |
+    M리그는 **대삼원·대사희·스깡쯔**에 적용합니다(8장 1조). 예를 들어 삼원패 2종을 이미 드러낸 사람에게 세 번째 삼원패를 퐁·깡하게 해 주면 책임자가 됩니다.
+    그 사람이 쯔모로 화료하면 책임자가 혼자 다 내고, 다른 사람이 방총하면 방총한 사람과 책임자가 반씩 냅니다. 본장 점수는 책임자가 냅니다(M리그 8장).
+  related: [daisangen, shosushi-daisushi, sukantsu, yakuman]
+  sources:
+    - https://m-league.jp/about/
+    - /study/rules-mahjongsoul-vs-pro/
   check: false
