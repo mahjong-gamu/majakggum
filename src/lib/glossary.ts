@@ -89,10 +89,14 @@ export async function renderMd(src: string) {
 const HOSTS: [RegExp, string][] = [
   [/^https:\/\/mahjongsoul\.yo-star\.com\/kr\/classroom/, '작혼 마작 교실'],
   [/^https:\/\/m-league\.jp\//, 'M리그 공식 사이트'],
+  [/^https:\/\/gall\.dcinside\.com\/mgallery\/board\/view\/\?id=riichimahjong/, '디시인사이드 리치마작 마이너 갤러리'],
   [/^https:\/\/gall\.dcinside\.com\//, '디시인사이드 마작 갤러리'],
   [/^https:\/\/news\.livedoor\.com\//, '라이브도어 뉴스'],
   [/^https:\/\/game8\.jp\//, 'Game8(작혼 공략)'],
   [/^https:\/\/9db\.jp\//, '9db(작혼 룰 정리)'],
+  [/^https:\/\/namu\.wiki\//, '나무위키'],
+  [/^https:\/\/ja\.wikipedia\.org\//, '일본어 위키백과'],
+  [/^https:\/\/news\.allabout\.co\.jp\//, 'All About 뉴스'],
 ];
 
 // sources → 이 사이트 글(공개된 것만)과 바깥 링크

@@ -593,8 +593,8 @@
 
 - id: tatsu
   term: 타쯔
-  ja: 塔子
-  aka: [탑쯔, 탓쯔]
+  ja: 塔子 / 搭子
+  aka: [탑쯔, 탓쯔, 따쯔]
   category: 손패 모양
   short: 한 장만 더 오면 슌쯔가 되는 2장. 양면·간짱·변짱이 있습니다.
   tiles: "45s 13m 89p"
@@ -604,8 +604,10 @@
     위 예는 왼쪽부터 양면(3·6s 대기), 간짱(2m 대기), 변짱(7p 대기)입니다. 받을 수 있는 패가 많은 순서도 양면 > 간짱 = 변짱입니다.
     또이쯔도 커쯔 후보지만, 보통 타쯔와 따로 셉니다.
   related: [ryanmen, kanchan, penchan, burokku, gukei]
-  sources: []
-  check: true   # 타쯔 뜻 출처 보강 필요(사이트 글에 아직 설명 없음)
+  sources:
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+  check: false
 
 - id: koritsuhai
   term: 고립패
@@ -636,8 +638,11 @@
     위 예는 몸통 3개 + 머리가 이미 있고, 따로 떨어진 `8m` 과 `2p` 가 남은 **쿳츠키 1샹텐**입니다. 6~9m이나 1~4p처럼 어느 쪽이든 붙는 패가 오면 텐파이가 됩니다.
     받을 수 있는 패 종류가 많아 넓은 1샹텐이지만, 텐파이 때 대기가 나빠질 수 있다는 점은 생각해야 합니다.
   related: [koritsuhai, shanten, yukohai]
-  sources: []
-  check: true   # 쿳츠키 출처 보강 필요
+  sources:
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+    - https://gall.dcinside.com/board/view/?id=majak&no=596984
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+  check: false
 
 - id: gukei
   term: 우형
@@ -1096,8 +1101,11 @@
     실제 탁에서는 손 동작(쯔모한 패를 그대로 내는지, 손패에서 꺼내는지)으로 구분합니다. 작혼도 대국 중에는 손 동작으로만 보이고, **복기(패보) 화면에서만** 쯔모기리한 패가 어둡게 표시됩니다. 리치한 사람은 계속 쯔모기리만 합니다.
     상대가 **테다시**를 하면 손 모양이 바뀌었다는 뜻이라, 텐파이가 가까워졌는지 읽는 단서가 됩니다.
   related: [sutehai, tsumo]
-  sources: []
-  check: true   # 출처 링크 보강 필요(작혼 표시 방식은 마작껌 확인 11/13)
+  sources:
+    - https://ja.wikipedia.org/wiki/摸打
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+  check: false
 
 - id: hoju
   term: 방총
@@ -1443,7 +1451,7 @@
 - id: ryankan
   term: 량칸
   ja: 両嵌
-  aka: [리앙칸, 양감]
+  aka: [리앙칸, 양감, 량칸짱, 양간짱]
   category: 손패 모양
   short: 간짱 두 개가 겹친 3장 모양(예 135). 두 가지 가운데 패를 받습니다.
   tiles: "135m"
@@ -1453,8 +1461,11 @@
     `135m` 은 `2m` 이 오면 `123m`, `4m` 이 오면 `345m` 이 됩니다. 간짱 하나(1종 4장)보다 받는 패가 두 배라 양면과 비슷한 넓이입니다.
     다만 텐파이 때는 간짱 대기가 남기 쉬우므로, 양면으로 바뀔 수 있는지도 함께 봅니다.
   related: [kanchan, tatsu, nakabukure, haikoritsu]
-  sources: []
-  check: true   # 량칸 뜻 출처 보강 필요
+  sources:
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+  check: false
 
 - id: agarihai-machihai
   term: 화료패 / 대기패
@@ -2756,3 +2767,504 @@
     - https://m-league.jp/about/
     - /study/rules-mahjongsoul-vs-pro/
   check: false
+
+# ═════════ 묶음 3 — 수비·전략 25개 (2026-11-14 확정, 마작껌 확인) ═════════
+# ───────── 안전패 찾기 ─────────
+- id: anzenhai
+  term: 안전패 / 위험패
+  ja: 安全牌 / 危険牌
+  aka: [안파이, 안패, 안전 패, 위험 패]
+  category: 수비·전략
+  short: 버려도 론당하지 않거나 그럴 가능성이 낮은 패 / 론당할 가능성이 높은 패.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    리치가 걸리거나 텐파이로 보이는 사람이 있을 때, 그 사람에게 방총하지 않을 패를 **안전패**, 방총할 가능성이 높은 패를 **위험패**라고 합니다. 버린 패에 론이 나오지 않으면 「통했다」고 합니다.
+    100% 안전한 것은 **현물**뿐입니다. 현물이 없으면 근거가 강한 순서로 고릅니다. 마작 갤러리의 수비 강의는 대략 이렇게 순서를 매깁니다.
+    - 자패, 스지인 1·9 (샤보·단기에만 맞음)
+    - 벽의 바깥쪽 패(**노찬스**)
+    - 스지인 2·8, **나카스지**
+    - 스지인 3·7, 근거 없는 1·9
+    - **원찬스**
+    근거가 하나도 없는 가운데 패(무스지 4·5·6)가 가장 위험합니다. 안전패는 「누구에게」 안전한지가 사람마다 다르다는 점도 함께 봅니다.
+  related: [genbutsu, suji, kabe, nochansu-wanchansu, betaori, hoju]
+  sources:
+    - https://gall.dcinside.com/board/view/?id=majak&no=891380
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+    - /study/riichi-101-6/
+  check: false
+
+- id: genbutsu
+  term: 현물
+  ja: 現物
+  aka: [겐부쯔, 겐부츠]
+  category: 수비·전략
+  short: 그 사람이 이미 버려서, 그 사람에게는 절대 론당하지 않는 패.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    자기가 버린 패로는 론할 수 없다는 **후리텐** 규칙 때문에, 상대의 버림패와 같은 패는 그 상대에게 100% 안전합니다(M리그 5장 5조).
+    리치한 사람에게는 현물이 더 늘어납니다. 리치 뒤에 다른 사람이 버렸는데 론이 나오지 않은 패도, 리치한 사람이 못 본 체한 것이 되어 그 국 끝까지 론할 수 없기 때문입니다.
+    주의할 점은 **그 사람에게만** 안전하다는 것입니다. 두 사람이 리치했다면 두 사람 모두의 현물(공통 현물)을 찾아야 합니다.
+  related: [anzenhai, furiten, betaori, awaseuchi, sutehai]
+  sources:
+    - https://m-league.jp/about/
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+    - /study/riichi-101-6/
+  check: false
+
+- id: suji
+  term: 스지 / 무스지
+  ja: 筋 / 無筋
+  aka: [스지패, 줄기패, 근, 무근]
+  category: 수비·전략
+  short: 상대가 버린 패와 3 차이 나는 패(양면 대기에는 안 맞음) / 그런 근거가 없는 패.
+  tiles: "147m 258p 369s"
+  han: null
+  rule_note: null
+  detail: |
+    양면 대기는 늘 3 차이 나는 두 패를 기다립니다(`23m` 은 `1m`·`4m`, `56m` 은 `4m`·`7m`). 그래서 상대가 `4m` 를 버렸다면 `1m`·`7m` 로는 양면 대기에 맞지 않습니다. 맞는다면 `4m` 도 화료패라 후리텐이기 때문입니다. 이 관계를 **스지**라고 하고, 묶음은 1-4-7, 2-5-8, 3-6-9 세 가지입니다.
+    스지는 **양면만** 지워 줍니다. 간짱·변짱·샤보·단기에는 그대로 맞습니다.
+    - 스지 1·9: 샤보·단기에만 맞음 → 꽤 안전
+    - 스지 2·8: 간짱(`13m` 의 `2m`)에도 맞음
+    - 스지 3·7: 간짱에 더해 변짱(`12m` 의 `3m`)에도 맞음 → 가장 덜 안전
+    4·5·6은 양쪽 스지가 다 버려져야 양면이 지워집니다(**나카스지**). 스지 근거가 없는 패는 **무스지**라고 합니다.
+  related: [nakasuji-katasuji, anzenhai, ryanmen, kanchan, hikkake, furiten]
+  sources:
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+    - https://gall.dcinside.com/board/view/?id=majak&no=891380
+  check: false
+
+- id: nakasuji-katasuji
+  term: 나카스지 / 카타스지
+  ja: 中筋 / 片筋
+  aka: [가운데 스지, 편스지, 반스지]
+  category: 수비·전략
+  short: 양쪽 스지가 모두 버려진 4·5·6 / 한쪽 스지만 버려진 4·5·6.
+  tiles: "1m 4m 7m"
+  han: null
+  rule_note: null
+  detail: |
+    `4m` 는 `23m` 양면(1·4m 대기)과 `56m` 양면(4·7m 대기) 두 쪽에 맞을 수 있습니다. 그래서 상대가 `1m` 와 `7m` 를 **둘 다** 버렸을 때만 양면이 지워지고, 이때의 `4m` 를 **나카스지**라고 합니다. 2·8이 버려졌을 때의 5, 3·9가 버려졌을 때의 6도 같습니다.
+    `1m` 만 버려졌을 때의 `4m` 는 **카타스지**입니다. `56m` 양면에는 그대로 맞으므로 안전패로 보지 않고, 참고만 합니다.
+    나카스지도 간짱(`35m` 의 `4m`)·샤보·단기에는 맞습니다.
+  related: [suji, anzenhai, ryanmen, kanchan]
+  sources:
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+  check: false
+
+- id: kabe
+  term: 벽
+  ja: 壁
+  aka: [카베, 4장 벽]
+  category: 수비·전략
+  short: 어떤 수패 4장이 내 손과 버림패·후로에서 모두 보이는 상태.
+  tiles: "7777p 89p"
+  han: null
+  rule_note: null
+  detail: |
+    `7p` 4장이 모두 보이면, 아무도 `7p` 를 써서 대기를 만들 수 없습니다. 그래서 `8p` 는 `67p` 양면과 `79p` 간짱에, `9p` 는 `78p` 양면에 맞지 않습니다. 이렇게 벽의 **바깥쪽 패**는 샤보·단기에만 맞는 패가 되고, 이것을 **노찬스**라고 합니다.
+    조심할 점은 벽의 **안쪽 패**입니다. `7p` 가 벽이어도 `6p` 는 `45p` 양면에, `5p` 는 `34p` 양면에 그대로 맞습니다.
+    벽은 「내 눈에 보이는 패」로 세므로, 내 손에 든 패도 함께 셉니다. 3장만 보일 때는 **원찬스**입니다.
+  related: [nochansu-wanchansu, anzenhai, suji, shanpon, tanki]
+  sources:
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+  check: false
+
+- id: nochansu-wanchansu
+  term: 노찬스 / 원찬스
+  ja: ノーチャンス / ワンチャンス
+  aka: [노 찬스, 원 찬스, 3장 벽, 더블 원찬스]
+  category: 수비·전략
+  short: 벽(4장) 덕분에 순쯔 대기에는 맞지 않는 패 / 3장만 보여서 맞을 가능성이 조금 남은 패.
+  tiles: "777p 89p"
+  han: null
+  rule_note: null
+  detail: |
+    `7p` 가 4장 다 보이면 `8p`·`9p` 는 양면·간짱에 맞을 길이 없어 **노찬스**입니다. 맞는다면 샤보나 단기뿐입니다.
+    위 그림처럼 `7p` 가 3장만 보이면 **원찬스**입니다. 남은 한 장을 상대가 `67p` 나 `78p` 로 쓰고 있을 수 있어서, 근거 없는 패보다 조금 나은 정도로만 봅니다. 수비 강의에서도 원찬스는 안전도 순서의 맨 아래에 둡니다.
+    옆의 두 패가 모두 3장씩 보이면(예: `7p`·`8p` 가 3장씩일 때의 `9p`) **더블 원찬스**라고 하고, 원찬스보다 조금 더 믿을 수 있습니다.
+    커뮤니티에서는 「벽」과 「노찬스」를 같은 뜻으로 쓰기도 합니다.
+  related: [kabe, anzenhai, suji, ryanmen]
+  sources:
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+    - https://news.allabout.co.jp/articles/o/82494/
+    - https://gall.dcinside.com/board/view/?id=majak&no=891380
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+  check: false
+
+- id: shonpai
+  term: 생패
+  ja: 生牌
+  aka: [숀파이, 쇼파이, 초패]
+  category: 수비·전략
+  short: 그 국에서 아직 한 장도 버려지지 않은 패.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    주로 자패, 그중에서도 역패에 대해 씁니다. 종반까지 한 장도 나오지 않은 역패는 누군가 또이쯔나 커쯔로 들고 있을 가능성이 커서, 버리면 퐁을 당하거나 샤보·단기에 맞을 수 있습니다.
+    반대로 이미 2장, 3장 보인 자패는 맞을 수 있는 모양이 거의 남지 않아 안전패로 씁니다.
+  related: [anzenhai, jihai, yakuhai, shibori, jigoku-machi]
+  sources:
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+  check: false
+
+- id: urasuji-matagisuji
+  term: 우라스지 / 마타기스지
+  ja: 裏筋 / 跨ぎ筋
+  aka: [뒷스지, 뒷줄기, 걸침 스지]
+  category: 수비·전략
+  short: 버림패 바로 옆 패의 스지 / 버림패를 사이에 낀 스지. 둘 다 위험하다고 보는 읽기입니다.
+  tiles: "13m 4m"
+  han: null
+  rule_note: null
+  detail: |
+    **우라스지**: 위 그림처럼 `13m` 간짱에 `4m` 가 오면 `1m` 를 버리고 `34m` 양면(2·5m 대기)으로 바꿉니다. 그래서 `1m` 가 버려졌을 때 2·5m 를 우라스지라고 합니다. `5m` 가 버려졌다면 1·4m 와 6·9m 가 우라스지입니다.
+    **마타기스지**: `556m` 에서 `5m` 를 버리면 `56m` 양면(4·7m 대기)이 남습니다. 이렇게 버림패를 사이에 낀 스지(`5m` 라면 3·6m 와 4·7m)가 마타기스지입니다. 리치 선언패처럼 늦게 손에서 나온 패에 대해 주로 봅니다.
+    둘 다 「그렇게 버렸을 수도 있다」는 짐작이라, 현물·스지·벽처럼 확실한 근거는 아닙니다.
+  related: [suji, aidayonken, riichi-sengenhai, tsumogiri-tedashi, kanchan, ryanmen]
+  sources:
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+  check: false
+
+- id: aidayonken
+  term: 아이다욘켄
+  ja: 間四軒
+  aka: [사이 4칸, 아이다 욘켄]
+  category: 수비·전략
+  short: 같은 종류에서 4칸 떨어진 두 패가 버려졌을 때, 그 사이의 스지가 위험하다고 보는 읽기.
+  tiles: "2s 7s"
+  han: null
+  rule_note: null
+  detail: |
+    상대 버림패에 `2s` 와 `7s` 가 있으면 그 사이의 3·6s 가 아이다욘켄입니다. `2s` 의 우라스지도 3·6s, `7s` 의 우라스지도 3·6s 라서 두 번 겹치기 때문입니다.
+    짝은 네 가지입니다: 1·6 → 2·5, 2·7 → 3·6, 3·8 → 4·7, 4·9 → 5·8.
+    우라스지와 마찬가지로 짐작이므로, 다른 근거가 없을 때 참고하는 정도로 씁니다.
+  related: [urasuji-matagisuji, suji, anzenhai]
+  sources:
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+  check: false
+
+# ───────── 버리는 방법 ─────────
+- id: betaori
+  term: 베타오리
+  ja: ベタオリ
+  aka: [오리, 내리기, 완전히 내리기, 베타 오리]
+  category: 수비·전략
+  short: 그 국의 화료를 포기하고, 손을 무너뜨려서라도 안전한 패만 버리는 것.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    리치가 걸렸는데 내 손이 멀거나 싸다면, 화료를 포기하고 방총만 피하는 쪽이 이득일 때가 많습니다. 수비로 돌아서는 것을 「내린다(오리)」고 하고, 화료 가능성을 아예 버리고 내리는 것이 베타오리입니다.
+    버리는 순서는 **현물** → 자패·스지 1·9 → 벽의 바깥쪽 패 → 그 밖의 스지 순으로, 가장 안전한 것부터입니다. 완성된 몸통이나 또이쯔를 깨서라도 안전패를 냅니다.
+    중간에 마음이 바뀌어 위험패를 버리면 내린 보람이 없어지므로, 내리기로 했으면 끝까지 내리는 것이 기본입니다.
+  related: [anzenhai, genbutsu, mawashiuchi, oshihiki, zentsu, hoju]
+  sources:
+    - https://gall.dcinside.com/board/view/?id=majak&no=891380
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+  check: false
+
+- id: mawashiuchi
+  term: 마와시우치
+  ja: 回し打ち
+  aka: [돌려 치기, 마와시]
+  category: 수비·전략
+  short: 위험패는 버리지 않으면서, 손을 돌려 화료나 텐파이 가능성은 남겨 두는 것.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    베타오리와 끝까지 미는 것의 가운데입니다. 위험한 패가 들어오면 그 패를 쓰는 쪽으로 손 모양을 바꾸고, 대신 안전한 패를 버리면서 텐파이를 다시 노립니다.
+    손이 느려지거나 점수가 내려가지만, 방총을 피하면서 화료나 유국 때 텐파이(노텐 벌점)를 챙길 수 있습니다. 안전패가 넉넉하고 손 모양에 여유가 있을 때 쓰기 좋습니다.
+  related: [betaori, oshihiki, anzenhai, keishiki-tenpai, noten-bappu]
+  sources:
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+    - https://gall.dcinside.com/board/view/?id=majak&no=596984
+    - https://kanji.jepang.org/en/kosakata/%E5%9B%9E%E3%81%97%E6%89%93%E3%81%A1
+  check: false
+
+- id: awaseuchi
+  term: 아와세우치
+  ja: 合わせ打ち
+  aka: [맞춰 치기, 따라 버리기]
+  category: 수비·전략
+  short: 다른 사람이 방금 버린 패와 같은 패를 따라 버리는 것.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    바로 앞 사람(상가)이 버린 패에 아무도 론하지 않았다면, 그 패를 내가 곧바로 따라 버려도 누구에게도 론당하지 않습니다. 화료패를 못 본 체한 사람은 자기 다음 쯔모 전까지 론할 수 없기 때문입니다(일시 후리텐, M리그 5장 5조).
+    한 순이 지나면 이 근거는 사라집니다. 대면이나 하가가 버린 패는 그 뒤에 쯔모한 사람이 있으므로, 버린 본인에게만 현물입니다.
+    리치가 없어도 누가 텐파이인지 모를 때 가장 쉬운 수비 방법입니다.
+  related: [genbutsu, furiten, anzenhai, kamicha-shimocha-toimen, damaten]
+  sources:
+    - https://m-league.jp/about/
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+  check: false
+
+- id: toitsu-otoshi
+  term: 또이쯔 오토시
+  ja: 対子落とし
+  aka: [또이쯔오토시, 또이쯔 떨구기, 타쯔 오토시]
+  category: 수비·전략
+  short: 손에 있던 또이쯔 2장을 한 장씩 이어서 버리는 것.
+  tiles: "11z"
+  han: null
+  rule_note: null
+  detail: |
+    수비에서는 안전한 또이쯔 하나로 **두 순**을 버틸 수 있어 자주 씁니다. 예를 들어 이미 2장 보인 자패 또이쯔는 누구에게도 맞지 않는 패 2장입니다.
+    공격에서는 블록이 남을 때 약한 또이쯔를 정리하는 뜻으로도 씁니다. 타쯔 2장을 이어서 버리면 「타쯔 오토시」라고 합니다.
+    상대가 또이쯔 오토시를 하면 손에 블록이 넉넉하다는 뜻이라, 텐파이가 가깝다고 읽는 단서가 됩니다.
+  related: [toitsu, tatsu, betaori, anzenhai, burokku]
+  sources:
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+  check: false
+
+- id: sakigiri
+  term: 사키기리
+  ja: 先切り
+  aka: [먼저 버리기, 호패선타]
+  category: 수비·전략
+  short: 아직 쓸모가 있는 패를, 나중에 위험해지기 전에 미리 버리는 것.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    손에 여유가 있을 때 가운데 쪽 패를 먼저 버리고, 그 자리에 안전패를 들고 가는 방법입니다. 유효패가 조금 줄어드는 대신, 나중에 리치가 걸렸을 때 버릴 패가 생깁니다.
+    일찍 버린 패 주변은 상대가 안전하다고 여기기 쉬워서, 그쪽 대기가 잘 나오게 하는 효과를 노리기도 합니다.
+  related: [anzenhai, haikoritsu, yukohai, hikkake]
+  sources:
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+    - https://gall.dcinside.com/board/view/?id=majak&no=596984
+  check: false
+
+# ───────── 공수 판단 ─────────
+- id: oshihiki
+  term: 공수 판단
+  ja: 押し引き
+  aka: [오시히키, 밀고 당기기, 공수판단]
+  category: 수비·전략
+  short: 상대의 공격에 맞서 화료를 향해 밀지, 방총을 피해 내릴지 정하는 판단.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    일본어로는 밀기(押し)와 당기기(引き)를 합쳐 「오시히키」라고 합니다. 너무 밀어도, 너무 내려도 성적이 나빠진다고 해서 실력의 중심으로 꼽힙니다.
+    보통 이런 것을 함께 봅니다.
+    - **내 손**: 텐파이인지 몇 샹텐인지, 대기가 양면인지, 점수가 얼마인지
+    - **상대**: 친의 리치인지, 점수가 높아 보이는지, 몇 순째인지
+    - **버릴 패**: 지금 버려야 하는 패가 얼마나 위험한지, 안전패가 남아 있는지
+    - **점수 상황**: 순위와 남은 국 수(오라스에 가까울수록 크게 달라짐)
+    밀기로 하면 끝까지 미는 **젠츠**, 내리기로 하면 **베타오리**, 그 사이가 **마와시우치**입니다.
+  related: [betaori, mawashiuchi, zentsu, sensei-okkake-riichi, shanten, orasu]
+  sources:
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+  check: false
+
+- id: zentsu
+  term: 젠츠
+  ja: 全ツッパ
+  aka: [젠츳파, 풀젠츠, 뚫기, 전부 밀기]
+  category: 수비·전략
+  short: 리치가 걸려도 물러서지 않고, 필요 없는 패는 위험패라도 모두 버리며 화료를 노리는 것.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    일본어 「젠부 츳파리(전부 밀어붙이기)」를 줄인 말입니다. 내 손이 이미 좋은 대기의 텐파이이거나 점수가 높을 때, 또는 오라스에 화료하지 않으면 순위가 오르지 않을 때 고릅니다.
+    근거 없이 늘 젠츠만 하면 방총이 늘어납니다. 밀 만한 손인지 따져 보는 것이 **공수 판단**입니다.
+  related: [oshihiki, betaori, mawashiuchi, hoju, sensei-okkake-riichi]
+  sources:
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+  check: false
+
+- id: sashikomi
+  term: 사시코미
+  ja: 差し込み
+  aka: [일부러 방총, 걸려들기]
+  category: 수비·전략
+  short: 다른 사람의 화료패로 보이는 패를 일부러 버려 방총하는 것.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    손해처럼 보이지만 더 큰 손해를 막으려고 씁니다. 예를 들어 친이 높은 손으로 리치했을 때, 싼 손으로 후로한 다른 사람에게 일부러 방총해서 그 국을 끝내는 경우입니다. 오라스에 내 순위가 바뀌지 않는 점수라면, 방총해서 대국을 끝내 순위를 지키기도 합니다.
+    상대의 대기와 점수를 꽤 정확히 읽어야 해서 어려운 기술입니다.
+  related: [hoju, oshihiki, orasu, shibori, furo]
+  sources:
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+    - https://gall.dcinside.com/board/view/?id=majak&no=596984
+  check: false
+
+# ───────── 상대를 보는 수 ─────────
+- id: shibori
+  term: 시보리
+  ja: 絞り
+  aka: [묶기, 조이기]
+  category: 수비·전략
+  short: 다른 사람이 울 것 같은 패를 버리지 않고 쥐고 있는 것.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    치는 상가의 패로만 할 수 있어서, 주로 **하가**를 상대로 씁니다. 하가가 삭수 혼일색으로 보이면 삭수와 생패인 역패를 내주지 않는 식입니다.
+    내 손은 그만큼 느려지므로, 내 손이 화료하기 어려울 때나 하가의 손이 높아 보일 때 고릅니다. 반대로 일부러 울 패를 내주는 것은 「어시스트」라고 합니다.
+  related: [furo, chi, pon, kamicha-shimocha-toimen, shonpai, sashikomi]
+  sources:
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+    - https://gall.dcinside.com/board/view/?id=majak&no=596984
+  check: false
+
+- id: hikkake
+  term: 힛카케
+  ja: 引っ掛け
+  aka: [스지 낚시, 스지힛카케, 낚시 리치, 히카케, 모로힛카케]
+  category: 수비·전략
+  short: 내가 버린 패의 스지로 기다리는 것. 스지를 믿고 버린 패를 노립니다.
+  tiles: "13m"
+  han: null
+  rule_note: null
+  detail: |
+    `135m` 에서 `5m` 를 버리고 위 그림의 `13m` 간짱으로 리치하면 대기는 `2m` 입니다. 다른 사람이 보기에 `2m` 는 `5m` 의 스지라 안전해 보여서 나오기 쉽습니다.
+    스지는 양면만 지워 주고 간짱·샤보·단기는 못 지운다는 점을 이용한 것입니다. 리치 선언패의 스지로 기다리면 「모로힛카케」라고 따로 부릅니다.
+    수비하는 쪽에서는, 스지라도 3·7이나 리치 선언패의 스지는 조금 더 조심합니다.
+  related: [suji, kanchan, riichi, riichi-sengenhai, sakigiri]
+  sources:
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+    - https://gall.dcinside.com/board/view/?id=majak&no=596984
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+  check: false
+
+- id: jigoku-machi
+  term: 지옥 대기
+  ja: 地獄待ち
+  aka: [지옥 단기, 지옥단기, 지옥대기, 지고쿠마치]
+  category: 수비·전략
+  short: 이미 여러 장이 보여서 한 장밖에 남지 않은 패를 기다리는 대기.
+  tiles: "234m567p123789s 4z"
+  han: null
+  rule_note: null
+  detail: |
+    위 그림은 북 `4z` 단기입니다. 북이 버림패에 이미 2장 보인다면 남은 것은 한 장뿐이라 지옥 대기입니다(단기일 때는 「지옥 단기」라고도 합니다).
+    한 장뿐이라 화료하기 어려워 보이지만, 다른 사람에게는 2장 보인 자패가 가장 안전한 패로 보여서 수비하는 사람 손에서 나오기 쉽습니다.
+    수비하는 쪽에서는 2장 보인 자패도 100%는 아니라는 점만 기억해 두면 됩니다.
+  related: [tanki, jihai, shonpai, anzenhai, hikkake]
+  sources:
+    - https://namu.wiki/w/%EB%A6%AC%EC%B9%98%EB%A7%88%EC%9E%91/%EC%9A%A9%EC%96%B4
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+  check: false
+
+# ───────── 추가 5개 (11/14 마작껌 결정) ─────────
+- id: daten
+  term: 타점
+  ja: 打点
+  aka: [점수 크기, 고타점, 저타점]
+  category: 수비·전략
+  short: 화료했을 때 받는 점수의 크기. 「타점이 높다·낮다」처럼 씁니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    손이 얼마나 빨리 화료할 수 있는지(속도)와 짝을 이루는 말입니다. 역과 도라가 많아 판수가 높으면 「타점이 높은 손」, 1,000점짜리 손은 「타점이 낮은 손」입니다.
+    공수 판단에서 가장 먼저 보는 것 가운데 하나입니다. 내 타점이 높으면 위험패를 밀 값이 있고, 낮으면 내리는 쪽이 낫습니다. 상대의 타점이 얼마나 될지 짐작하는 것은 「타점 읽기」라고 합니다.
+  related: [han, dora, yaku, oshihiki, mangan]
+  sources:
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=121
+    - https://gall.dcinside.com/board/view/?id=majak&no=596984
+  check: false
+
+- id: ashisuto
+  term: 어시스트
+  ja: アシスト
+  aka: [도와주기, 아시스트]
+  category: 수비·전략
+  short: 다른 사람이 화료하도록, 그 사람이 울 만한 패를 일부러 내주는 것.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    내가 화료하기 어려울 때, 싼 손으로 후로한 사람이 빨리 화료하게 도와서 더 위험한 상대(친의 연장, 높은 리치)를 막는 방법입니다. 오라스에 내 순위를 지켜 줄 사람을 돕는 경우도 있습니다.
+    울 패를 내주는 데서 그치면 어시스트, 화료패까지 일부러 내주면 **사시코미**입니다. 반대로 울 패를 안 내주는 것은 **시보리**입니다.
+  related: [sashikomi, shibori, furo, orasu, oshihiki]
+  sources:
+    - https://gall.dcinside.com/board/view/?id=majak&no=596984
+  check: false
+
+- id: orasu-joken
+  term: 오라스 조건
+  ja: 条件
+  aka: [조건, 역전 조건, 순위 조건]
+  category: 수비·전략
+  short: 오라스에 순위를 올리려면 필요한 점수와 화료 방법. 「하네만 쯔모 조건」처럼 부릅니다.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    오라스에는 화료해도 순위가 그대로면 의미가 적으므로, 먼저 「몇 점이 필요한가」를 셉니다. 같은 점수 차이라도 화료 방법에 따라 조건이 달라집니다.
+    - **직격**: 내가 받는 만큼 상대가 잃어서, 차이가 화료 점수의 두 배만큼 줄어듭니다.
+    - **쯔모**: 세 사람이 나눠 내므로, 상대가 친인지 자인지에 따라 줄어드는 폭이 다릅니다.
+    - **다른 사람에게서 론**: 화료 점수만큼만 줄어듭니다.
+    본장과 공탁(리치봉)도 함께 셉니다. 조건에 못 미치는 화료패는 일부러 넘기기도 합니다(미노가시).
+  related: [orasu, chokugeki, minogashi, juniten, honba, kyotaku]
+  sources:
+    - https://ja.wikipedia.org/wiki/麻雀用語一覧
+  check: false
+
+- id: suji-kaunto
+  term: 스지 카운트
+  ja: 筋カウント
+  aka: [스지 카운팅, 1/18 이론]
+  category: 수비·전략
+  short: 리치한 사람에게 이미 통과한 스지 수를 세어, 남은 무스지가 얼마나 위험한지 가늠하는 방법.
+  tiles: null
+  han: null
+  rule_note: null
+  detail: |
+    양면 대기가 될 수 있는 스지는 수패 한 종류에 6개(1-4, 2-5, 3-6, 4-7, 5-8, 6-9), 세 종류를 합쳐 **18개**입니다. 리치가 양면 대기라면 이 18개 가운데 하나가 화료패입니다.
+    현물이나 통과한 패가 나올 때마다 스지가 지워집니다. `4m` 가 통과하면 1-4와 4-7 두 개, `1m` 가 통과하면 1-4 한 개가 지워집니다. 지워진 스지가 많을수록 남은 무스지 하나하나가 맞을 가능성은 커집니다.
+    그래서 초반 리치에는 무스지를 밀 만해도, 스지가 많이 통과한 종반에는 같은 무스지가 훨씬 위험합니다. 대기가 양면이 아닐 수도 있으므로 어림하는 기준으로만 씁니다.
+  related: [suji, anzenhai, oshihiki, ryanmen, genbutsu]
+  sources:
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=120
+  check: false
+
+- id: hojuritsu-agariritsu
+  term: 방총률 / 화료율
+  ja: 放銃率 / 和了率
+  aka: [방총율, 화료률, 아가리율, 쏘임률]
+  category: 수비·전략
+  short: 전체 국 가운데 내가 방총한 국의 비율 / 내가 화료한 국의 비율.
+  tiles: null
+  han: null
+  rule_note: 작혼 전적 화면에는 「방총」「화료」로만 적혀 있지만, 뜻은 방총률·화료율입니다.
+  detail: |
+    여러 대국을 모아서 보는 성적 지표입니다. 방총률은 수비가, 화료율은 공격이 어느 쪽으로 치우쳤는지 보여 줍니다.
+    둘은 함께 봐야 합니다. 방총률만 낮추려고 늘 내리면 화료율도 함께 내려가고, 화료율만 올리려고 늘 밀면 방총률이 올라갑니다. 그 균형을 잡는 것이 **공수 판단**입니다.
+    후로율·리치율과 함께 보면 치는 방식의 버릇을 알 수 있습니다.
+  related: [hoju, agari, oshihiki, betaori, zentsu]
+  sources:
+    - https://gall.dcinside.com/mgallery/board/view/?id=riichimahjong&no=304
+  check: false   # 작혼 전적 화면 표기는 마작껌 확인(11/14)

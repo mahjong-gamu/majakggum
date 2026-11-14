@@ -18,7 +18,7 @@
 - 마작 뉴스 글은 cardnews-bot 자동화가 월·수·금에 올립니다(게시 시각은 cardnews-bot `schedule.json`, 커밋 작성자 `mahjong-gamu`). 이 저장소에서 뉴스 글을 따로 만들지 않습니다.
 - 토요일 공부 시리즈(10:00)는 `src/content/study/` 의 글을 카드뉴스로 줄이거나, 새 주제면 공부 글도 함께 올립니다. 그래서 공부 글을 새로 쓸 때는 `draft: true` 나 `publishAt` 으로 시작하고, 같은 주제가 이미 있는지 `src/content/study/` 를 먼저 봅니다.
 - 예약 게시: `publishAt: "…+09:00"` → `.github/workflows/scheduled-publish.yml` 이 15분마다 공개.
-- 용어 사전: `src/data/glossary.yaml`(묶음 1·2, 152개) + `glossary-pending.yaml`. `GLOSSARY_PUBLIC`(src/lib/glossary.ts)이 꺼져 있으면 운영 사이트에 안 나옴(2026-11-14 켜서 공개함. `npm run dev` 에서는 항상 보임). 확정표가 아직 용어 표기의 원본(⑧에서 사전 파일로 바꿈).
+- 용어 사전: `src/data/glossary.yaml`(묶음 1·2·3, 177개) + `glossary-pending.yaml`. `GLOSSARY_PUBLIC`(src/lib/glossary.ts)이 꺼져 있으면 운영 사이트에 안 나옴(2026-11-14 켜서 공개함. `npm run dev` 에서는 항상 보임). 확정표가 아직 용어 표기의 원본(⑧에서 사전 파일로 바꿈).
 - Node 22.22 이상. 확인은 `npm run build`, 화면 확인은 `npm run dev`.
 
 ## 작업 규칙
@@ -50,6 +50,7 @@
 - 2026-11-13 새 용어(역패·부·양면·1샹텐·타쯔·만수 등 약 60개) 추가 확정 — 원본: cardnews-bot `docs/terms-glossary.md` 6장. 헷갈리기 쉬운 것: 친(오야X) · 1샹텐(이샹텐X) · 만수·통수·삭수(핀즈X) · 타쯔(탑쯔X).
 - 2026-11-14 추가 확정(깡쯔·도중 유국·상가/하가·기가·객풍패·밍커·화료형·화료패/대기패·리치 선언패·동장/남장·다면 대기 등) — 원본: cardnews-bot `docs/terms-glossary.md` 6-6. 헷갈리기 쉬운 것: 리치 선언패(선언패X).
 - 2026-11-14 묶음 2(역·점수) 확정 — 량페코(양페코X) · 치또이쯔(치또이X) · 소사희 / 대사희(사희화X) · 순위점 · 더블 역만 · 스안커 단기 · 국사무쌍 13면 대기 · 순정구련보등 · 시작 점수 / 반환 점수(원점·기준 점수X — 원점은 룰마다 뜻이 달라서). 원본: cardnews-bot `docs/terms-glossary.md` 6-7.
+- 2026-11-14 묶음 3(수비·전략) 확정 — 벽(카베X) · 젠츠(젠츳파X) · 생패(숀파이X) · 힛카케(스지 낚시X) · 지옥 대기(지옥 단기X) · 또이쯔 오토시(또이쯔오토시X) · 나카스지 · 카타스지 · 우라스지 · 마타기스지 · 아이다욘켄 · 사시코미 · 시보리 · 아와세우치 · 사키기리 · 노찬스 / 원찬스 · 타점 · 어시스트 · 오라스 조건 · 스지 카운트 · 방총률 / 화료율. 원본: cardnews-bot `docs/terms-glossary.md` 6-8.
 - **이미 올린 글은 새 표기로 소급해 고치지 않습니다.**
 
 ## 어디서 어떤 일을 하나
