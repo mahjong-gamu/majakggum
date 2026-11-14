@@ -18,7 +18,7 @@
 - 마작 뉴스 글은 cardnews-bot 자동화가 월·수·금에 올립니다(게시 시각은 cardnews-bot `schedule.json`, 커밋 작성자 `mahjong-gamu`). 이 저장소에서 뉴스 글을 따로 만들지 않습니다.
 - 토요일 공부 시리즈(10:00)는 `src/content/study/` 의 글을 카드뉴스로 줄이거나, 새 주제면 공부 글도 함께 올립니다. 그래서 공부 글을 새로 쓸 때는 `draft: true` 나 `publishAt` 으로 시작하고, 같은 주제가 이미 있는지 `src/content/study/` 를 먼저 봅니다.
 - 예약 게시: `publishAt: "…+09:00"` → `.github/workflows/scheduled-publish.yml` 이 15분마다 공개.
-- 용어 사전: `src/data/glossary.yaml`(묶음 1, 90개) + `glossary-pending.yaml`. `GLOSSARY_PUBLIC`(src/lib/glossary.ts)이 꺼져 있는 동안은 운영 사이트에 안 나옴(`npm run dev` 에서는 보임). 확정표가 아직 용어 표기의 원본(⑧에서 사전 파일로 바꿈).
+- 용어 사전: `src/data/glossary.yaml`(묶음 1, 90개) + `glossary-pending.yaml`. `GLOSSARY_PUBLIC`(src/lib/glossary.ts)이 꺼져 있으면 운영 사이트에 안 나옴(2026-11-14 켜서 공개함. `npm run dev` 에서는 항상 보임). 확정표가 아직 용어 표기의 원본(⑧에서 사전 파일로 바꿈).
 - Node 22.22 이상. 확인은 `npm run build`, 화면 확인은 `npm run dev`.
 
 ## 작업 규칙

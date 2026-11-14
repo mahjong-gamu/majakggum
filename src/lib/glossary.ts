@@ -10,7 +10,7 @@ import { getAllPosts, postUrl } from './posts';
 // ───────── 공개 스위치 ─────────
 // false 인 동안은 운영 사이트(빌드 결과)에 용어 사전 페이지가 만들어지지 않고, 메뉴·검색·사이트맵에도 안 나옵니다.
 // 공개할 때는 이 값을 true 로 바꾸기만 하면 됩니다. (마작껌 PC 의 `npm run dev` 에서는 값과 상관없이 보입니다.)
-export const GLOSSARY_PUBLIC = false;
+export const GLOSSARY_PUBLIC = true;
 export const GLOSSARY_VISIBLE = GLOSSARY_PUBLIC || import.meta.env.DEV;
 
 // 「확인 필요」(check: true) 항목에 표시를 달지 여부. 공개 때 끄고 싶으면 false 로.
