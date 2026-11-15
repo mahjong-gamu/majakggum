@@ -118,7 +118,8 @@ const glossary = defineCollection({
       id: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'id 는 영문 소문자·숫자·가운데 줄(-)만 씁니다'),
       term: z.string().min(1),
       ja: z.string(),
-      aka: z.array(z.string()),
+      aka: z.array(z.string()), // 다른 이름: 찾기에 쓰고, 글에서는 쓰지 않는 표기
+      ok: z.array(z.string()).default([]), // 함께 쓰는 표기: 확정 표기와 함께 글에 써도 되는 말(예: 1샹텐). 없으면 생략
       category: z.enum(GLOSSARY_CATEGORIES as [string, ...string[]]),
       short: z.string().min(1),
       tiles: z.string().regex(TILE_PATTERN, '패 표기 형식이 아닙니다').nullable(), // 대표 예시 패 (본문과 같은 표기)

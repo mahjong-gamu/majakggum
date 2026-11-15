@@ -23,7 +23,7 @@ export const GET: APIRoute = async () => {
   // 용어 사전은 공개 스위치가 켜졌을 때만 색인에 넣습니다 (k = 일본어·다른 이름: 찾는 데만 쓰고 화면에는 안 보임)
   if (GLOSSARY_PUBLIC) {
     const { entries } = await loadGlossary();
-    for (const e of entries) items.push({ b: 'glossary', u: glossaryUrl(e.id), t: e.term, e: e.short, m: e.category, d: '', x: plain(e.detail), k: [e.ja, ...e.aka].join(' ') } as any);
+    for (const e of entries) items.push({ b: 'glossary', u: glossaryUrl(e.id), t: e.term, e: e.short, m: e.category, d: '', x: plain(e.detail), k: [e.ja, ...e.ok, ...e.aka].join(' ') } as any);
   }
   return new Response(JSON.stringify(items), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
 };

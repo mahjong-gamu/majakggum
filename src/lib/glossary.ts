@@ -32,7 +32,7 @@ export const CATEGORIES: readonly string[] = GLOSSARY_CATEGORIES;
 export const glossaryUrl = (id: string) => `/glossary/${id}/`;
 
 export type GlossaryEntry = {
-  id: string; term: string; ja: string; aka: string[]; category: string; short: string; tiles: string | null;
+  id: string; term: string; ja: string; aka: string[]; ok: string[]; category: string; short: string; tiles: string | null;
   han: { closed: number; open: number | null } | { yakuman: true } | null;
   rule_note: string | null; detail: string; related: string[]; sources: string[]; check: boolean;
 };

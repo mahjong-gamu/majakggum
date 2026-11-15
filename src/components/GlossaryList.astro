@@ -7,7 +7,7 @@ const { entries } = Astro.props;
 
 const counts = new Map(CATEGORIES.map((c) => [c, entries.filter((e) => e.category === c).length]));
 const groups = INITIALS.map((ini) => ({ ini, items: entries.filter((e) => initialOf(e.term) === ini) }));
-const keyOf = (e: GlossaryEntry) => [e.term, e.ja, ...e.aka].join(' ').toLowerCase();
+const keyOf = (e: GlossaryEntry) => [e.term, e.ja, ...e.ok, ...e.aka].join(' ').toLowerCase();
 ---
 <div class="wrap gl">
   <section class="gl-hero" style={`background:${GLOSSARY.tint};color:${GLOSSARY.ink}`}>
