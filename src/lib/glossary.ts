@@ -24,7 +24,7 @@ export const GLOSSARY = {
   ink: '#74560A',
   wind: '6z',
   intro: '입문부터 중급까지, 이 사이트 글에 나오는 마작 용어를 모았습니다. 룰은 M리그 기준이고, 작혼과 다르면 따로 적었습니다.',
-  batch: '2026-11 묶음 1·2',
+  batch: '2026-11 묶음 1~4',
   path: '/glossary/',
 } as const;
 
@@ -88,6 +88,7 @@ export async function renderMd(src: string) {
 
 const HOSTS: [RegExp, string][] = [
   [/^https:\/\/mahjongsoul\.yo-star\.com\/kr\/classroom/, '작혼 마작 교실'],
+  [/^https:\/\/m-league\.jp\/teams\//, 'M리그 공식 팀 페이지'],
   [/^https:\/\/m-league\.jp\//, 'M리그 공식 사이트'],
   [/^https:\/\/gall\.dcinside\.com\/mgallery\/board\/view\/\?id=riichimahjong/, '디시인사이드 리치마작 마이너 갤러리'],
   [/^https:\/\/gall\.dcinside\.com\//, '디시인사이드 마작 갤러리'],
@@ -97,6 +98,26 @@ const HOSTS: [RegExp, string][] = [
   [/^https:\/\/namu\.wiki\//, '나무위키'],
   [/^https:\/\/ja\.wikipedia\.org\//, '일본어 위키백과'],
   [/^https:\/\/news\.allabout\.co\.jp\//, 'All About 뉴스'],
+  [/^https:\/\/tenhou\.net\//, '천봉 공식'],
+  [/^https:\/\/github\.com\/Equim-chan\//, 'Mortal(GitHub)'],
+  [/^https:\/\/mortal\.ekyu\.moe\//, 'Mortal 설명서'],
+  [/^https:\/\/ron2\.jp\//, '룡룡 공식'],
+  [/^https:\/\/dic\.nicovideo\.jp\//, '니코니코 대백과'],
+  [/^https:\/\/www\.ipa\.go\.jp\//, 'IPA(일본 정보처리추진기구)'],
+  [/^https:\/\/reachmahjong\.com\//, 'Reach Mahjong'],
+  [/^https:\/\/www\.worldriichi\.org\//, 'World Riichi'],
+  [/^https:\/\/gamebiz\.jp\//, 'gamebiz'],
+  [/^https:\/\/www\.tokyo-sports\.co\.jp\//, '도쿄스포츠'],
+  [/^https:\/\/times\.abema\.tv\//, 'ABEMA TIMES'],
+  [/^https:\/\/gendai\.media\//, '현대 비즈니스'],
+  [/^https:\/\/kml\.or\.kr\//, 'KML 한국마작연맹'],
+  [/^https:\/\/saikouisen\.com\//, '최고위전 공식'],
+  [/^https:\/\/npm2001\.com\//, '일본프로마작협회 공식'],
+  [/^https:\/\/rmu\.jp\//, 'RMU 공식'],
+  [/^https:\/\/mu-mahjong\.jp\//, '마장연합 공식'],
+  [/^https:\/\/www\.ma-jan\.or\.jp\//, '일본프로마작연맹 공식'],
+  [/^https:\/\/pedia\.3rd-in\.co\.jp\//, '3rd-in 위키'],
+  [/^https:\/\/mj-dragon\.com\//, '마작 용어 사전(mj-dragon)'],
 ];
 
 // sources → 이 사이트 글(공개된 것만)과 바깥 링크

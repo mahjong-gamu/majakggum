@@ -42,7 +42,7 @@ const catHref = `${GLOSSARY.path}?c=${encodeURIComponent(e.category)}`;
 
     <aside class="gt-side">
       <div class="panel gt-info">
-        <div class="gt-kv"><span class="muted">일본어</span><span>{e.ja}</span></div>
+        {e.ja && <div class="gt-kv"><span class="muted">일본어</span><span>{e.ja}</span></div>}
         {e.aka.length > 0 && <div class="gt-kv"><span class="muted">다른 이름</span><span>{e.aka.join(', ')}</span></div>}
         <div class="gt-kv"><span class="muted">분류</span><span><a class="chip" href={catHref} style={`background:${GLOSSARY.tint};color:${GLOSSARY.ink};text-decoration:none`}>{e.category}</a></span></div>
 
