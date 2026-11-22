@@ -4,6 +4,7 @@ date: 2026-11-20
 excerpt: 숭실대학교 펜지꼬스 마작 소모임이 여는 제5회 대학교 연합 마작 대회가 11월 30일까지 참가자를 모집한다. 대학생이 아니어도 참가할 수 있고, 예선은 12월 26~27일 5개 지역에서, 결승은 2027년 1월 3일 마작일번가 온라인으로 열린다.
 meta: 펜지꼬스 마작 소모임 · 저변·미디어
 source: https://forms.gle/dDVgRUMHe8nYo4Lr8
+instagram: https://www.instagram.com/p/Df8v2uoE_Jm/
 claude: true
 cover: /images/news/2026-11-20-university-mahjong-cup-5.jpg
 ---
