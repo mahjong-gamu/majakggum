@@ -18,11 +18,13 @@ const POS = [
   { key: 'left', rot: 90 },
 ] as const;
 
-type Cell = { src: string; side?: boolean; back?: boolean };
+type Cell = { src: string; side?: boolean; back?: boolean; dim?: boolean; target?: boolean };
 
 // 버림패를 6장씩 줄로 나눕니다. riichi 번째 패는 옆으로.
-function riverRows(river: string, riichi?: number): Cell[][] {
-  const cells = parseTiles(river).map((t, i) => ({ src: tileSrc(t), side: riichi === i + 1 }));
+// tsumogiri: 쯔모기리한 패 번호(1부터, 화면 river 기준)는 어둡게. target: 울지 고민한 패(맨 끝)는 빨간 테두리.
+function riverRows(river: string, riichi?: number, tsumogiri: number[] = [], target = false): Cell[][] {
+  const list = parseTiles(river);
+  const cells: Cell[] = list.map((t, i) => ({ src: tileSrc(t), side: riichi === i + 1, dim: tsumogiri.includes(i + 1), target: target && i === list.length - 1 }));
   const rows: Cell[][] = [];
   for (let i = 0; i < cells.length; i += 6) rows.push(cells.slice(i, i + 6));
   return rows;
@@ -50,7 +52,7 @@ const seats = POS.map(({ key, rot }) => {
     me: seat === myseat,
     score: p.score !== undefined ? formatScore(p.score) : '',
     riichi: Boolean(p.riichi),
-    rows: riverRows(p.river ?? '', p.riichi),
+    rows: riverRows(p.river ?? '', p.riichi, p.tsumogiri ?? [], mo.callFrom === seat),
     melds: (p.melds ?? []).map(meldCells),
     hand: handCells(seat, p),
     draw: seat === myseat && mo.draw ? parseTiles(mo.draw).map((t) => tileSrc(t)) : [],
@@ -66,7 +68,11 @@ function handCells(seat: Seat, p: any): string[] {
 }
 const dora = parseTiles(mo.dora ?? '').map((t) => ({ src: tileSrc(t), name: t.name }));
 const label = kyokuLabel(mo.kyoku, mo.honba);
-const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) => `${s.seat}${s.me ? `(${MY_NAME})` : ''} ${s.wind} ${s.score}점`).join(', ');
+const hasDim = seats.some((s) => s.rows.some((r) => r.some((c) => c.dim)));
+const hasTarget = seats.some((s) => s.rows.some((r) => r.some((c) => c.target)));
+const notes = [hasDim && '어두운 패 = 쯔모기리', hasTarget && '빨간 테두리 = 울지 고민한 패'].filter(Boolean) as string[];
+const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) => `${s.seat}${s.me ? `(${MY_NAME})` : ''} ${s.wind} ${s.score}점`).join(', ')
+  + (hasDim ? '. 어두운 패는 쯔모기리' : '') + (hasTarget ? '. 빨간 테두리는 울지 고민한 패' : '');
 ---
 <figure class="mt" aria-label={summary}>
   <div class="mt__table felt">
@@ -77,8 +83,8 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
             {s.rows.map((row) => (
               <div class="row">
                 {row.map((c) => (c.side
-                  ? <span class="side"><img src={c.src} alt="" width="60" height="78" /></span>
-                  : <img class="t" src={c.src} alt="" width="60" height="78" />))}
+                  ? <span class="side"><img class:list={{ dim: c.dim, target: c.target }} src={c.src} alt="" width="60" height="78" /></span>
+                  : <img class:list={['t', { dim: c.dim, target: c.target }]} src={c.src} alt="" width="60" height="78" />))}
               </div>
             ))}
           </div>
@@ -136,6 +142,7 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
       </li>
     ))}
   </ul>
+  {notes.length > 0 && <figcaption class="mt__note">{notes.join(' · ')}</figcaption>}
 </figure>
 
 <style>
@@ -148,6 +155,10 @@ const summary = `${label}${mo.turn ? ` ${mo.turn}순` : ''}. ` + seats.map((s) =
   .side { position: relative; display: block; flex: none; width: calc(var(--s) * 1.3); height: var(--s); }
   .side img { position: absolute; left: 50%; top: 50%; width: var(--s); height: calc(var(--s) * 1.3); transform: translate(-50%, -50%) rotate(-90deg); filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35)); }
 
+  /* 쯔모기리 = 어둡게, 울 대상 = 빨간 테두리 (작성기 미리보기와 같은 값) */
+  .mt img.dim { filter: brightness(0.7) saturate(0.6) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35)); }
+  .mt img.target { border-radius: calc(var(--s) * 0.1); outline: calc(var(--s) * 0.06) solid var(--red); outline-offset: calc(var(--s) * -0.06); }
+  .mt__note { text-align: center; font-size: 12px; color: var(--muted); }
   .river { position: absolute; top: calc(50% + var(--t) * 3.3); left: calc(50% - var(--t) * 3); display: flex; flex-direction: column; }
   .row { display: flex; align-items: flex-end; }
   /* 손패·후로 줄: 각 변의 가운데 */

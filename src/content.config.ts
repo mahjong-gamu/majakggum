@@ -31,6 +31,7 @@ const tablePlayer = z.object({
   score: z.union([z.string(), z.number()]), // 그 시점 점수
   river: z.string().default(''), // 버림패 (순서대로)
   riichi: z.number().int().optional(), // 리치 선언패가 버림패 중 몇 번째인지 (1부터) — 옆으로 눕혀 표시
+  tsumogiri: z.array(z.number().int()).optional(), // 쯔모기리한 버림패가 river 중 몇 번째인지 (1부터, 화면에 보이는 river 기준) — 어둡게 표시
   melds: z.array(meld).default([]), // 후로패
   hand: z.string().optional(), // 손패 (상대 것) — 안 쓰면 뒷면으로 표시. 내 손패는 moment.hand 에
 });
@@ -83,6 +84,7 @@ const reviews = defineCollection({
         title: z.string(), // 국면 제목 (예: 리치 판단)
         situation: z.string().optional(), // 한 줄 상황 설명
         dora: z.string().default(''), // 도라 표시패 (여러 장이면 이어서: 4m7p)
+        callFrom: seatName.optional(), // (선택) 울기 판단일 때 울 대상 패를 버린 자리 — 그 자리 river 맨 끝 패에 빨간 테두리
         // 자리별 점수·버림패·후로 (동1국 기준 자리로)
         players: z
           .object({ 동가: tablePlayer.optional(), 남가: tablePlayer.optional(), 서가: tablePlayer.optional(), 북가: tablePlayer.optional() })
